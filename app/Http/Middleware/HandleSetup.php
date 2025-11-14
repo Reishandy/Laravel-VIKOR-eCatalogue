@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class HandleSingleAccount
+class HandleSetup
 {
     /**
      * Handle an incoming request.
@@ -16,17 +16,17 @@ class HandleSingleAccount
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $userCount = User::count();
-        $hasUser = $userCount > 0;
+        $user = User::first();
 
-        // If no user exists, only allow access to registration page
-        if (!$hasUser && !$request->is('register')) {
+        // If no user exists, redirect to registration page
+        // just in case since this should be handled by HandleSingleAccount middleware
+        if (!$user && !$request->is('register')) {
             return redirect()->route('register');
         }
 
-        // If a user exists, prevent access to registration page
-        if ($hasUser && $request->is('register')) {
-            return redirect()->route('login');
+        // If the field company_name is not set, redirect to set up page
+        if ($user && empty($user->company_name) && !$request->is('setup')) {
+            return redirect()->route('setup');
         }
 
         return $next($request);

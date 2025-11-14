@@ -7,14 +7,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
+import { ArrowRight } from 'lucide-react';
 
 export default function Register() {
-    // TODO: Add company details fields
+    // TODO: Use field set field group at top level
+    //   make field component and add show password toggle later
+    //   make sure type, id, autoComplete, placeholder, autoFocus, errors, description, isProcessing, isPassword, and classname with cn oh and icon
 
     return (
         <AuthLayout
-            title="Setup your application"
-            description="Setup your account by providing the information below"
+            title="Create administrator account"
+            description="Please fill in the details below to create your administrator account."
         >
             <Head title="Register" />
             <Form
@@ -31,17 +34,13 @@ export default function Register() {
                                 <Input
                                     id="name"
                                     type="text"
-                                    required
                                     autoFocus
                                     tabIndex={1}
                                     autoComplete="name"
                                     name="name"
                                     placeholder="Full name"
                                 />
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
+                                <InputError message={errors.name} />
                             </div>
 
                             <div className="grid gap-2">
@@ -49,7 +48,6 @@ export default function Register() {
                                 <Input
                                     id="email"
                                     type="email"
-                                    required
                                     tabIndex={2}
                                     autoComplete="email"
                                     name="email"
@@ -63,7 +61,6 @@ export default function Register() {
                                 <Input
                                     id="password"
                                     type="password"
-                                    required
                                     tabIndex={3}
                                     autoComplete="new-password"
                                     name="password"
@@ -79,7 +76,6 @@ export default function Register() {
                                 <Input
                                     id="password_confirmation"
                                     type="password"
-                                    required
                                     tabIndex={4}
                                     autoComplete="new-password"
                                     name="password_confirmation"
@@ -97,7 +93,7 @@ export default function Register() {
                                 data-test="register-user-button"
                             >
                                 {processing && <Spinner />}
-                                Create account
+                                <ArrowRight /> Next Step
                             </Button>
                         </div>
                     </>
