@@ -36,7 +36,9 @@ require __DIR__.'/settings.php';
 //  - Modify logout button to be red
 //  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
 //  - Table has searching, sorting, and pagination
+//  - Add <Head title="title" /> to every page
 //  - I
+//  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
 //  - Animations and transitions with AOS?
 //  - Dark mode for the public routes?
