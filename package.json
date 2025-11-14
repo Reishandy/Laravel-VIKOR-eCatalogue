@@ -9,7 +9,9 @@
         "format": "prettier --write resources/",
         "format:check": "prettier --check resources/",
         "lint": "eslint . --fix",
-        "types": "tsc --noEmit"
+        "types": "tsc --noEmit",
+        "artisan": "php artisan serve",
+        "watch": "concurrently -n \"artisan,dev\" -c \"blue,green\" \"npm run artisan\" \"npm run dev\""
     },
     "devDependencies": {
         "@eslint/js": "^9.19.0",
