@@ -18,6 +18,16 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+
+            // Additional company details
+            $table->string('company_name')->nullable();
+            $table->string('company_email')->nullable();
+            $table->string('company_description')->nullable();
+            $table->string('company_logo')->nullable();
+            $table->string('company_address')->nullable();
+            $table->string('locale')->nullable(); // This could also be used to infer country and currency
+            // TODO: Add more fields
+
             $table->timestamps();
         });
 

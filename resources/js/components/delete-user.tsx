@@ -30,7 +30,7 @@ export default function DeleteUser() {
                 <div className="relative space-y-0.5 text-red-600 dark:text-red-100">
                     <p className="font-medium">Warning</p>
                     <p className="text-sm">
-                        Please proceed with caution, this cannot be undone.
+                        Please proceed with caution, this will delete all data and resources.
                     </p>
                 </div>
 
@@ -40,7 +40,7 @@ export default function DeleteUser() {
                             variant="destructive"
                             data-test="delete-user-button"
                         >
-                            Delete account
+                            Delete account and data
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
