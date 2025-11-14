@@ -19,6 +19,7 @@ import { useRef } from 'react';
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);
 
+    // TODO: Use my own components
     return (
         <div className="space-y-6">
             <HeadingSmall
