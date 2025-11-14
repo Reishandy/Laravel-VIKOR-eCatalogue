@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
-    })->name('route.dashboard'); // TODO: Remove dashboard
+    })->name('dashboard'); // TODO: Remove dashboard?
 });
 
 require __DIR__.'/settings.php';

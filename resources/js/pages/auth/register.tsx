@@ -9,6 +9,8 @@ import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function Register() {
+    // TODO: Add company details fields
+
     return (
         <AuthLayout
             title="Setup your application"
