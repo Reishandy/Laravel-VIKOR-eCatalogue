@@ -28,5 +28,7 @@ require __DIR__.'/settings.php';
 //  - Price should be by default exist and cant be removed and follow the locale currency (create this in setup registration)
 //  - Also all date should follow locale date format
 //  - I
+//  - Route middleware protection
+//  - I
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
 //  - Animations and transitions with AOS?
