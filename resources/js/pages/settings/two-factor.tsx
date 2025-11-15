@@ -93,9 +93,9 @@ export default function TwoFactor({
                             <div>
                                 {hasSetupData ? (
                                     <OwnButton
+                                        icon={<ShieldCheck />}
                                         onClick={() => setShowSetupModal(true)}
                                     >
-                                        <ShieldCheck />
                                         Continue Setup
                                     </OwnButton>
                                 ) : (

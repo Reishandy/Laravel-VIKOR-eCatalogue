@@ -2,10 +2,10 @@ import OwnButton from '@/components/own/own-button';
 import OwnInput from '@/components/own/own-input';
 import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
 import AuthLayout from '@/layouts/auth-layout';
-import { Head, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
 import { store } from '@/routes/password/confirm';
+import { Head, useForm } from '@inertiajs/react';
 import { KeyRound } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface ConfirmPasswordForm {
     password: string;
@@ -64,8 +64,12 @@ export default function ConfirmPassword() {
                 </FieldSet>
 
                 <Field className="mt-4">
-                    <OwnButton onClick={submit} isProcessing={processing}>
-                        <KeyRound /> Confirm password
+                    <OwnButton
+                        icon={<KeyRound />}
+                        onClick={submit}
+                        isProcessing={processing}
+                    >
+                        Confirm password
                     </OwnButton>
                 </Field>
             </FieldGroup>

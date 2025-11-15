@@ -10,7 +10,7 @@ interface OwnButtonProps {
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
     children: ReactNode;
     variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null | undefined
-    icon?: ReactNode;
+    icon: ReactNode;
     href?: string;
     isProcessing?: boolean;
     disabled?: boolean;
@@ -22,6 +22,7 @@ export default function OwnButton({
     onClick,
     children,
     variant = 'default',
+    icon,
     href,
     isProcessing = false,
     disabled = false,
@@ -46,10 +47,10 @@ export default function OwnButton({
                     href={href}
                     prefetch={['mount', 'hover']}
                 >
-                    {isProcessing ? <Spinner/> : children}
+                    {isProcessing ? <Spinner/> : icon} {children}
                 </Link>
             ) : (
-                isProcessing ? <Spinner/> : children
+                <>{isProcessing ? <Spinner/> : icon} {children} </>
             )}
         </Comp>
     );

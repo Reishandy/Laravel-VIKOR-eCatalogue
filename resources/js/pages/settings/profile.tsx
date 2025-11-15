@@ -118,10 +118,11 @@ export default function Profile({
 
                         <Field className="flex items-center gap-4 mt-2">
                             <OwnButton
+                                icon={<ArrowDownToLine />}
                                 onClick={submit}
                                 isProcessing={processing}
                             >
-                                <ArrowDownToLine /> Save
+                                Save
                             </OwnButton>
 
                             <Transition

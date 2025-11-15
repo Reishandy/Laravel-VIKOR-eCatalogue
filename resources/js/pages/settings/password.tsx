@@ -1,5 +1,5 @@
 import { Head, useForm } from '@inertiajs/react';
-import { KeyRound, Unlock } from 'lucide-react';
+import { ArrowDownToLine, KeyRound, Unlock } from 'lucide-react';
 import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/laravel/heading-small';
@@ -140,6 +140,7 @@ export default function Password() {
 
                         <Field className="mt-2 flex items-center gap-4">
                             <OwnButton
+                                icon={<ArrowDownToLine />}
                                 onClick={submit}
                                 isProcessing={processing}
                             >

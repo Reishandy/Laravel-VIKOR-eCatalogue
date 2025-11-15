@@ -75,10 +75,10 @@ export default function DeleteUser() {
                 <Dialog>
                     <DialogTrigger asChild>
                         <OwnButton
+                            icon={<Trash2 />}
                             variant="destructive"
                             data-test="delete-user-button"
                         >
-                            <Trash2 />
                             Delete account and data
                         </OwnButton>
                     </DialogTrigger>
@@ -125,12 +125,12 @@ export default function DeleteUser() {
                             </DialogClose>
 
                             <OwnButton
+                                icon={<Trash2 />}
                                 variant="destructive"
                                 isProcessing={processing}
                                 onClick={submit}
                                 data-test="confirm-delete-user-button"
                             >
-                                <Trash2 className="mr-2 h-4 w-4" />
                                 Delete account
                             </OwnButton>
                         </DialogFooter>

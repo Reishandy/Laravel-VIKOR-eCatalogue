@@ -24,8 +24,8 @@ class HandleSetup
             return redirect()->route('register');
         }
 
-        // If the field company_name is not set, redirect to set up page
-        if ($user && empty($user->company_name) && !$request->is('setup')) {
+        // If the field company_name is not set and logged in, redirect to setup page
+        if ($user && empty($user->company_name) && !$request->is('setup') && $request->user()) {
             return redirect()->route('setup');
         }
 

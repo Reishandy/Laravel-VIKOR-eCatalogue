@@ -66,8 +66,12 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 </FieldSet>
 
                 <Field className="mt-4">
-                    <OwnButton onClick={submit} isProcessing={processing}>
-                        <Send /> Email password reset link
+                    <OwnButton
+                        icon={<Send />}
+                        onClick={submit}
+                        isProcessing={processing}
+                    >
+                        Email password reset link
                     </OwnButton>
                 </Field>
 

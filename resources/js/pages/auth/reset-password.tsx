@@ -103,8 +103,12 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                 </FieldSet>
 
                 <Field className="mt-4">
-                    <OwnButton onClick={submit} isProcessing={processing}>
-                        <KeyRound /> Reset password
+                    <OwnButton
+                        icon={<KeyRound />}
+                        onClick={submit}
+                        isProcessing={processing}
+                    >
+                        Reset password
                     </OwnButton>
                 </Field>
             </FieldGroup>

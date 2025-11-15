@@ -3,6 +3,7 @@
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
+use App\Http\Controllers\SetupController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,8 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');
 
-    Route::get('setup', function () {
-        return Inertia::render('settings/setup');
-    })->name('setup');
-
+    Route::get('setup', [SetupController::class, 'index'])->name('setup.index');
+    Route::post('setup', [SetupController::class, 'store'])->name('setup.store');
+    Route::put('setup', [SetupController::class, 'update'])->name('setup.update');
 });

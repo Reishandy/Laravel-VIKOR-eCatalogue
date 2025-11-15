@@ -1,12 +1,11 @@
+import OwnButton from '@/components/own/own-button';
 import OwnInput from '@/components/own/own-input';
 import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
 import AuthLayout from '@/layouts/auth-layout';
+import { register } from '@/routes';
 import { Head, useForm } from '@inertiajs/react';
 import { ArrowRight, KeyRound, Mail, User } from 'lucide-react';
 import { FormEventHandler } from 'react';
-import { register } from '@/routes';
-import OwnButton from '@/components/own/own-button';
-import OwnCheckbox from '@/components/own/own-checkbox';
 
 interface RegisterForm {
     name: string;
@@ -31,12 +30,7 @@ export default function Register() {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
-                setData({
-                    name: '',
-                    email: '',
-                    password: '',
-                    password_confirmation: '',
-                });
+                //
             },
             onError: () => {
                 setData('password', '');
@@ -114,8 +108,12 @@ export default function Register() {
                 </FieldSet>
 
                 <Field className="mt-4">
-                    <OwnButton onClick={submit} isProcessing={processing}>
-                        <ArrowRight /> Next Step
+                    <OwnButton
+                        icon={<ArrowRight />}
+                        onClick={submit}
+                        isProcessing={processing}
+                    >
+                        Next Step
                     </OwnButton>
                 </Field>
             </FieldGroup>

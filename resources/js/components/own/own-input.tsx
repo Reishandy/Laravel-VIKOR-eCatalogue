@@ -13,11 +13,12 @@ import {
 import { Eye, EyeOff } from 'lucide-react';
 import { ChangeEvent, ReactNode, useState, Ref } from 'react';
 
-interface InputProps {
+interface OwnInputProps {
     id: string;
     label?: string;
     placeholder?: string;
     type?: string;
+    accept?: string;
     autoComplete?: string;
     autoFocus?: boolean;
     readOnly?: boolean;
@@ -38,6 +39,7 @@ export default function OwnInput({
     label,
     placeholder,
     type = 'text',
+    accept,
     autoComplete,
     autoFocus = false,
     readOnly = false,
@@ -51,7 +53,7 @@ export default function OwnInput({
     isPassword = false,
     className = '',
     ref
-}: InputProps) {
+}: OwnInputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -69,6 +71,7 @@ export default function OwnInput({
                     type={
                         isPassword ? (showPassword ? 'text' : 'password') : type
                     }
+                    accept={accept}
                     placeholder={placeholder}
                     autoComplete={autoComplete}
                     autoFocus={autoFocus}
@@ -78,6 +81,7 @@ export default function OwnInput({
                     disabled={disabled}
                     aria-invalid={!!error}
                     ref={ref}
+                    className={accept && 'cursor-pointer'}
                 />
 
                 {trailingElement && (

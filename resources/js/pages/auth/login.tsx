@@ -36,11 +36,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
-                setData({
-                    email: '',
-                    password: '',
-                    remember: false,
-                });
+                //
             },
             onError: () => {
                 setData('password', '');
@@ -108,8 +104,12 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 </FieldSet>
 
                 <Field className="mt-4">
-                    <OwnButton onClick={submit} isProcessing={processing}>
-                        <LogIn /> Log in
+                    <OwnButton
+                        icon={<LogIn />}
+                        onClick={submit}
+                        isProcessing={processing}
+                    >
+                        Log in
                     </OwnButton>
                 </Field>
             </FieldGroup>
