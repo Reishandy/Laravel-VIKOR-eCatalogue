@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Settings;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\StoreSetupRequest;
 use App\Http\Requests\Settings\UpdateSetupRequest;
 use Illuminate\Http\RedirectResponse;
@@ -24,7 +25,7 @@ class SetupController extends Controller
     public function store(StoreSetupRequest $request): RedirectResponse
     {
         // TODO
-        dd($request);
+        dd($request->all());
     }
 
     /**
@@ -33,6 +34,6 @@ class SetupController extends Controller
     public function update(UpdateSetupRequest $request): RedirectResponse
     {
         // TODO
-        dd($request);
+        dd($request->all());
     }
 }

@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { store } from '@/routes/setup';
 import OwnTextarea from '@/components/own/own-textarea';
+import OwnSelect from '@/components/own/own-select';
+import { useLocaleOptions } from '@/hooks/use-locale';
 
 interface SetupForm {
     company_name: string;
@@ -21,17 +23,18 @@ interface SetupForm {
     company_description: string;
     company_address: string;
     logo: File | null;
-    locale: string; // TODO
+    locale: string;
 }
 
 export default function Setup() {
+    const localeOptions = useLocaleOptions();
     const { data, setData, post, processing, errors } = useForm<Required<SetupForm>>({
         company_name: '',
         company_email: '',
         company_description: '',
         company_address: '',
         logo: null,
-        locale: 'en_US', // TODO
+        locale: 'en-US',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -106,7 +109,15 @@ export default function Setup() {
                             error={errors.company_address}
                         />
 
-                        {/*TODO: Locale*/}
+                        <OwnSelect
+                            id="locale"
+                            label="Locale"
+                            value={data.locale}
+                            onChange={(value) => setData('locale', value)}
+                            disabled={processing}
+                            error={errors.locale}
+                            options={localeOptions}
+                        />
 
                         <OwnInput
                             id="logo"
