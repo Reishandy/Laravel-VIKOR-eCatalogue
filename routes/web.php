@@ -9,10 +9,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('setup', function () {
-        return Inertia::render('settings/setup');
-    })->name('setup');
-
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard'); // TODO: Remove dashboard?

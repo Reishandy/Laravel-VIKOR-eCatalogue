@@ -11,7 +11,7 @@ import {
     InputGroupInput,
 } from '@/components/ui/input-group';
 import { Eye, EyeOff } from 'lucide-react';
-import { ChangeEvent, ReactNode, useState } from 'react';
+import { ChangeEvent, ReactNode, useState, Ref } from 'react';
 
 interface InputProps {
     id: string;
@@ -30,6 +30,7 @@ interface InputProps {
     error?: string;
     isPassword?: boolean;
     className?: string;
+    ref?: Ref<HTMLInputElement>;
 }
 
 export default function OwnInput({
@@ -49,6 +50,7 @@ export default function OwnInput({
     error,
     isPassword = false,
     className = '',
+    ref
 }: InputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -75,6 +77,7 @@ export default function OwnInput({
                     onChange={onChange}
                     disabled={disabled}
                     aria-invalid={!!error}
+                    ref={ref}
                 />
 
                 {trailingElement && (

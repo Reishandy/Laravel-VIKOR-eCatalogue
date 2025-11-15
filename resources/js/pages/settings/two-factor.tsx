@@ -11,6 +11,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { ShieldBan, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
+import OwnButton from '@/components/own/own-button';
 
 interface TwoFactorProps {
     requiresConfirmation?: boolean;
@@ -91,12 +92,12 @@ export default function TwoFactor({
 
                             <div>
                                 {hasSetupData ? (
-                                    <Button
+                                    <OwnButton
                                         onClick={() => setShowSetupModal(true)}
                                     >
                                         <ShieldCheck />
                                         Continue Setup
-                                    </Button>
+                                    </OwnButton>
                                 ) : (
                                     <Form
                                         {...enable.form()}
