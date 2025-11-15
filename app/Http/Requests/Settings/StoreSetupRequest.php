@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreSetupRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class StoreSetupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // TODO
+            'company_name' => 'required|string|max:255',
+            'company_email' => 'required|email|max:255',
+            'company_description' => 'required|string|max:1000',
+            'company_address' => 'required|string|max:500',
+            'locale' => 'required|string',
+            'logo' => ['required', File::image()->max(2024)], // 2MB max
         ];
     }
 }

@@ -22,6 +22,12 @@ class User extends Authenticatable //implements MustVerifyEmail TODO: Enable ema
         'name',
         'email',
         'password',
+        'company_name',
+        'company_email',
+        'company_description',
+        'company_address',
+        'locale',
+        'logo',
     ];
 
     /**

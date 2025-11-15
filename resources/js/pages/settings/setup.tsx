@@ -36,12 +36,6 @@ export default function Setup() {
         e.preventDefault();
         post(store().url, {
             preserveScroll: true,
-            onSuccess: () => {
-                //
-            },
-            onError: () => {
-                //
-            },
         });
     };
 
@@ -126,7 +120,7 @@ export default function Setup() {
                             id="logo"
                             label="Company Logo"
                             type="file"
-                            accept="image/*"
+                            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                             leadingElement={<Image />}
                             onChange={(e) =>
                                 setData(
@@ -135,6 +129,7 @@ export default function Setup() {
                                 )
                             }
                             disabled={processing}
+                            description="Maximum file size: 2MB."
                             error={errors.logo}
                         />
                     </FieldGroup>
