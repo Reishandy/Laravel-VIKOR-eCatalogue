@@ -1,14 +1,20 @@
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import OwnButton from '@/components/own/own-button';
+import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
 import AuthLayout from '@/layouts/auth-layout';
-import { store } from '@/routes/login';
+import { login } from '@/routes';
+import { Head, useForm } from '@inertiajs/react';
+import { LogIn } from 'lucide-react';
+import { FormEventHandler } from 'react';
+import OwnInput from '@/components/own/own-input';
+import OwnCheckbox from '@/components/own/own-checkbox';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/react';
+import TextLink from '@/components/laravel/text-link';
+
+interface LoginForm {
+    email: string;
+    password: string;
+    remember: boolean;
+}
 
 interface LoginProps {
     status?: string;
@@ -16,6 +22,32 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
+    const { data, setData, post, processing, errors } = useForm<
+        Required<LoginForm>
+    >({
+        email: '',
+        password: '',
+        remember: false,
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(login().url, {
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                setData({
+                    email: '',
+                    password: '',
+                    remember: false,
+                });
+            },
+            onError: () => {
+                setData('password', '');
+            },
+        });
+    };
+
     return (
         <AuthLayout
             title="Log in to your account"
@@ -23,77 +55,64 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         >
             <Head title="Log in" />
 
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password']}
-                className="flex flex-col gap-6"
-            >
-                {({ processing, errors }) => (
-                    <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    required
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="email"
-                                    placeholder="email@example.com"
-                                />
-                                <InputError message={errors.email} />
-                            </div>
+            <FieldGroup className="flex flex-col gap-6">
+                <FieldSet>
+                    <FieldGroup>
+                        <OwnInput
+                            id="email"
+                            label="Email"
+                            type="email"
+                            placeholder="example@example.com"
+                            autoComplete="email"
+                            autoFocus
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            disabled={processing}
+                            error={errors.email}
+                        />
 
-                            <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
-                                    {canResetPassword && (
-                                        <TextLink
-                                            href={request()}
-                                            className="ml-auto text-sm"
-                                            tabIndex={5}
-                                        >
-                                            Forgot password?
-                                        </TextLink>
-                                    )}
-                                </div>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    required
-                                    tabIndex={2}
-                                    autoComplete="current-password"
-                                    placeholder="Password"
-                                />
-                                <InputError message={errors.password} />
-                            </div>
+                        <OwnInput
+                            id="password"
+                            label="Password"
+                            type="password"
+                            placeholder="Password"
+                            autoComplete="new-password"
+                            isPassword
+                            value={data.password}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
+                            disabled={processing}
+                            error={errors.password}
+                        />
 
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
-                                    id="remember"
-                                    name="remember"
-                                    tabIndex={3}
-                                />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                className="mt-4 w-full"
-                                tabIndex={4}
+                        <div className="flex flex-row items-center justify-between">
+                            <OwnCheckbox
+                                id="remember"
+                                label="Remember me"
+                                checked={data.remember}
+                                onChange={() =>
+                                    setData('remember', !data.remember)
+                                }
                                 disabled={processing}
-                                data-test="login-button"
-                            >
-                                {processing && <Spinner />}
-                                Log in
-                            </Button>
+                                className="flex-1"
+                            />
+
+                            {canResetPassword && (
+                                <TextLink href={request()} className="text-sm">
+                                    Forgot password?
+                                </TextLink>
+                            )}
                         </div>
-                    </>
-                )}
-            </Form>
+                    </FieldGroup>
+                </FieldSet>
+
+                <Field className="mt-4">
+                    <OwnButton onClick={submit} isProcessing={processing}>
+                        <LogIn /> Log in
+                    </OwnButton>
+                </Field>
+            </FieldGroup>
 
             {status && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">

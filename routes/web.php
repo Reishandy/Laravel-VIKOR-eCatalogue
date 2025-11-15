@@ -24,7 +24,7 @@ require __DIR__.'/settings.php';
 //  - Remove all unused routes and files
 //  - Make registration one time only (if no account redirect to register, else to login)
 //  - Email verification
-//  - Setup is done in the re
+//  - setup after regis
 //  - Include company details in setup (name, logo, address, locale/country, etc)
 //  - Price should be by default exist and cant be removed and follow the locale currency (create this in setup registration)
 //  - Also all date should follow locale date format
@@ -37,9 +37,14 @@ require __DIR__.'/settings.php';
 //  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
 //  - Table has searching, sorting, and pagination
 //  - Add <Head title="title" /> to every page
+//  - Add favicon and such
+//  - Add meta tags for SEO and related
+//  - Check the side bar for appearance and prefetch
+//  - Dont forget to change the form handling in settings
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
 //  - Animations and transitions with AOS?
 //  - Dark mode for the public routes?
 //  - Tests the full flow once all is done
+//  - PWA support

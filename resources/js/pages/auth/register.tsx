@@ -1,18 +1,49 @@
-import { store } from '@/routes/register';
-import { Form, Head } from '@inertiajs/react';
-
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import OwnInput from '@/components/own/own-input';
+import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
 import AuthLayout from '@/layouts/auth-layout';
-import { ArrowRight } from 'lucide-react';
+import { Head, useForm } from '@inertiajs/react';
+import { ArrowRight, KeyRound, Mail, User } from 'lucide-react';
+import { FormEventHandler } from 'react';
+import { register } from '@/routes';
+import OwnButton from '@/components/own/own-button';
+import OwnCheckbox from '@/components/own/own-checkbox';
+
+interface RegisterForm {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+}
 
 export default function Register() {
-    // TODO: Use field set field group at top level
-    //   make field component and add show password toggle later
-    //   make sure type, id, autoComplete, placeholder, autoFocus, errors, description, isProcessing, isPassword, and classname with cn oh and icon
+    const { data, setData, post, processing, errors } = useForm<
+        Required<RegisterForm>
+    >({
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(register().url, {
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                setData({
+                    name: '',
+                    email: '',
+                    password: '',
+                    password_confirmation: '',
+                });
+            },
+            onError: () => {
+                setData('password', '');
+                setData('password_confirmation', '');
+            },
+        });
+    };
 
     return (
         <AuthLayout
@@ -20,85 +51,74 @@ export default function Register() {
             description="Please fill in the details below to create your administrator account."
         >
             <Head title="Register" />
-            <Form
-                {...store.form()}
-                resetOnSuccess={['password', 'password_confirmation']}
-                disableWhileProcessing
-                className="flex flex-col gap-6"
-            >
-                {({ processing, errors }) => (
-                    <>
-                        <div className="grid gap-6">
-                            <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input
-                                    id="name"
-                                    type="text"
-                                    autoFocus
-                                    tabIndex={1}
-                                    autoComplete="name"
-                                    name="name"
-                                    placeholder="Full name"
-                                />
-                                <InputError message={errors.name} />
-                            </div>
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    tabIndex={2}
-                                    autoComplete="email"
-                                    name="email"
-                                    placeholder="email@example.com"
-                                />
-                                <InputError message={errors.email} />
-                            </div>
+            <FieldGroup className="flex flex-col gap-6">
+                <FieldSet>
+                    <FieldGroup>
+                        <OwnInput
+                            id="name"
+                            label="Full Name"
+                            placeholder="Full name"
+                            autoComplete="name"
+                            autoFocus
+                            leadingElement={<User />}
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
+                            disabled={processing}
+                            error={errors.name}
+                        />
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
-                                <Input
-                                    id="password"
-                                    type="password"
-                                    tabIndex={3}
-                                    autoComplete="new-password"
-                                    name="password"
-                                    placeholder="Password"
-                                />
-                                <InputError message={errors.password} />
-                            </div>
+                        <OwnInput
+                            id="email"
+                            label="Email"
+                            placeholder="example@example.com"
+                            type="email"
+                            autoComplete="email"
+                            leadingElement={<Mail />}
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            disabled={processing}
+                            error={errors.email}
+                        />
 
-                            <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">
-                                    Confirm password
-                                </Label>
-                                <Input
-                                    id="password_confirmation"
-                                    type="password"
-                                    tabIndex={4}
-                                    autoComplete="new-password"
-                                    name="password_confirmation"
-                                    placeholder="Confirm password"
-                                />
-                                <InputError
-                                    message={errors.password_confirmation}
-                                />
-                            </div>
+                        <OwnInput
+                            id="password"
+                            label="Password"
+                            placeholder="Password"
+                            autoComplete="new-password"
+                            leadingElement={<KeyRound />}
+                            value={data.password}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
+                            disabled={processing}
+                            error={errors.password}
+                            isPassword
+                        />
 
-                            <Button
-                                type="submit"
-                                className="mt-2 w-full"
-                                tabIndex={5}
-                                data-test="register-user-button"
-                            >
-                                {processing && <Spinner />}
-                                <ArrowRight /> Next Step
-                            </Button>
-                        </div>
-                    </>
-                )}
-            </Form>
+                        <OwnInput
+                            id="password_confirmation"
+                            label="Confirm Password"
+                            placeholder="Confirm password"
+                            autoComplete="new-password"
+                            leadingElement={<KeyRound />}
+                            value={data.password_confirmation}
+                            onChange={(e) =>
+                                setData('password_confirmation', e.target.value)
+                            }
+                            disabled={processing}
+                            error={errors.password_confirmation}
+                            isPassword
+                        />
+                    </FieldGroup>
+                </FieldSet>
+
+                <Field className="mt-4">
+                    <OwnButton onClick={submit} isProcessing={processing}>
+                        <ArrowRight /> Next Step
+                    </OwnButton>
+                </Field>
+            </FieldGroup>
         </AuthLayout>
     );
 }

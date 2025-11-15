@@ -1,13 +1,39 @@
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import OwnButton from '@/components/own/own-button';
+import OwnInput from '@/components/own/own-input';
+import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
 import AuthLayout from '@/layouts/auth-layout';
+import { Head, useForm } from '@inertiajs/react';
+import { FormEventHandler } from 'react';
 import { store } from '@/routes/password/confirm';
-import { Form, Head } from '@inertiajs/react';
+import { KeyRound } from 'lucide-react';
+
+interface ConfirmPasswordForm {
+    password: string;
+}
 
 export default function ConfirmPassword() {
+    const { data, setData, post, processing, errors } = useForm<
+        Required<ConfirmPasswordForm>
+    >({
+        password: '',
+    });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(store().url, {
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                setData({
+                    password: '',
+                });
+            },
+            onError: () => {
+                setData('password', '');
+            },
+        });
+    };
+
     return (
         <AuthLayout
             title="Confirm your password"
@@ -15,36 +41,34 @@ export default function ConfirmPassword() {
         >
             <Head title="Confirm password" />
 
-            <Form {...store.form()} resetOnSuccess={['password']}>
-                {({ processing, errors }) => (
-                    <div className="space-y-6">
-                        <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <Input
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="Password"
-                                autoComplete="current-password"
-                                autoFocus
-                            />
+            <FieldGroup className="flex flex-col gap-6">
+                <FieldSet>
+                    <FieldGroup>
+                        <OwnInput
+                            id="password"
+                            label="Password"
+                            type="password"
+                            placeholder="Password"
+                            autoComplete="current-password"
+                            autoFocus
+                            leadingElement={<KeyRound />}
+                            value={data.password}
+                            onChange={(e) =>
+                                setData('password', e.target.value)
+                            }
+                            disabled={processing}
+                            error={errors.password}
+                            isPassword
+                        />
+                    </FieldGroup>
+                </FieldSet>
 
-                            <InputError message={errors.password} />
-                        </div>
-
-                        <div className="flex items-center">
-                            <Button
-                                className="w-full"
-                                disabled={processing}
-                                data-test="confirm-password-button"
-                            >
-                                {processing && <Spinner />}
-                                Confirm password
-                            </Button>
-                        </div>
-                    </div>
-                )}
-            </Form>
+                <Field className="mt-4">
+                    <OwnButton onClick={submit} isProcessing={processing}>
+                        <KeyRound /> Confirm password
+                    </OwnButton>
+                </Field>
+            </FieldGroup>
         </AuthLayout>
     );
 }
