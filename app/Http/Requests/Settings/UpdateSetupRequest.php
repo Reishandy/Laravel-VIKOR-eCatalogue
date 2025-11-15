@@ -23,12 +23,12 @@ class UpdateSetupRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'company_name' => 'required|string|max:255',
-//            'company_email' => 'required|email|max:255',
-//            'company_description' => 'required|string|max:1000',
-//            'company_address' => 'required|string|max:500',
-//            'locale' => 'required|string',
-//            'logo' => ['nullable', File::image()->max(2024)], // 2MB max
+            'company_name' => 'required|string|max:255',
+            'company_email' => 'required|email|max:255',
+            'company_description' => 'required|string|max:1000',
+            'company_address' => 'required|string|max:500',
+            'locale' => 'required|string',
+            'logo' => ['nullable', File::image()->max(2024)], // 2MB max
         ];
     }
 }
