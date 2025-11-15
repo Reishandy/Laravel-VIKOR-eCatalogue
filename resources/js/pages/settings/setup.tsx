@@ -1,21 +1,14 @@
-import { Head, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
-import AuthLayout from '@/layouts/auth-layout';
-import OwnInput from '@/components/own/own-input';
 import OwnButton from '@/components/own/own-button';
-import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
-import {
-    Building,
-    CircleCheckBig,
-    Image,
-    Mail,
-    MapPin,
-    User,
-} from 'lucide-react';
-import { store } from '@/routes/setup';
-import OwnTextarea from '@/components/own/own-textarea';
+import OwnInput from '@/components/own/own-input';
 import OwnSelect from '@/components/own/own-select';
-import { useLocaleOptions } from '@/hooks/use-locale';
+import OwnTextarea from '@/components/own/own-textarea';
+import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
+import { useCommonLocaleOptions } from '@/hooks/use-locale';
+import AuthLayout from '@/layouts/auth-layout';
+import { store } from '@/routes/setup';
+import { Head, useForm } from '@inertiajs/react';
+import { Building, CircleCheckBig, Image, Mail, MapPin } from 'lucide-react';
+import { FormEventHandler } from 'react';
 
 interface SetupForm {
     company_name: string;
@@ -27,8 +20,10 @@ interface SetupForm {
 }
 
 export default function Setup() {
-    const localeOptions = useLocaleOptions();
-    const { data, setData, post, processing, errors } = useForm<Required<SetupForm>>({
+    const localeOptions = useCommonLocaleOptions();
+    const { data, setData, post, processing, errors } = useForm<
+        Required<SetupForm>
+    >({
         company_name: '',
         company_email: '',
         company_description: '',
@@ -68,7 +63,9 @@ export default function Setup() {
                             autoFocus
                             leadingElement={<Building />}
                             value={data.company_name}
-                            onChange={(e) => setData('company_name', e.target.value)}
+                            onChange={(e) =>
+                                setData('company_name', e.target.value)
+                            }
                             disabled={processing}
                             error={errors.company_name}
                         />
@@ -81,7 +78,9 @@ export default function Setup() {
                             autoComplete="email"
                             leadingElement={<Mail />}
                             value={data.company_email}
-                            onChange={(e) => setData('company_email', e.target.value)}
+                            onChange={(e) =>
+                                setData('company_email', e.target.value)
+                            }
                             disabled={processing}
                             error={errors.company_email}
                         />
@@ -92,7 +91,9 @@ export default function Setup() {
                             placeholder="Brief description of your company"
                             maxDisplayRows={5}
                             value={data.company_description}
-                            onChange={(e) => setData('company_description', e.target.value)}
+                            onChange={(e) =>
+                                setData('company_description', e.target.value)
+                            }
                             disabled={processing}
                             error={errors.company_description}
                         />
@@ -104,7 +105,9 @@ export default function Setup() {
                             autoComplete="street-address"
                             leadingElement={<MapPin />}
                             value={data.company_address}
-                            onChange={(e) => setData('company_address', e.target.value)}
+                            onChange={(e) =>
+                                setData('company_address', e.target.value)
+                            }
                             disabled={processing}
                             error={errors.company_address}
                         />
@@ -125,7 +128,12 @@ export default function Setup() {
                             type="file"
                             accept="image/*"
                             leadingElement={<Image />}
-                            onChange={e => setData('logo', e.target.files ? e.target.files[0] : null)}
+                            onChange={(e) =>
+                                setData(
+                                    'logo',
+                                    e.target.files ? e.target.files[0] : null,
+                                )
+                            }
                             disabled={processing}
                             error={errors.logo}
                         />

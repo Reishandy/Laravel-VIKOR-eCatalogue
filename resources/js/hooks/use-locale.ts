@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
 import localeCodes from 'locale-codes';
+import { useMemo } from 'react';
 
 export function useAvailableLocales() {
     return useMemo(() => {
@@ -48,6 +48,18 @@ export function useCommonLocaleOptions() {
             'th-TH',
             'vi-VN',
             'tr-TR',
+            'nl-NL',
+            'sv-SE',
+            'no-NO',
+            'da-DK',
+            'fi-FI',
+            'pl-PL',
+            'cs-CZ',
+            'hu-HU',
+            'ro-RO',
+            'el-GR',
+            'he-IL',
+            'uk-UA',
         ];
 
         return commonCodes
@@ -59,7 +71,10 @@ export function useCommonLocaleOptions() {
                     value: code,
                 };
             })
-            .filter(Boolean);
+            .filter(
+                (locale): locale is { label: string; value: string } =>
+                    locale !== null,
+            );
     }, []);
 }
 
