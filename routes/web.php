@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Criterion\CriterionController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 Route::get('/', function () {
     return Inertia::render('welcome');
@@ -12,9 +12,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard'); // TODO: Remove dashboard?
+
+    Route::get('/criteria', [CriterionController::class, 'index'])->name('criteria.index');
+    Route::get('/criteria/{criterion}', [CriterionController::class, 'show'])->name('criteria.show');
+    Route::post('/criteria', [CriterionController::class, 'store'])->name('criteria.store');
+    Route::put('/criteria/{criterion}', [CriterionController::class, 'update'])->name('criteria.update');
+    Route::delete('/criteria/{criterion}', [CriterionController::class, 'destroy'])->name('criteria.destroy');
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
 
 // TODO: Main todo
 //  - Remove all unused routes and files
@@ -32,6 +38,8 @@ require __DIR__.'/settings.php';
 //  - Add meta tags for SEO and related
 //  - Check the side bar for appearance and prefetch
 //  - Dont forget to change the form handling in settings
+//  - Check if new criteria added then what happens to the existing items
+//  - Minus 1 max value for criteria should be unlimited
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
