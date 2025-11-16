@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Criterion\StoreCriterionRequest;
 use App\Http\Requests\Criterion\UpdateCriterionRequest;
 use App\Models\Criterion;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class
 CriterionController extends Controller
@@ -13,9 +15,12 @@ CriterionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() // : \Illuminate\Http\Response
+    public function index(): Response
     {
-        //
+        return Inertia::render('criteria/index', [
+            'criteria' => Criterion::latest()
+                ->get(),
+        ]);
     }
 
 

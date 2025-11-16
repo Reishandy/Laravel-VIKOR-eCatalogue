@@ -13,14 +13,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user if it doesn't exist
-         User::firstOrCreate(
-             ['email' => 'test@example.com'],
-             [
-                 'name' => 'Admin',
-                 'password' => 'password',
-                 'email_verified_at' => now(),
-             ]
-         );
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Admin',
+                'password' => 'password',
+                'email_verified_at' => now(),
+                'company_name' => 'Example Corp',
+                'company_email' => 'company@example.com',
+                'company_description' => 'An example company for seeding purposes.',
+                'company_address' => '123 Example St, Example City',
+                'locale' => 'en_US',
+                'logo' => '../favicon.svg',
+            ]
+        );
 
         // Create default criteria that every multi-criteria system should have
         $defaultCriteria = [
@@ -77,7 +83,7 @@ class DatabaseSeeder extends Seeder
     {
         $max = $criterion->max_value ?: 10;
 
-        return match($criterion->name) {
+        return match ($criterion->name) {
             'Price' => $this->generateRealisticPrice($max, $item),
             'Quality' => $this->generateQualityScore($max, $item),
             'Features' => $this->generateFeaturesScore($max, $item),
@@ -147,7 +153,7 @@ class DatabaseSeeder extends Seeder
 
     private function generateGenericSmartValue(Criterion $criterion, int $max): int
     {
-        return match($criterion->type) {
+        return match ($criterion->type) {
             'cost' => max(1, rand(1, (int)($max * 0.7))),
             'benefit' => rand(max(1, (int)($max * 0.4)), $max),
             default => rand(1, $max)

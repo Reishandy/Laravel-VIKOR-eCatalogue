@@ -6,15 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Item\UpdateItemRequest;
 use App\Models\Item;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class ItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render('items/index', [
+            'items' => Item::with('criteria')
+                ->latest()
+                ->get(),
+        ]);
     }
 
     /**

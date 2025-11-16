@@ -29,6 +29,11 @@ class HandleSetup
             return redirect()->route('setup.index');
         }
 
+        // If the field company_name is set and on setup page, redirect to home
+        if ($user && !empty($user->company_name) && $request->is('setup')) {
+            return redirect()->route('dashboard');
+        }
+
         return $next($request);
     }
 }

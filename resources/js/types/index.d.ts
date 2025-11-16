@@ -1,5 +1,6 @@
 import { InertiaLinkProps } from '@inertiajs/react';
 import { LucideIcon } from 'lucide-react';
+import * as fs from 'node:fs';
 
 export interface Auth {
     user: User;
@@ -46,4 +47,24 @@ export interface User {
     created_at: string;
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Criterion {
+    id: number;
+    name: string;
+    description?: string;
+    type: 'benefit' | 'cost';
+    max_value: number;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown;
+}
+
+export interface Item {
+    id: number;
+    name: string;
+    description?: string;
+    created_at: string;
+    updated_at: string;
+    [key: string]: unknown;
 }

@@ -11,16 +11,28 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as criteriaIndex } from '@/routes/criteria';
+import { index as itemsIndex } from '@/routes/items';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Folder, LayoutGrid } from 'lucide-react';
+import { Github, LayoutGrid, ListChecks, Package } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboard().url,
         icon: LayoutGrid,
+    },
+    {
+        title: 'Criteria',
+        href: criteriaIndex().url,
+        icon: ListChecks,
+    },
+    {
+        title: 'Items',
+        href: itemsIndex().url,
+        icon: Package,
     },
 ];
 
@@ -28,7 +40,7 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/Reishandy/Laravel-VIKOR-eCatalogue',
-        icon: Folder,
+        icon: Github,
     },
 ];
 
