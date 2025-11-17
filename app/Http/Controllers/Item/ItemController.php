@@ -16,10 +16,25 @@ class ItemController extends Controller
      */
     public function index(): Response
     {
+        $request = request();
+        $query = Item::query();
+
+        $total = $query->count();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $items = $query->orderBy('id', 'desc')
+            ->paginate(10);
+
         return Inertia::render('items/index', [
-            'items' => Item::with('criteria')
-                ->latest()
-                ->get(),
+            'items' => $items,
+            'total' => $total,
         ]);
     }
 

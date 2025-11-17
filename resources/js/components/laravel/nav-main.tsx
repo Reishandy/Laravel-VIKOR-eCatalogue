@@ -1,25 +1,18 @@
 import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
-import { router, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { resolveUrl } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
     const [loadingHref, setLoadingHref] = useState<string | null>(null);
 
-    const handleClick = (e: React.MouseEvent, href: string) => {
-        e.preventDefault();
-
+    const handleClick = (href: string) => {
         if (loadingHref) return; // Prevent multiple clicks
-
-        setLoadingHref(href);
-
-        router.visit(href, {
-            preserveState: true,
-            onFinish: () => setLoadingHref(null),
-        });
+        setTimeout(() => setLoadingHref(href), 100);
     };
 
     return (
@@ -29,10 +22,14 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton asChild isActive={page.url.startsWith(resolveUrl(item.href))} tooltip={{ children: item.title }}>
-                            <a href={resolveUrl(item.href)} onClick={(e) => handleClick(e, resolveUrl(item.href))}>
+                            <Link
+                                href={resolveUrl(item.href)}
+                                prefetch={['mount', 'hover']}
+                                onClick={() => handleClick(resolveUrl(item.href))}
+                            >
                                 {loadingHref === item.href ? <Spinner /> : item.icon && <item.icon />}
                                 <span>{item.title}</span>
-                            </a>
+                            </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}

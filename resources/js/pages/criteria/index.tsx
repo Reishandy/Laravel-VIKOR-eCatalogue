@@ -35,7 +35,7 @@ interface CriterionPageProps {
 
 export default function Index({ criteria, total }: CriterionPageProps) {
     const { flash } = usePage<CriterionPageProps>().props;
-    const [searchParam, setSearchParam] = useState<string>('');
+    const [searchParam, setSearchParam] = useState<string | undefined>(undefined);
     const debouncedSearch = useMemo(
         () =>
             debounce((search: string) => {
@@ -67,7 +67,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
     }, [flash.success, flash.error, flash.description, flash.timestamp]);
 
     useEffect(() => {
-        debouncedSearch(searchParam);
+        if (searchParam !== undefined) debouncedSearch(searchParam);
     }, [searchParam, debouncedSearch]);
 
     const handleEdit = (criterion: Criterion) => {
