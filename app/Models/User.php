@@ -55,4 +55,20 @@ class User extends Authenticatable //implements MustVerifyEmail TODO: Enable ema
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    /**
+     * Get the criteria associated with the user.
+     */
+    public function criteria()
+    {
+        return $this->hasMany(Criterion::class);
+    }
+
+    /**
+     * Get the items associated with the user.
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

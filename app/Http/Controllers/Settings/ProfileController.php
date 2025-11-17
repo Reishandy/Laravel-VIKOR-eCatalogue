@@ -50,15 +50,11 @@ class ProfileController extends Controller
             'password' => ['required', 'current_password'],
         ]);
 
+        $user = $request->user();
+
         Auth::logout();
 
-        // Truncate all tables
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        foreach (DB::select('SHOW TABLES') as $table) {
-            $tableName = array_values((array) $table)[0];
-            DB::table($tableName)->truncate();
-        }
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

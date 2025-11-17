@@ -17,9 +17,18 @@ class ItemFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => 1, // Assuming items are created for the only user in tests
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
             'image' => 'https://placehold.co/600x400'
         ];
+    }
+
+    /**
+     * State to set a specific user_id.
+     */
+    public function forUser(int $userId): static
+    {
+        return $this->state(fn () => ['user_id' => $userId]);
     }
 }

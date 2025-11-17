@@ -1,21 +1,12 @@
 import { useForm } from '@inertiajs/react';
-import { FormEventHandler, useRef } from 'react';
 import { Trash2 } from 'lucide-react';
+import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/laravel/heading-small';
 import OwnButton from '@/components/own/own-button';
+import OwnDialog from '@/components/own/own-dialog';
 import OwnInput from '@/components/own/own-input';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogTitle,
-    DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { destroy } from '@/routes/profile';
 
 interface DeleteUserForm {
@@ -32,6 +23,7 @@ export default function DeleteUser() {
         processing,
         errors,
         reset,
+        clearErrors
     } = useForm<Required<DeleteUserForm>>({
         password: '',
     });
@@ -42,6 +34,7 @@ export default function DeleteUser() {
             preserveScroll: true,
             onSuccess: () => {
                 reset('password');
+                clearErrors();
             },
             onError: (errors) => {
                 if (errors.password) {
@@ -53,9 +46,9 @@ export default function DeleteUser() {
 
     const handleCancel = () => {
         reset('password');
+        clearErrors();
     };
 
-    // TODO: Use own modal component later
     return (
         <div className="space-y-6">
             <HeadingSmall
@@ -72,8 +65,21 @@ export default function DeleteUser() {
                     </p>
                 </div>
 
-                <Dialog>
-                    <DialogTrigger asChild>
+                <OwnDialog
+                    dialogTitle="Are you sure you want to delete your account?"
+                    dialogDescription="Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account."
+                    dialogFooter={
+                        <OwnButton
+                            icon={<Trash2 />}
+                            variant="destructive"
+                            isProcessing={processing}
+                            onClick={submit}
+                            data-test="confirm-delete-user-button"
+                        >
+                            Delete account
+                        </OwnButton>
+                    }
+                    dialogTrigger={
                         <OwnButton
                             icon={<Trash2 />}
                             variant="destructive"
@@ -81,61 +87,29 @@ export default function DeleteUser() {
                         >
                             Delete account and data
                         </OwnButton>
-                    </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>
-                            Are you sure you want to delete your account?
-                        </DialogTitle>
-                        <DialogDescription>
-                            Once your account is deleted, all of its resources
-                            and data will also be permanently deleted. Please
-                            enter your password to confirm you would like to
-                            permanently delete your account.
-                        </DialogDescription>
-
-                        <FieldGroup>
-                            <FieldSet>
-                                <OwnInput
-                                    id="password"
-                                    label="Password"
-                                    type="password"
-                                    placeholder="Enter your password to confirm"
-                                    autoComplete="current-password"
-                                    value={data.password}
-                                    onChange={(e) =>
-                                        setData('password', e.target.value)
-                                    }
-                                    disabled={processing}
-                                    error={errors.password}
-                                    isPassword
-                                    ref={passwordInput}
-                                />
-                            </FieldSet>
-                        </FieldGroup>
-
-                        <DialogFooter className="gap-2">
-                            <DialogClose asChild>
-                                <Button
-                                    variant="secondary"
-                                    onClick={handleCancel}
-                                    type="button"
-                                >
-                                    Cancel
-                                </Button>
-                            </DialogClose>
-
-                            <OwnButton
-                                icon={<Trash2 />}
-                                variant="destructive"
-                                isProcessing={processing}
-                                onClick={submit}
-                                data-test="confirm-delete-user-button"
-                            >
-                                Delete account
-                            </OwnButton>
-                        </DialogFooter>
-                    </DialogContent>
-                </Dialog>
+                    }
+                    onCancel={handleCancel}
+                >
+                    <FieldGroup>
+                        <FieldSet>
+                            <OwnInput
+                                id="password"
+                                label="Password"
+                                type="password"
+                                placeholder="Enter your password to confirm"
+                                autoComplete="current-password"
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData('password', e.target.value)
+                                }
+                                disabled={processing}
+                                error={errors.password}
+                                isPassword
+                                ref={passwordInput}
+                            />
+                        </FieldSet>
+                    </FieldGroup>
+                </OwnDialog>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Criterion;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -30,10 +31,20 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $this->passwordRules(),
         ])->validate();
 
-        return User::create([
+        $user = User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
         ]);
+
+        // Create default price criterion
+        $user->criteria()->create([
+            'name' => 'Price',
+            'description' => 'Price of the item',
+            'type' => 'cost',
+            'max_value' => -1, // Unlimited
+        ]);
+
+        return $user;
     }
 }

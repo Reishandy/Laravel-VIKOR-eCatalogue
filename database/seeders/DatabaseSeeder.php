@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user if it doesn't exist
-        User::firstOrCreate(
+        $user = User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
                 'name' => 'Admin',
@@ -28,21 +28,32 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Create default price criterion
+        $user->criteria()->create([
+            'name' => 'Price',
+            'description' => 'Price of the item',
+            'type' => 'cost',
+            'max_value' => -1, // Unlimited
+        ]);
+
         // Create default criteria that every multi-criteria system should have
         $defaultCriteria = [
             [
+                'user_id' => $user->id,
                 'name' => 'Quality',
                 'description' => 'Build quality and materials',
                 'type' => 'benefit',
                 'max_value' => 10,
             ],
             [
+                'user_id' => $user->id,
                 'name' => 'Features',
                 'description' => 'Number of available features',
                 'type' => 'benefit',
                 'max_value' => 10,
             ],
             [
+                'user_id' => $user->id,
                 'name' => 'Durability',
                 'description' => 'Expected lifespan and robustness',
                 'type' => 'benefit',
@@ -56,10 +67,10 @@ class DatabaseSeeder extends Seeder
         }
 
         // Add 6 more random criteria
-        $randomCriteria = Criterion::factory(6)->create();
+        $randomCriteria = Criterion::factory(6)->forUser($user->id)->create();
         $allCriteria = $criteria->merge($randomCriteria);
 
-        $items = Item::factory(50)->create();
+        $items = Item::factory(50)->forUser($user->id)->create();
 
         $attachments = [];
         foreach ($items as $item) {

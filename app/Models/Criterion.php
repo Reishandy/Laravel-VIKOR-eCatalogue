@@ -11,6 +11,7 @@ class Criterion extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'description',
         'type',
@@ -38,11 +39,19 @@ class Criterion extends Model
     }
 
     /**
-     * The items that belong to the criterion.
+     * Get the items associated with the criterion.
      */
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Item::class, 'criterion_item')
             ->withPivot('value');
+    }
+
+    /**
+     * Get the user that owns the Criterion.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
