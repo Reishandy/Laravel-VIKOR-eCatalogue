@@ -9,6 +9,7 @@ Live Demo: [https://ecatalogue.reishandy.id](https://ecatalogue.reishandy.id) (W
 ## Features
 
 ### TODO
+TODO: also add the better ux like prefetch, optimistic ui, etc
 
 ## Technology Stack
 

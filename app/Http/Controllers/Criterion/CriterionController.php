@@ -68,6 +68,8 @@ CriterionController extends Controller
     {
         //
         dd($request->all());
+
+        // TODO: No edit price criterion by isPriceCriterion
     }
 
     /**
@@ -76,8 +78,17 @@ CriterionController extends Controller
     public function destroy(Criterion $criterion)
     {
         //
-        dd($criterion);
+        // dd($criterion);
+        // TODO: Remove testing throw an exception
+        try {
+            throw new \Exception('Delete criterion not implemented yet.');
+        } catch (\Exception $exception) {
+            return redirect()->route('criteria.index')->with('error', 'Failed to delete criterion.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+        }
 
-        // TODO: No delete private criterion by isPriceCriterion
+
+        // TODO: No delete price criterion by isPriceCriterion
     }
 }

@@ -48,6 +48,7 @@ require __DIR__ . '/settings.php';
 //  - Check if new criteria added then what happens to the existing items
 //  - Minus 1 max value for criteria should be unlimited
 //  - ScrollArea for tables and dialogs if overflow
+//  - Add hover / popover info for criterion types in table, create/edit forms, and item create/edit forms?
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc

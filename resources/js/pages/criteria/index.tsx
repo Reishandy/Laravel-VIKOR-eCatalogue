@@ -6,12 +6,18 @@ import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/criteria';
-import { type BreadcrumbItem, CriteriaResponse, Criterion } from '@/types';
+import {
+    type BreadcrumbItem,
+    CriteriaResponse,
+    Criterion,
+    Flash,
+} from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { Plus, Search } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
+import { CriteriaTable } from '@/pages/criteria/table/criteria-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,12 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface CriterionPageProps {
-    flash: {
-        success?: string;
-        error?: string;
-        description?: string;
-        timestamp?: string;
-    };
+    flash: Flash;
     criteria: CriteriaResponse;
     total: number;
 
@@ -35,7 +36,9 @@ interface CriterionPageProps {
 
 export default function Index({ criteria, total }: CriterionPageProps) {
     const { flash } = usePage<CriterionPageProps>().props;
-    const [searchParam, setSearchParam] = useState<string | undefined>(undefined);
+    const [searchParam, setSearchParam] = useState<string | undefined>(
+        undefined,
+    );
     const debouncedSearch = useMemo(
         () =>
             debounce((search: string) => {
@@ -70,14 +73,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
         if (searchParam !== undefined) debouncedSearch(searchParam);
     }, [searchParam, debouncedSearch]);
 
-    const handleEdit = (criterion: Criterion) => {
-        toast.warning(`not implemented yet, criterion id: ${criterion.id}`);
-    };
-    const handleDelete = (criterion: Criterion) => {
-        toast.warning(`not implemented yet, criterion id: ${criterion.id}`);
-    };
-
-    const criteriaColumns = useCriteriaColumn({ handleEdit, handleDelete });
+    // TODO: Oncancel for update and add form
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -86,7 +82,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
             <OwnPageContainer
                 title="Criteria"
                 description="Manage the items criteria fields."
-                headerAction={
+                headerAction={// TODO: Add form
                     <OwnButton
                         variant="default"
                         icon={<Plus />}
@@ -115,19 +111,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
                         </div>
                     </div>
 
-                    <DataTable
-                        columns={criteriaColumns}
-                        data={criteria.data}
-                        onRowClick={handleEdit}
-                    />
-
-                    <DataTablePagination
-                        links={criteria.links}
-                        current_page={criteria.current_page}
-                        last_page={criteria.last_page}
-                        prev_page_url={criteria.prev_page_url}
-                        next_page_url={criteria.next_page_url}
-                    />
+                    <CriteriaTable criteria={criteria} />
                 </div>
             </OwnPageContainer>
         </AppLayout>

@@ -29,7 +29,7 @@ interface OwnDialogProps {
     dialogFooter: ReactNode;
     dialogTrigger?: ReactNode;
     onCancel?: () => void;
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 export default function OwnDialog({

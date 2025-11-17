@@ -6,7 +6,7 @@ import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/items';
-import { type BreadcrumbItem, Item, ItemsResponse } from '@/types';
+import { type BreadcrumbItem, Flash, Item, ItemsResponse } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { Plus, Search } from 'lucide-react';
@@ -21,12 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface ItemsPageProps {
-    flash: {
-        success?: string;
-        error?: string;
-        description?: string;
-        timestamp?: string;
-    };
+    flash: Flash;
     items: ItemsResponse;
     total: number;
 

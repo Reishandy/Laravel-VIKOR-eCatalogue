@@ -3,6 +3,7 @@ import { Criterion } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { SquarePen, Trash } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface CriteriaColumnProps {
     handleEdit: (criterion: Criterion) => void;
@@ -109,17 +110,28 @@ export function useCriteriaColumn({
             {
                 id: 'actions',
                 cell: ({ row }) => {
+                    const isPriceCriterion =
+                        row.original.id === 1 && row.original.name === 'Price';
+
                     return (
                         <div className="flex flex-row items-center justify-center gap-x-2">
                             <SquarePen
-                                className="size-5 cursor-pointer text-primary transition-transform duration-300 hover:scale-105 hover:text-primary/70 active:scale-95"
+                                className={cn(
+                                    'size-5 cursor-pointer text-primary transition-transform duration-300 hover:scale-105 hover:text-primary/70 active:scale-95',
+                                    isPriceCriterion &&
+                                        'pointer-events-none cursor-not-allowed opacity-50',
+                                )}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleEdit(row.original);
                                 }}
                             />
                             <Trash
-                                className="size-5 cursor-pointer text-destructive transition-transform duration-300 hover:scale-105 hover:text-destructive/70 active:scale-95"
+                                className={cn(
+                                    'active:scale-95/70 size-5 cursor-pointer text-destructive transition-transform duration-300 hover:scale-105 hover:text-destructive/70 active:scale-95',
+                                    isPriceCriterion &&
+                                        'pointer-events-none cursor-not-allowed opacity-50',
+                                )}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleDelete(row.original);
