@@ -111,9 +111,9 @@ export default function DataTablePagination({
         const pagesToPrefetch = [
             prev_page_url,
             next_page_url,
-            // Also prefetch first and last pages since it will always be visible
-            links.find((link) => link.label === '1')?.url,
-            links.find((link) => link.label === String(last_page))?.url,
+            // This prevent fetching the first page if there is only one page
+            // Why 3? since we have Previous, Next, and at least one-page link
+            links.length > 3 ? links.find((link) => link.label === String(last_page))?.url : null,
         ];
 
         pagesToPrefetch.forEach((url) => {
@@ -121,7 +121,7 @@ export default function DataTablePagination({
                 router.prefetch(url, prefetchOptions, {});
             }
         });
-    }, [prev_page_url, next_page_url, links, last_page]);
+    }, [current_page, prev_page_url, next_page_url, links, last_page]);
 
     return (
         <Pagination>
