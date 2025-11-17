@@ -6,12 +6,12 @@ import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/criteria';
-import { type BreadcrumbItem, CriteriaResponse, Criterion, User } from '@/types';
+import { type BreadcrumbItem, CriteriaResponse, Criterion } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
+import debounce from 'lodash/debounce';
 import { Plus, Search } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import debounce from 'lodash/debounce';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -21,9 +21,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 interface CriterionPageProps {
-    auth: {
-        user: User;
-    };
     flash: {
         success?: string;
         error?: string;
@@ -37,18 +34,22 @@ interface CriterionPageProps {
 }
 
 export default function Index({ criteria, total }: CriterionPageProps) {
-    const { auth, flash } = usePage<CriterionPageProps>().props;
+    const { flash } = usePage<CriterionPageProps>().props;
     const [searchParam, setSearchParam] = useState<string>('');
     const debouncedSearch = useMemo(
         () =>
             debounce((search: string) => {
-                router.get(index().url, { search }, {
-                    preserveState: true,
-                    preserveScroll: true,
-                    preserveUrl: true,
-                });
+                router.get(
+                    index().url,
+                    { search },
+                    {
+                        preserveState: true,
+                        preserveScroll: true,
+                        preserveUrl: true,
+                    },
+                );
             }, 300),
-        []
+        [],
     );
 
     useEffect(() => {
@@ -96,7 +97,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
                 }
             >
                 <div className="space-y-4">
-                    <div className="flex w-full flex-col md:flex-row space-y-2 md:space-y-0 items-center justify-between">
+                    <div className="flex w-full flex-col items-center justify-between space-y-2 md:flex-row md:space-y-0">
                         <OwnInput
                             id="search"
                             type="text"
@@ -109,11 +110,16 @@ export default function Index({ criteria, total }: CriterionPageProps) {
                         />
 
                         <div className="text-sm">
-                            Showing {criteria.data.length} out of {total} criteria
+                            Showing {criteria.data.length} out of {total}{' '}
+                            entries
                         </div>
                     </div>
 
-                    <DataTable columns={criteriaColumns} data={criteria.data} onRowClick={handleEdit}/>
+                    <DataTable
+                        columns={criteriaColumns}
+                        data={criteria.data}
+                        onRowClick={handleEdit}
+                    />
 
                     <DataTablePagination
                         links={criteria.links}
