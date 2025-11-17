@@ -22,7 +22,7 @@ interface LoginProps {
 }
 
 export default function Login({ status, canResetPassword }: LoginProps) {
-    const { data, setData, post, processing, errors } = useForm<
+    const { data, setData, post, processing, errors, reset } = useForm<
         Required<LoginForm>
     >({
         email: '',
@@ -36,10 +36,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
-                //
+                reset()
             },
             onError: () => {
-                setData('password', '');
+                reset('password');
             },
         });
     };

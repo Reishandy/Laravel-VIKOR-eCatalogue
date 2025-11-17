@@ -15,7 +15,7 @@ interface RegisterForm {
 }
 
 export default function Register() {
-    const { data, setData, post, processing, errors } = useForm<
+    const { data, setData, post, processing, errors, reset } = useForm<
         Required<RegisterForm>
     >({
         name: '',
@@ -30,11 +30,10 @@ export default function Register() {
             preserveScroll: true,
             forceFormData: true,
             onSuccess: () => {
-                //
+                reset()
             },
             onError: () => {
-                setData('password', '');
-                setData('password_confirmation', '');
+                reset('password', 'password_confirmation');
             },
         });
     };
