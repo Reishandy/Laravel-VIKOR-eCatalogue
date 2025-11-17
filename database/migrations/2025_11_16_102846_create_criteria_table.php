@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('criteria', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->text('description');
             $table->enum('type', ['benefit', 'cost']);
-            $table->decimal('max_value', 12)->nullable();
+            $table->decimal('max_value', 12)->nullable()->default(-1); // -1 means infinite
             $table->timestamps();
         });
     }

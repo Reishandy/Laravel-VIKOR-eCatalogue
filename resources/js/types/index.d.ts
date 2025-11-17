@@ -52,7 +52,7 @@ export interface User {
 export interface Criterion {
     id: number;
     name: string;
-    description?: string;
+    description: string;
     type: 'benefit' | 'cost';
     max_value: number;
     created_at: string;
@@ -63,8 +63,35 @@ export interface Criterion {
 export interface Item {
     id: number;
     name: string;
-    description?: string;
+    description: string;
+    image?: string;
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
+}
+
+export interface CriteriaResponse {
+    data: Criterion[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    current_page: number;
+    last_page: number;
+    prev_page_url: string | null;
+    next_page_url: string | null;
+}
+
+export interface ItemsResponse {
+    data: Item[];
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    current_page: number;
+    last_page: number;
+    prev_page_url: string | null;
+    next_page_url: string | null;
 }

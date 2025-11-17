@@ -17,9 +17,26 @@ CriterionController extends Controller
      */
     public function index(): Response
     {
+        $request = request();
+        $query = Criterion::query();
+
+        $total = $query->count();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('type', 'like', "%{$search}%");
+            });
+        }
+
+        $criteria = $query->orderBy('id', 'desc')
+            ->paginate(10);
+
         return Inertia::render('criteria/index', [
-            'criteria' => Criterion::latest()
-                ->get(),
+            'criteria' => $criteria,
+            'total' => $total,
         ]);
     }
 
@@ -39,6 +56,8 @@ CriterionController extends Controller
     {
         //
         dd($request->all());
+
+        // TODO: Return redirect with flash message, also on error too so wrap in try catch
     }
 
 
