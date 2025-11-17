@@ -47,6 +47,7 @@ require __DIR__ . '/settings.php';
 //  - Dont forget to change the form handling in settings
 //  - Check if new criteria added then what happens to the existing items
 //  - Minus 1 max value for criteria should be unlimited
+//  - ScrollArea for tables and dialogs if overflow
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
