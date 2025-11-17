@@ -22,7 +22,7 @@ class StoreCriterionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // TODO
+            // TODO dont forget min values for max_value
         ];
     }
 }

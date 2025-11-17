@@ -101,3 +101,16 @@ export interface ItemsResponse {
     prev_page_url: string | null;
     next_page_url: string | null;
 }
+
+export interface CriterionForm {
+    name: string;
+    description: string;
+    type: 'benefit' | 'cost' | '';
+    max_value: number;
+}
+
+export interface ItemForm {
+    name: string;
+    description: string;
+    image?: File | null;
+}

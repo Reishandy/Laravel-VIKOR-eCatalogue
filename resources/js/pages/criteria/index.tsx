@@ -1,23 +1,15 @@
-import { useCriteriaColumn } from '@/components/column/criteria-column';
-import OwnButton from '@/components/own/own-button';
 import OwnInput from '@/components/own/own-input';
 import OwnPageContainer from '@/components/own/own-page-container';
-import { DataTable } from '@/components/table/data-table';
-import DataTablePagination from '@/components/table/data-table-pagination';
 import AppLayout from '@/layouts/app-layout';
+import AddForm from '@/pages/criteria/form/add-form';
+import { CriteriaTable } from '@/pages/criteria/table/criteria-table';
 import { index } from '@/routes/criteria';
-import {
-    type BreadcrumbItem,
-    CriteriaResponse,
-    Criterion,
-    Flash,
-} from '@/types';
+import { type BreadcrumbItem, CriteriaResponse, Flash } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
-import { Plus, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import { CriteriaTable } from '@/pages/criteria/table/criteria-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -73,8 +65,6 @@ export default function Index({ criteria, total }: CriterionPageProps) {
         if (searchParam !== undefined) debouncedSearch(searchParam);
     }, [searchParam, debouncedSearch]);
 
-    // TODO: Oncancel for update and add form
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Criteria" />
@@ -82,15 +72,7 @@ export default function Index({ criteria, total }: CriterionPageProps) {
             <OwnPageContainer
                 title="Criteria"
                 description="Manage the items criteria fields."
-                headerAction={// TODO: Add form
-                    <OwnButton
-                        variant="default"
-                        icon={<Plus />}
-                        onClick={() => toast.warning('not implemented yet')}
-                    >
-                        Add Criterion
-                    </OwnButton>
-                }
+                headerAction={<AddForm />}
             >
                 <div className="space-y-4">
                     <div className="flex w-full flex-col items-center justify-between space-y-2 md:flex-row md:space-y-0">

@@ -5,6 +5,7 @@ import DeleteForm from '@/pages/criteria/form/delete-form';
 import { CriteriaResponse, Criterion } from '@/types';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import EditForm from '@/pages/criteria/form/edit-form';
 
 interface CriteriaTableProps {
     criteria: CriteriaResponse;
@@ -25,7 +26,6 @@ export function CriteriaTable({ criteria }: CriteriaTableProps) {
             return;
         }
 
-        // TODO: Edit form
         setSelectedCriterion(criterion);
         setEditDialogOpen(true);
     };
@@ -58,11 +58,23 @@ export function CriteriaTable({ criteria }: CriteriaTableProps) {
             />
 
             {selectedCriterion && (
-                <DeleteForm
-                    criterion={selectedCriterion}
-                    open={deleteDialogOpen}
-                    setOpen={setDeleteDialogOpen}
-                />
+                <div>
+                    <EditForm
+                        criterion={selectedCriterion}
+                        open={editDialogOpen}
+                        setOpen={setEditDialogOpen}
+                        onDelete={(criterion) => {
+                            setEditDialogOpen(false);
+                            handleDelete(criterion);
+                        }}
+                    />
+
+                    <DeleteForm
+                        criterion={selectedCriterion}
+                        open={deleteDialogOpen}
+                        setOpen={setDeleteDialogOpen}
+                    />
+                </div>
             )}
         </div>
     );

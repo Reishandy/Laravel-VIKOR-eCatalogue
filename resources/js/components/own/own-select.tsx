@@ -11,6 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { ReactNode } from 'react';
 
 interface SelectOption {
     label: string;
@@ -27,6 +28,7 @@ interface OwnSelectProps {
     description?: string;
     error?: string;
     options: SelectOption[];
+    help?: ReactNode;
     className?: string;
 }
 
@@ -40,11 +42,15 @@ export default function OwnSelect({
     description,
     error,
     options,
+    help,
     className = '',
 }: OwnSelectProps) {
     return (
         <Field className={className} data-invalid={!!error}>
-            {label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
+            <div className="flex space-x-2 items-center">
+                {label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
+                {help && help}
+            </div>
 
             <Select value={value} onValueChange={onChange} disabled={disabled}>
                 <SelectTrigger
