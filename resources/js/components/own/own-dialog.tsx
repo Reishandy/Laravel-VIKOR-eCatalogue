@@ -20,6 +20,7 @@ import {
 import { useIsMobile } from '@/hooks/use-mobile';
 import { X } from 'lucide-react';
 import { ReactNode } from 'react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface OwnDialogProps {
     open?: boolean;
@@ -68,7 +69,9 @@ export default function OwnDialog({
                             </DrawerDescription>
                         )}
 
-                        {children}
+                        <ScrollArea className="max-h-[50vh] overflow-y-scroll">
+                            {children}
+                        </ScrollArea>
                     </div>
 
                     <DrawerFooter className="pt-2">
