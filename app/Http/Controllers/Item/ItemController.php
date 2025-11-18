@@ -7,6 +7,8 @@ use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Item\UpdateItemRequest;
 use App\Models\Criterion;
 use App\Models\Item;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -54,11 +56,58 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
-        //
-        dd($request->all());
+        try {
+            DB::transaction(function () use ($request) {
+                // Create the item
+                $itemData = [
+                    'user_id' => auth()->id(),
+                    'name' => $request->name,
+                    'description' => $request->description,
+                ];
 
-        // TODO: Check criteria and attach, also check max_value
-        // TODO: IF image null dont store image
+                // Handle image upload
+                if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                    $itemData['image'] = $request->file('image')->store('items', 'public');
+                }
+
+                $item = Item::create($itemData);
+
+                // Prepare pivot data for all criteria
+                $pivotData = [];
+                $criteria = Criterion::where('user_id', auth()->id())->get();
+
+                foreach ($criteria as $criterion) {
+                    // Find the submitted value for this criterion
+                    $submittedField = collect($request->fields)->firstWhere('id', $criterion->id);
+                    $value = $submittedField['value'] ?? 0;
+
+                    // Validate against max_value if not infinite
+                    if ($criterion->max_value != -1 && $value > $criterion->max_value) {
+                        $value = $criterion->max_value;
+                    }
+
+                    $pivotData[$criterion->id] = [
+                        'value' => $value,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                // Attach all criteria to the item
+                $item->criteria()->attach($pivotData);
+            });
+
+            return redirect()->route('items.index')
+                ->with('success', 'Item created successfully.')
+                ->with('description', $request->name . ' has been created.')
+                ->with('timestamp', now()->timestamp);
+
+        } catch (\Exception $exception) {
+            return redirect()->route('items.index')
+                ->with('error', 'Failed to create item.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+        }
     }
 
     /**
@@ -66,11 +115,68 @@ class ItemController extends Controller
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
-        //
-        dd($request->all());
+        try {
+            DB::transaction(function () use ($request, $item) {
+                // Update basic item data
+                $updateData = [
+                    'name' => $request->name,
+                    'description' => $request->description,
+                ];
 
-        // TODO: Check criteria and attach, also check max_value
-        // TODO: IF image null dont update image
+                // Handle image update
+                if ($request->hasFile('image') && $request->file('image')->isValid()) {
+                    // Delete old image if exists TODO: This does not work
+                    if ($item->image) {
+                        Storage::disk('public')->delete($item->image);
+                    }
+                    $updateData['image'] = $request->file('image')->store('items', 'public');
+                } elseif ($request->has('remove_image') && $request->remove_image) {
+                    // Remove image if requested
+                    if ($item->image) {
+                        Storage::disk('public')->delete($item->image);
+                    }
+                    $updateData['image'] = null;
+                }
+
+                $item->update($updateData);
+
+                // Update pivot values for all criteria
+                $criteria = Criterion::where('user_id', auth()->id())->get();
+                $pivotUpdates = [];
+
+                foreach ($criteria as $criterion) {
+                    // Find the submitted value for this criterion
+                    $submittedField = collect($request->fields)->firstWhere('id', $criterion->id);
+
+                    if ($submittedField) {
+                        $value = $submittedField['value'];
+
+                        // Validate against max_value if not infinite
+                        if ($criterion->max_value != -1 && $value > $criterion->max_value) {
+                            $value = $criterion->max_value;
+                        }
+
+                        $pivotUpdates[$criterion->id] = ['value' => $value];
+                    }
+                }
+
+                // Sync the pivot data (update existing, don't detach missing)
+                if (!empty($pivotUpdates)) {
+                    $item->criteria()->syncWithoutDetaching($pivotUpdates);
+                }
+            });
+
+            return redirect()->route('items.index')
+                ->with('success', 'Item updated successfully.')
+                ->with('description', $request->name . ' has been updated.')
+                ->with('timestamp', now()->timestamp);
+
+        } catch (\Exception $exception) {
+            return redirect()->route('items.index')
+                ->with('error', 'Failed to update item.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+        }
     }
 
     /**
@@ -78,7 +184,30 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
-        dd($item);
+        try {
+            DB::transaction(function () use ($item) {
+                // Delete the image file if exists
+                if ($item->image) {
+                    Storage::disk('public')->delete($item->image);
+                }
+
+                // Detach all criteria relationships
+                $item->criteria()->detach();
+
+                // Delete the item
+                $item->delete();
+            });
+
+            return redirect()->route('items.index')
+                ->with('success', 'Item deleted successfully.')
+                ->with('description', $item->name . ' has been deleted.')
+                ->with('timestamp', now()->timestamp);
+
+        } catch (\Exception $exception) {
+            return redirect()->route('items.index')
+                ->with('error', 'Failed to delete item.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+        }
     }
 }

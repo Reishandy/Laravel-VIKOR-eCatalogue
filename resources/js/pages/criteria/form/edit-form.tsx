@@ -76,6 +76,11 @@ export default function EditForm({
                     </OwnButton>
                 </div>
             }
+            onCancel={() => {
+                clearErrors()
+                reset()
+                setOpen(false);
+            }}
         >
             <FormField
                 data={data}

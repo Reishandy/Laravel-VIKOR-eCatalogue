@@ -22,19 +22,8 @@ export default function AddForm({ criteria }: AddFormProps) {
                 id: criterion.id,
                 value: 0,
             })),
+            remove_image: false,
         });
-
-    useEffect(() => {
-        setData({
-            name: '',
-            description: '',
-            image: null,
-            fields: criteria.map((criterion) => ({
-                id: criterion.id,
-                value: 0,
-            })),
-        });
-    }, [setData]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -69,6 +58,10 @@ export default function AddForm({ criteria }: AddFormProps) {
                 </OwnButton>
             }
             isLong={true}
+            onCancel={() => {
+                clearErrors()
+                setOpen(false);
+            }}
         >
             <FormField
                 criteria={criteria}

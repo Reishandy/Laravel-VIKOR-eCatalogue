@@ -50,6 +50,10 @@ export default function AddForm() {
                     Add Criterion
                 </OwnButton>
             }
+            onCancel={() => {
+                clearErrors()
+                setOpen(false);
+            }}
         >
             <FormField
                 data={data}

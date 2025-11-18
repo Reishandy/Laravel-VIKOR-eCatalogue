@@ -128,4 +128,5 @@ export interface ItemForm {
     description: string;
     image?: File | null;
     fields: DynamicField[];
+    remove_image: boolean;
 }

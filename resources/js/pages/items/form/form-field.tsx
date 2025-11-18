@@ -1,7 +1,8 @@
 import OwnInput from '@/components/own/own-input';
 import OwnTextarea from '@/components/own/own-textarea';
 import {
-    FieldDescription, FieldError,
+    FieldDescription,
+    FieldError,
     FieldGroup,
     FieldLegend,
     FieldSet,
@@ -11,7 +12,7 @@ import { Criterion, ItemForm, SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { Image, ListChecks } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useEffect } from 'react';
+import OwnCheckbox from '@/components/own/own-checkbox';
 
 interface FormFieldProps {
     criteria: Criterion[];
@@ -40,10 +41,6 @@ export default function FormField({
         setData('fields', updatedFields);
     };
 
-    useEffect(() => {
-        console.log(errors)
-    }, [errors]);
-
     return (
         <FieldGroup>
             <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
@@ -63,7 +60,7 @@ export default function FormField({
 
                     <OwnInput
                         id="image"
-                        label={isEdit ? 'Change Image' : 'Image'}
+                        label={isEdit ? 'Change Image' : 'Image (Optional)'}
                         type="file"
                         accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                         leadingElement={<Image />}
@@ -73,10 +70,24 @@ export default function FormField({
                                 e.target.files ? e.target.files[0] : null,
                             )
                         }
-                        disabled={processing}
+                        disabled={processing || (isEdit && data.remove_image)}
                         description="Maximum file size: 2MB."
                         error={errors.image}
                     />
+
+                    {isEdit && (
+                        <OwnCheckbox
+                            id="remove_image"
+                            label="Remove existing image"
+                            checked={data.remove_image}
+                            onChange={(checked) => {
+                                setData('image', null);
+                                setData('remove_image', checked);
+                            }}
+                            disabled={processing || data.image !== null}
+                            className={errors.image ? '' : '-mt-4'}
+                        />
+                    )}
 
                     <OwnTextarea
                         id="description"
@@ -112,17 +123,20 @@ export default function FormField({
                 </FieldSet>
 
                 {criteria.length > 1 && (
-                    <ScrollArea className="flex-1 max-h-[60vh] md:pr-2">
+                    <ScrollArea className="max-h-[60vh] flex-1 md:pr-2">
                         <FieldSet>
-                            <FieldLegend>Additional Criteria Fields</FieldLegend>
+                            <FieldLegend>
+                                Additional Criteria Fields
+                            </FieldLegend>
                             <FieldDescription>
                                 Can be scrolled if many criteria exist.
                             </FieldDescription>
                             {Object.keys(errors).some((key) =>
                                 key.startsWith('fields.'),
                             ) && (
-                                <FieldError>
-                                    There are errors in the criteria fields, check below.
+                                <FieldError className="-my-4">
+                                    There are errors in the criteria fields,
+                                    check below.
                                 </FieldError>
                             )}
 
@@ -141,7 +155,9 @@ export default function FormField({
                                             type="number"
                                             placeholder={`Enter ${criterion.name} value`}
                                             trailingElement={`/ ${criterion.max_value}`}
-                                            value={field ? String(field.value) : ''}
+                                            value={
+                                                field ? String(field.value) : ''
+                                            }
                                             onChange={(e) => {
                                                 updateField(
                                                     criterion.id,
@@ -151,8 +167,9 @@ export default function FormField({
                                             disabled={processing}
                                             description={criterion.description}
                                             error={
-                                                errors[`fields.${criterion.id}.value`] ||
-                                                ''
+                                                errors[
+                                                    `fields.${criterion.id}.value`
+                                                ] || ''
                                             }
                                             min={1}
                                             max={criterion.max_value}

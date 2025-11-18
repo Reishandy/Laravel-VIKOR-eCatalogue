@@ -20,7 +20,7 @@ export default function EditForm({
     setOpen,
     onDelete,
 }: EditFormProp) {
-    const { data, setData, put, processing, errors, reset, clearErrors } =
+    const { data, setData, post, processing, errors, reset, clearErrors } =
         useForm<Required<ItemForm>>({
             name: item.name,
             description: item.description || '',
@@ -29,6 +29,7 @@ export default function EditForm({
                 id: field.id,
                 value: field.pivot!.value,
             })) || [],
+            remove_image: false,
         });
 
     useEffect(() => {
@@ -40,12 +41,13 @@ export default function EditForm({
                 id: field.id,
                 value: field.pivot!.value,
             })) || [],
+            remove_image: false,
         });
     }, [item, setData]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        put(update(item.id).url, {
+        post(update(item.id).url, {
             preserveScroll: true,
             onSuccess: () => {
                 setOpen(false);
@@ -81,6 +83,11 @@ export default function EditForm({
                 </div>
             }
             isLong={true}
+            onCancel={() => {
+                clearErrors()
+                reset()
+                setOpen(false);
+            }}
         >
             <FormField
                 criteria={item.criteria??[]}

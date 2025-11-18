@@ -23,7 +23,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
     Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
     Route::post('/items', [ItemController::class, 'store'])->name('items.store');
-    Route::put('/items/{item}', [ItemController::class, 'update'])->name('items.update');
+    Route::post('/items/{item}', [ItemController::class, 'update'])->name('items.update');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
 });
 
@@ -42,6 +42,7 @@ require __DIR__ . '/settings.php';
 //  - Add meta tags for SEO and related
 //  - Add hover / popover info for criterion types in table, create/edit forms, and item create/edit forms?
 //  - Add db index
+//  - Compress images on upload?
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc
