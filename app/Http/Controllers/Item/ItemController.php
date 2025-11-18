@@ -127,13 +127,13 @@ class ItemController extends Controller
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                     // Delete old image if exists TODO: This does not work
                     if ($item->image) {
-                        Storage::disk('public')->delete($item->image);
+                        Storage::disk('public')->delete($item->getRawOriginal('image'));
                     }
                     $updateData['image'] = $request->file('image')->store('items', 'public');
                 } elseif ($request->has('remove_image') && $request->remove_image) {
                     // Remove image if requested
                     if ($item->image) {
-                        Storage::disk('public')->delete($item->image);
+                        Storage::disk('public')->delete($item->getRawOriginal('image'));
                     }
                     $updateData['image'] = null;
                 }
@@ -188,7 +188,7 @@ class ItemController extends Controller
             DB::transaction(function () use ($item) {
                 // Delete the image file if exists
                 if ($item->image) {
-                    Storage::disk('public')->delete($item->image);
+                    Storage::disk('public')->delete($item->getRawOriginal('image'));
                 }
 
                 // Detach all criteria relationships
