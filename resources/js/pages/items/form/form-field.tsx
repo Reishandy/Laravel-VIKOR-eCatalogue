@@ -131,9 +131,11 @@ export default function FormField({
                                         updateField(criterion.id, Number(e.target.value));
                                     }}
                                     disabled={processing}
+                                    description={criterion.description}
                                     error={
                                         errors[`fields.${criterion.id}`] || ''
                                     }
+                                    max={criterion.max_value}
                                 />
                             );
                         })}

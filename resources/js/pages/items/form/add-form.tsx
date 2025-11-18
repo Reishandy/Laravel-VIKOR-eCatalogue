@@ -18,7 +18,10 @@ export default function AddForm({ criteria }: AddFormProps) {
             name: '',
             description: '',
             image: null,
-            fields: [],
+            fields: criteria.map((criterion) => ({
+                id: criterion.id,
+                value: 0,
+            })),
         });
 
     const submit: FormEventHandler = (e) => {

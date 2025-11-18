@@ -23,7 +23,7 @@ class StoreCriterionRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'type' => 'required|string|in:benefit,cost',
             'max_value' => [
                 'required',
@@ -50,7 +50,6 @@ class StoreCriterionRequest extends FormRequest
             'name.string' => 'Name must be a string.',
             'name.max' => 'Name must not exceed 255 characters.',
 
-            'description.required' => 'Description is required.',
             'description.string' => 'Description must be a string.',
 
             'type.required' => 'Type is required.',

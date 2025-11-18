@@ -23,7 +23,7 @@ export default function EditForm({
     const { data, setData, put, processing, errors, reset, clearErrors } =
         useForm<Required<ItemForm>>({
             name: item.name,
-            description: item.description,
+            description: item.description || '',
             image: null,
             fields: item.criteria?.map((field) => ({
                 id: field.id,
@@ -34,7 +34,7 @@ export default function EditForm({
     useEffect(() => {
         setData({
             name: item.name,
-            description: item.description,
+            description: item.description || '',
             image: null,
             fields: item.criteria?.map((field) => ({
                 id: field.id,
@@ -48,9 +48,9 @@ export default function EditForm({
         put(update(item.id).url, {
             preserveScroll: true,
             onSuccess: () => {
+                setOpen(false);
                 reset();
                 clearErrors();
-                setOpen(false);
             },
         });
     };

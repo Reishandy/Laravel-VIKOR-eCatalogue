@@ -64,7 +64,7 @@ interface Pivot {
 export interface Criterion {
     id: number;
     name: string;
-    description: string;
+    description?: string;
     type: 'benefit' | 'cost';
     max_value: number;
     pivot?: Pivot;
@@ -76,7 +76,7 @@ export interface Criterion {
 export interface Item {
     id: number;
     name: string;
-    description: string;
+    description?: string;
     image?: string;
     criteria?: Criterion[];
     created_at: string;

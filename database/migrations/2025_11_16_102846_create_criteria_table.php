@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->enum('type', ['benefit', 'cost']);
             $table->decimal('max_value', 12)->nullable()->default(-1); // -1 means infinite
             $table->timestamps();

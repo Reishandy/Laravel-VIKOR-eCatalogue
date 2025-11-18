@@ -23,7 +23,7 @@ export default function EditForm({
     const { data, setData, put, processing, errors, reset, clearErrors } =
         useForm<Required<CriterionForm>>({
             name: criterion.name,
-            description: criterion.description,
+            description: criterion.description || '',
             type: criterion.type,
             max_value: criterion.max_value,
             is_infinite: criterion.max_value === -1
@@ -32,7 +32,7 @@ export default function EditForm({
     useEffect(() => {
         setData({
             name: criterion.name,
-            description: criterion.description,
+            description: criterion.description || '',
             type: criterion.type,
             max_value: criterion.max_value,
             is_infinite: criterion.max_value === -1
@@ -44,9 +44,9 @@ export default function EditForm({
         put(update(criterion.id).url, {
             preserveScroll: true,
             onSuccess: () => {
+                setOpen(false);
                 reset();
                 clearErrors();
-                setOpen(false);
             },
         });
     };
