@@ -67,20 +67,22 @@ CriterionController extends Controller
 
             // Attach to all existing items with default value 0
             // 0 Will indicate to frontend that the value is not set yet
-            $itemIds = $criterion->user->items()->pluck('id');
-            if ($itemIds->isNotEmpty()) {
-                $pivotData = $itemIds->map(function ($itemId) use ($criterion) {
-                    return [
-                        'item_id' => $itemId,
-                        'criterion_id' => $criterion->id,
-                        'value' => 0,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                })->toArray();
-
-                DB::table('criterion_item')->insert($pivotData);
-            }
+            DB::table('items')
+                ->where('user_id', $criterion->user_id)
+                ->select('id')
+                ->chunkById(1000, function ($items) use ($criterion) {
+                    $pivotData = [];
+                    foreach ($items as $item) {
+                        $pivotData[] = [
+                            'item_id' => $item->id,
+                            'criterion_id' => $criterion->id,
+                            'value' => 0,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+                    DB::table('criterion_item')->insert($pivotData);
+                });
 
             return redirect()->route('criteria.index')->with('success', 'Criterion created successfully.')
                 ->with('description', $criterion->name . ' has been created.')
