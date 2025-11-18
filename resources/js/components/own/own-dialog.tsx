@@ -30,6 +30,7 @@ interface OwnDialogProps {
     dialogFooter: ReactNode;
     dialogTrigger?: ReactNode;
     onCancel?: () => void;
+    isLong?: boolean;
     children?: ReactNode;
 }
 
@@ -41,6 +42,7 @@ export default function OwnDialog({
     dialogFooter,
     dialogTrigger,
     onCancel,
+    isLong = false,
     children,
 }: OwnDialogProps) {
     const isMobile = useIsMobile();
@@ -94,7 +96,7 @@ export default function OwnDialog({
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>{dialogTrigger}</DialogTrigger>
-            <DialogContent>
+            <DialogContent className={isLong ? 'min-w-[80vw]' : ''}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
                 {dialogDescription && (
                     <DialogDescription>{dialogDescription}</DialogDescription>

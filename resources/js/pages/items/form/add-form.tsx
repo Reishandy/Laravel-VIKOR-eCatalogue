@@ -3,7 +3,7 @@ import OwnDialog from '@/components/own/own-dialog';
 import { store } from '@/routes/items';
 import { useForm } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import FormField from '@/pages/items/form/form-field';
 import { Criterion, ItemForm } from '@/types';
 
@@ -23,6 +23,18 @@ export default function AddForm({ criteria }: AddFormProps) {
                 value: 0,
             })),
         });
+
+    useEffect(() => {
+        setData({
+            name: '',
+            description: '',
+            image: null,
+            fields: criteria.map((criterion) => ({
+                id: criterion.id,
+                value: 0,
+            })),
+        });
+    }, [setData]);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -56,6 +68,7 @@ export default function AddForm({ criteria }: AddFormProps) {
                     Add Item
                 </OwnButton>
             }
+            isLong={true}
         >
             <FormField
                 criteria={criteria}

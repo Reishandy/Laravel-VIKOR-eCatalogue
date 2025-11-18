@@ -80,6 +80,7 @@ export default function EditForm({
                     </OwnButton>
                 </div>
             }
+            isLong={true}
         >
             <FormField
                 criteria={item.criteria??[]}

@@ -20,7 +20,7 @@ class ItemFactory extends Factory
             'user_id' => 1, // Assuming items are created for the only user in tests
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
-            'image' => 'https://placehold.co/600x400'
+            'image' => 'favicon.svg'
         ];
     }
 

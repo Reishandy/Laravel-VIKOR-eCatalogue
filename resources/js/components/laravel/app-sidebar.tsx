@@ -15,7 +15,13 @@ import { index as criteriaIndex } from '@/routes/criteria';
 import { index as itemsIndex } from '@/routes/items';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Github, LayoutGrid, ListChecks, Package } from 'lucide-react';
+import {
+    ExternalLink,
+    Github,
+    LayoutGrid,
+    ListChecks,
+    Package,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -42,6 +48,11 @@ const footerNavItems: NavItem[] = [
         href: 'https://github.com/Reishandy/Laravel-VIKOR-eCatalogue',
         icon: Github,
     },
+    {
+        title: 'Public Page',
+        href: '/',
+        icon: ExternalLink,
+    }
 ];
 
 export function AppSidebar() {
