@@ -58,6 +58,7 @@ class ItemController extends Controller
         dd($request->all());
 
         // TODO: Check criteria and attach, also check max_value
+        // TODO: IF image null dont store image
     }
 
     /**

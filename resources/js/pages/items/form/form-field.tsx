@@ -1,7 +1,7 @@
 import OwnInput from '@/components/own/own-input';
 import OwnTextarea from '@/components/own/own-textarea';
 import {
-    FieldDescription,
+    FieldDescription, FieldError,
     FieldGroup,
     FieldLegend,
     FieldSet,
@@ -11,6 +11,7 @@ import { Criterion, ItemForm, SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { Image, ListChecks } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useEffect } from 'react';
 
 interface FormFieldProps {
     criteria: Criterion[];
@@ -39,7 +40,10 @@ export default function FormField({
         setData('fields', updatedFields);
     };
 
-    // TODO: 2 side by side for larger screens?
+    useEffect(() => {
+        console.log(errors)
+    }, [errors]);
+
     return (
         <FieldGroup>
             <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
@@ -103,17 +107,24 @@ export default function FormField({
                         }
                         onChange={(e) => updateField(1, Number(e.target.value))}
                         disabled={processing}
-                        error={errors['fields.1'] || ''}
+                        error={errors['fields.1.value'] || ''}
                     />
                 </FieldSet>
 
                 {criteria.length > 1 && (
-                    <ScrollArea className="flex-1 max-h-[60vh]">
+                    <ScrollArea className="flex-1 max-h-[60vh] md:pr-2">
                         <FieldSet>
                             <FieldLegend>Additional Criteria Fields</FieldLegend>
                             <FieldDescription>
                                 Can be scrolled if many criteria exist.
                             </FieldDescription>
+                            {Object.keys(errors).some((key) =>
+                                key.startsWith('fields.'),
+                            ) && (
+                                <FieldError>
+                                    There are errors in the criteria fields, check below.
+                                </FieldError>
+                            )}
 
                             {criteria
                                 .filter((criterion) => criterion.id !== 1) // Exclude price field (id 1)
@@ -140,7 +151,7 @@ export default function FormField({
                                             disabled={processing}
                                             description={criterion.description}
                                             error={
-                                                errors[`fields.${criterion.id}`] ||
+                                                errors[`fields.${criterion.id}.value`] ||
                                                 ''
                                             }
                                             min={1}
