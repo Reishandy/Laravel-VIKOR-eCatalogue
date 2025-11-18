@@ -55,12 +55,19 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+interface Pivot {
+    criterion_id: number;
+    item_id: number;
+    value: number;
+}
+
 export interface Criterion {
     id: number;
     name: string;
     description: string;
     type: 'benefit' | 'cost';
     max_value: number;
+    pivot?: Pivot;
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
@@ -71,6 +78,7 @@ export interface Item {
     name: string;
     description: string;
     image?: string;
+    criteria?: Criterion[];
     created_at: string;
     updated_at: string;
     [key: string]: unknown;
@@ -110,8 +118,15 @@ export interface CriterionForm {
     is_infinite: boolean;
 }
 
+export interface DynamicField {
+    id: number;
+    name: string;
+    value: number;
+}
+
 export interface ItemForm {
     name: string;
     description: string;
     image?: File | null;
+    fields: DynamicField[];
 }

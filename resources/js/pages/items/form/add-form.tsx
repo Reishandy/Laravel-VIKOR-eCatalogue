@@ -1,0 +1,66 @@
+import OwnButton from '@/components/own/own-button';
+import OwnDialog from '@/components/own/own-dialog';
+import { store } from '@/routes/items';
+import { useForm } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
+import FormField from '@/pages/items/form/form-field';
+import { Criterion, ItemForm } from '@/types';
+
+interface AddFormProps {
+    criteria: Criterion[];
+}
+
+export default function AddForm({ criteria }: AddFormProps) {
+    const [open, setOpen] = useState(false);
+    const { data, setData, post, processing, errors, reset, clearErrors } =
+        useForm<Required<ItemForm>>({
+            name: '',
+            description: '',
+            image: null,
+            fields: [],
+        });
+
+    const submit: FormEventHandler = (e) => {
+        e.preventDefault();
+        post(store().url, {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset();
+                clearErrors();
+                setOpen(false);
+            },
+        });
+    };
+
+    return (
+        <OwnDialog
+            open={open}
+            onOpenChange={setOpen}
+            dialogTrigger={
+                <OwnButton variant="default" icon={<Plus />}>
+                    Add Item
+                </OwnButton>
+            }
+            dialogTitle="Add New Item"
+            dialogDescription="Fill in the details to create a new item."
+            dialogFooter={
+                <OwnButton
+                    icon={<Plus />}
+                    onClick={submit}
+                    isProcessing={processing}
+                >
+                    Add Item
+                </OwnButton>
+            }
+        >
+            <FormField
+                criteria={criteria}
+                data={data}
+                setData={setData}
+                errors={errors}
+                processing={processing}
+            />
+        </OwnDialog>
+    );
+}

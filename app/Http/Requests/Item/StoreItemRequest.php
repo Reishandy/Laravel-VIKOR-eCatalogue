@@ -22,7 +22,7 @@ class StoreItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // TODO
+            // TODO Custom error for dynamic fields, message too
         ];
     }
 }

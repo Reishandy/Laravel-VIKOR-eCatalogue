@@ -1,15 +1,13 @@
-import { useItemsColumn } from '@/components/column/items-column';
-import OwnButton from '@/components/own/own-button';
 import OwnInput from '@/components/own/own-input';
 import OwnPageContainer from '@/components/own/own-page-container';
-import { DataTable } from '@/components/table/data-table';
-import DataTablePagination from '@/components/table/data-table-pagination';
 import AppLayout from '@/layouts/app-layout';
+import AddForm from '@/pages/items/form/add-form';
+import { ItemsTable } from '@/pages/items/table/items-table';
 import { index } from '@/routes/items';
-import { type BreadcrumbItem, Flash, Item, ItemsResponse } from '@/types';
+import { type BreadcrumbItem, Flash, ItemsResponse } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
-import { Plus, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -67,15 +65,6 @@ export default function Index({ items, total }: ItemsPageProps) {
         if (searchParam !== undefined) debouncedSearch(searchParam);
     }, [searchParam, debouncedSearch]);
 
-    const handleEdit = (item: Item) => {
-        toast.warning(`not implemented yet, item id: ${item.id}`);
-    };
-    const handleDelete = (item: Item) => {
-        toast.warning(`not implemented yet, item id: ${item.id}`);
-    };
-
-    const itemsColumns = useItemsColumn({ handleEdit, handleDelete });
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Items" />
@@ -83,15 +72,8 @@ export default function Index({ items, total }: ItemsPageProps) {
             <OwnPageContainer
                 title="Items"
                 description="Manage your items."
-                headerAction={
-                    <OwnButton
-                        variant="default"
-                        icon={<Plus />}
-                        onClick={() => toast.warning('not implemented yet')}
-                    >
-                        Add Item
-                    </OwnButton>
-                }
+                headerAction={<AddForm criteria={items.data[0].criteria!} />}
+                // Using criteria from the first item since this only need the id, name, description, type, and max_value
             >
                 <div className="space-y-4">
                     <div className="flex w-full flex-col items-center justify-between space-y-2 md:flex-row md:space-y-0">
@@ -111,19 +93,7 @@ export default function Index({ items, total }: ItemsPageProps) {
                         </div>
                     </div>
 
-                    <DataTable
-                        columns={itemsColumns}
-                        data={items.data}
-                        onRowClick={handleEdit}
-                    />
-
-                    <DataTablePagination
-                        links={items.links}
-                        current_page={items.current_page}
-                        last_page={items.last_page}
-                        prev_page_url={items.prev_page_url}
-                        next_page_url={items.next_page_url}
-                    />
+                    <ItemsTable items={items} />
                 </div>
             </OwnPageContainer>
         </AppLayout>

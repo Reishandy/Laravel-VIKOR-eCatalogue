@@ -29,8 +29,7 @@ class ItemController extends Controller
             });
         }
 
-        $items = $query->orderBy('id', 'desc')
-            ->paginate(10);
+        $items = $query->with('criteria')->orderBy('id', 'desc')->paginate(10);
 
         return Inertia::render('items/index', [
             'items' => $items,
@@ -67,6 +66,7 @@ class ItemController extends Controller
         dd($request->all());
 
         // TODO: Check criteria and attach, also check max_value
+        // TODO: IF image null dont update image
     }
 
     /**
