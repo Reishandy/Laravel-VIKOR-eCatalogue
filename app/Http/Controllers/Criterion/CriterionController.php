@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Criterion\StoreCriterionRequest;
 use App\Http\Requests\Criterion\UpdateCriterionRequest;
 use App\Models\Criterion;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -46,19 +47,32 @@ CriterionController extends Controller
      */
     public function show(Criterion $criterion)
     {
-        //
+        // TODO
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCriterionRequest $request) // : RedirectResponse
+    public function store(StoreCriterionRequest $request): RedirectResponse
     {
-        //
-        dd($request->all());
+        try {
+            $criterion = Criterion::create([
+                'user_id' => auth()->id(),
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'max_value' => $request->is_infinite ? -1 : $request->max_value,
+            ]);
 
-        // TODO: Return redirect with flash message, also on error too so wrap in try catch
-        // TODO: IS infinite handling
+            return redirect()->route('criteria.index')->with('success', 'Criterion created successfully.')
+                ->with('description', $criterion->name . ' has been created.')
+                ->with('timestamp', now()->timestamp);
+        } catch (\Exception $exception) {
+            return redirect()->route('criteria.index')->with('error', 'Failed to create criterion.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+
+        }
     }
 
 
@@ -67,11 +81,23 @@ CriterionController extends Controller
      */
     public function update(UpdateCriterionRequest $request, Criterion $criterion)
     {
-        //
-        dd($request->all());
+        try {
+            $criterion->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'max_value' => $request->is_infinite ? -1 : $request->max_value,
+            ]);
 
-        // TODO: No edit price criterion by isPriceCriterion
-        // TODO: IS infinite handling
+            return redirect()->route('criteria.index')->with('success', 'Criterion updated successfully.')
+                ->with('description', $criterion->name . ' has been updated.')
+                ->with('timestamp', now()->timestamp);
+        } catch (\Exception $exception) {
+            return redirect()->route('criteria.index')->with('error', 'Failed to update criterion.')
+                ->with('description', $exception->getMessage())
+                ->with('timestamp', now()->timestamp);
+
+        }
     }
 
     /**
@@ -79,18 +105,22 @@ CriterionController extends Controller
      */
     public function destroy(Criterion $criterion)
     {
-        //
-        // dd($criterion);
-        // TODO: Remove testing throw an exception
         try {
-            throw new \Exception('Delete criterion not implemented yet.');
+            if ($criterion->isPriceCriterion()) {
+                return redirect()->route('criteria.index')->with('error', 'Cannot delete price criterion.')
+                    ->with('description', 'The price criterion is essential and cannot be deleted.')
+                    ->with('timestamp', now()->timestamp);
+            }
+
+            $criterion->delete();
+
+            return redirect()->route('criteria.index')->with('success', 'Criterion deleted successfully.')
+                ->with('description', $criterion->name . ' has been deleted.')
+                ->with('timestamp', now()->timestamp);
         } catch (\Exception $exception) {
             return redirect()->route('criteria.index')->with('error', 'Failed to delete criterion.')
                 ->with('description', $exception->getMessage())
                 ->with('timestamp', now()->timestamp);
         }
-
-
-        // TODO: No delete price criterion by isPriceCriterion
     }
 }
