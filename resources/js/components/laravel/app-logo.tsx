@@ -8,7 +8,6 @@ export default function AppLogo() {
         <>
             <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
                 <img
-                    // TODO: Fix src pathing
                     src={auth.user.logo ? auth.user.logo : '/favicon.svg'}
                     alt="Company Logo"
                     className="size-5 object-cover rounded-md"
