@@ -1,20 +1,21 @@
-import { FieldGroup, FieldSet } from '@/components/ui/field';
+import OwnCheckbox from '@/components/own/own-checkbox';
 import OwnInput from '@/components/own/own-input';
-import { Hash, Info, ListChecks } from 'lucide-react';
-import OwnTextarea from '@/components/own/own-textarea';
 import OwnSelect from '@/components/own/own-select';
+import OwnTextarea from '@/components/own/own-textarea';
+import { FieldGroup, FieldSet } from '@/components/ui/field';
 import {
     HoverCard,
     HoverCardContent,
     HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { CriterionForm } from '@/types';
+import { Hash, Info, ListChecks } from 'lucide-react';
 
 interface FormFieldProps {
     data: CriterionForm;
     setData: <K extends keyof CriterionForm>(
         field: K,
-        value: CriterionForm[K]
+        value: CriterionForm[K],
     ) => void;
     errors: Record<string, string>;
     processing: boolean;
@@ -90,18 +91,31 @@ export default function FormField({
                 <OwnInput
                     id="max_value"
                     label="Maximum Value"
-                    placeholder="0"
+                    placeholder="Maximum value"
                     autoComplete="criterion-max-value"
                     leadingElement={<Hash />}
                     type="number"
-                    value={data.max_value === 0 ? '' : data.max_value}
-                    onChange={(e) => {
-                        const value =
-                            e.target.value === '' ? 0 : Number(e.target.value);
-                        setData('max_value', value);
+                    value={data.max_value <= 0 ? '' : data.max_value}
+                    onChange={(e) => setData('max_value', Number(e.target.value))}
+                    disabled={processing || data.is_infinite}
+                    error={errors.max_value}
+                    min={1}
+                />
+
+                <OwnCheckbox
+                    id="is_infinite"
+                    label="Infinite Maximum Value"
+                    checked={data.is_infinite}
+                    onChange={(checked) => {
+                        setData('is_infinite', checked);
+                        if (checked) {
+                            setData('max_value', -1);
+                        } else {
+                            setData('max_value', 1);
+                        }
                     }}
                     disabled={processing}
-                    error={errors.max_value}
+                    error={errors.is_infinite}
                 />
             </FieldSet>
         </FieldGroup>

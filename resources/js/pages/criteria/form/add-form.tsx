@@ -15,6 +15,7 @@ export default function AddForm() {
             description: '',
             type: '',
             max_value: 0,
+            is_infinite: false
         });
 
     const submit: FormEventHandler = (e) => {

@@ -26,6 +26,7 @@ export default function EditForm({
             description: criterion.description,
             type: criterion.type,
             max_value: criterion.max_value,
+            is_infinite: criterion.max_value === -1
         });
 
     useEffect(() => {
@@ -34,6 +35,7 @@ export default function EditForm({
             description: criterion.description,
             type: criterion.type,
             max_value: criterion.max_value,
+            is_infinite: criterion.max_value === -1
         });
     }, [criterion, setData]);
 

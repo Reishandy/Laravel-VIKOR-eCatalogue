@@ -58,6 +58,7 @@ CriterionController extends Controller
         dd($request->all());
 
         // TODO: Return redirect with flash message, also on error too so wrap in try catch
+        // TODO: IS infinite handling
     }
 
 
@@ -70,6 +71,7 @@ CriterionController extends Controller
         dd($request->all());
 
         // TODO: No edit price criterion by isPriceCriterion
+        // TODO: IS infinite handling
     }
 
     /**

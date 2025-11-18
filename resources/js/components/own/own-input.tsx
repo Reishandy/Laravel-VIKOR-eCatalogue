@@ -32,6 +32,8 @@ interface OwnInputProps {
     isPassword?: boolean;
     className?: string;
     ref?: Ref<HTMLInputElement>;
+    min?: number;
+    max?: number;
 }
 
 export default function OwnInput({
@@ -52,7 +54,9 @@ export default function OwnInput({
     error,
     isPassword = false,
     className = '',
-    ref
+    ref,
+    min,
+    max,
 }: OwnInputProps) {
     const [showPassword, setShowPassword] = useState(false);
 
@@ -81,6 +85,8 @@ export default function OwnInput({
                     disabled={disabled}
                     aria-invalid={!!error}
                     ref={ref}
+                    min={min}
+                    max={max}
                     className={accept && 'cursor-pointer'}
                 />
 

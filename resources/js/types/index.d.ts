@@ -107,6 +107,7 @@ export interface CriterionForm {
     description: string;
     type: 'benefit' | 'cost' | '';
     max_value: number;
+    is_infinite: boolean;
 }
 
 export interface ItemForm {
