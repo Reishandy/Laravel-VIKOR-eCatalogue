@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
                 'company_email' => 'company@example.com',
                 'company_description' => 'An example company for seeding purposes.',
                 'company_address' => '123 Example St, Example City',
-                'locale' => 'en_US',
+                'currency' => 'USD',
                 'logo' => '../favicon.svg',
             ]
         );

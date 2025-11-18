@@ -27,7 +27,7 @@ class UpdateSetupRequest extends FormRequest
             'company_email' => 'required|email|max:255',
             'company_description' => 'required|string|max:1000',
             'company_address' => 'required|string|max:500',
-            'locale' => 'required|string',
+            'currency' => 'required|string',
             'logo' => ['nullable', File::image()->max(2024)], // 2MB max
         ];
     }

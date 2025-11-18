@@ -48,7 +48,7 @@ export interface User {
     company_email?: string;
     company_description?: string;
     company_address?: string;
-    locale?: string;
+    currency?: string;
     logo?: string;
     created_at: string;
     updated_at: string;
@@ -120,7 +120,6 @@ export interface CriterionForm {
 
 export interface DynamicField {
     id: number;
-    name: string;
     value: number;
 }
 

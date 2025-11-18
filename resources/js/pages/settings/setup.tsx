@@ -3,7 +3,7 @@ import OwnInput from '@/components/own/own-input';
 import OwnSelect from '@/components/own/own-select';
 import OwnTextarea from '@/components/own/own-textarea';
 import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
-import { useCommonLocaleOptions } from '@/hooks/use-locale';
+import { useCurrencyOptions } from '@/hooks/use-currency';
 import AuthLayout from '@/layouts/auth-layout';
 import { store } from '@/routes/setup';
 import { Head, useForm } from '@inertiajs/react';
@@ -16,11 +16,11 @@ interface SetupForm {
     company_description: string;
     company_address: string;
     logo: File | null;
-    locale: string;
+    currency: string;
 }
 
 export default function Setup() {
-    const localeOptions = useCommonLocaleOptions();
+    const currencyOptions = useCurrencyOptions();
     const { data, setData, post, processing, errors } = useForm<
         Required<SetupForm>
     >({
@@ -29,7 +29,7 @@ export default function Setup() {
         company_description: '',
         company_address: '',
         logo: null,
-        locale: 'en-US',
+        currency: '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -107,13 +107,14 @@ export default function Setup() {
                         />
 
                         <OwnSelect
-                            id="locale"
-                            label="Locale"
-                            value={data.locale}
-                            onChange={(value) => setData('locale', value)}
+                            id="currency"
+                            label="Currency"
+                            placeholder="Select your currency"
+                            value={data.currency}
+                            onChange={(value) => setData('currency', value)}
                             disabled={processing}
-                            error={errors.locale}
-                            options={localeOptions}
+                            error={errors.currency}
+                            options={currencyOptions}
                         />
 
                         <OwnInput

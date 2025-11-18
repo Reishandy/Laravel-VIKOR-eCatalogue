@@ -72,6 +72,6 @@ class SetupController extends Controller
 
         $request->user()->save();
 
-        return to_route('setup.edit');
+        return redirect()->route('setup.edit');
     }
 }

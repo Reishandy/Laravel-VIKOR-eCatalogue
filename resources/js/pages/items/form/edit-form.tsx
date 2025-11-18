@@ -27,7 +27,6 @@ export default function EditForm({
             image: null,
             fields: item.criteria!.map((field) => ({
                 id: field.id,
-                name: field.name,
                 value: field.pivot!.value,
             })),
         });
@@ -39,7 +38,6 @@ export default function EditForm({
             image: null,
             fields: item.criteria!.map((field) => ({
                 id: field.id,
-                name: field.name,
                 value: field.pivot!.value,
             })),
         });

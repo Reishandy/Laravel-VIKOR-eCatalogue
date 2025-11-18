@@ -3,7 +3,6 @@ import OwnInput from '@/components/own/own-input';
 import OwnSelect from '@/components/own/own-select';
 import OwnTextarea from '@/components/own/own-textarea';
 import { Field, FieldGroup, FieldSet } from '@/components/ui/field';
-import { useCommonLocaleOptions } from '@/hooks/use-locale';
 import { edit, update } from '@/routes/setup';
 import { Head, useForm, usePage } from '@inertiajs/react';
 import { ArrowDownToLine, Building, Image, Mail, MapPin } from 'lucide-react';
@@ -13,6 +12,7 @@ import { Transition } from '@headlessui/react';
 import HeadingSmall from '@/components/laravel/heading-small';
 import SettingsLayout from '@/layouts/settings/layout';
 import AppLayout from '@/layouts/app-layout';
+import { useCurrencyOptions } from '@/hooks/use-currency';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,13 +27,13 @@ interface SetupForm {
     company_description: string;
     company_address: string;
     logo: File | null;
-    locale: string;
+    currency: string;
 }
 
 export default function SetupEdit() {
     const { auth } = usePage<SharedData>().props;
 
-    const localeOptions = useCommonLocaleOptions();
+    const currencyOptions = useCurrencyOptions();
     const { data, setData, put, processing, errors, recentlySuccessful } =
         useForm<Required<SetupForm>>({
             company_name: auth.user.company_name || '',
@@ -41,7 +41,7 @@ export default function SetupEdit() {
             company_description: auth.user.company_description || '',
             company_address: auth.user.company_address || '',
             logo: null,
-            locale: auth.user.locale || '',
+            currency: auth.user.currency || '',
         });
 
     const submit: FormEventHandler = (e) => {
@@ -58,8 +58,8 @@ export default function SetupEdit() {
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
-                        title="Profile information"
-                        description="Update your name and email address"
+                        title="Company Information"
+                        description="Update your company's information and settings."
                     />
 
                     <FieldGroup className="flex flex-col gap-6">
@@ -129,15 +129,15 @@ export default function SetupEdit() {
                                 />
 
                                 <OwnSelect
-                                    id="locale"
-                                    label="Locale"
-                                    value={data.locale}
+                                    id="currency"
+                                    label="Currency"
+                                    value={data.currency}
                                     onChange={(value) =>
-                                        setData('locale', value)
+                                        setData('currency', value)
                                     }
                                     disabled={processing}
-                                    error={errors.locale}
-                                    options={localeOptions}
+                                    error={errors.currency}
+                                    options={currencyOptions}
                                 />
 
                                 <OwnInput

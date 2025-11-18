@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('company_email')->nullable();
             $table->string('company_description')->nullable();
             $table->string('company_address')->nullable();
-            $table->string('locale')->nullable(); // This could also be used to infer country and currency
+            $table->string('currency')->nullable();
             $table->string('logo')->nullable();
 
             $table->timestamps();
