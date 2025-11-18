@@ -33,7 +33,7 @@ export default function OwnCheckbox({
                     aria-invalid={!!error}
                     className="cursor-pointer transition-all duration-300 hover:scale-103 active:scale-95"
                 />
-                {label && <FieldLabel htmlFor={id}>{label}</FieldLabel>}
+                {label && <FieldLabel htmlFor={id} className="cursor-pointer">{label}</FieldLabel>}
             </div>
 
             {description && <FieldDescription className={error && '-mb-2'}>{description}</FieldDescription>}
