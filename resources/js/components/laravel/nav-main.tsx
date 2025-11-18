@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { resolveUrl } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
+import { index as itemsIndex } from '@/routes/items';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
@@ -25,6 +26,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             <Link
                                 href={resolveUrl(item.href)}
                                 prefetch={['mount', 'hover']}
+                                cacheTags={itemsIndex().url}
                                 onClick={() => handleClick(resolveUrl(item.href))}
                             >
                                 {loadingHref === item.href ? <Spinner /> : item.icon && <item.icon />}

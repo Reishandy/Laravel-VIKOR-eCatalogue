@@ -1,7 +1,12 @@
 import { Item } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { SquarePen, Trash } from 'lucide-react';
+import { SquarePen, Trash, TriangleAlert } from 'lucide-react';
 import { useMemo } from 'react';
+import {
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
+} from '@/components/ui/hover-card';
 
 interface ItemsColumnProps {
     handleEdit: (item: Item) => void;
@@ -34,7 +39,7 @@ export function useItemsColumn({ handleEdit, handleDelete }: ItemsColumnProps) {
                 cell: ({ row }) => {
                     const imageUrl = row.getValue('image') as string;
                     return (
-                        <div className=" w-20 flex justify-center">
+                        <div className="flex w-20 justify-center">
                             {imageUrl ? (
                                 <div className="size-20 overflow-hidden rounded-lg border">
                                     <img
@@ -61,9 +66,32 @@ export function useItemsColumn({ handleEdit, handleDelete }: ItemsColumnProps) {
                     </div>
                 ),
                 cell: ({ row }) => {
+                    // Check if any of the criteria have a pivot value of 0 or undefined
+                    const criteria = row.original.criteria || [];
+                    const hasUnsetCriterion = criteria.some(
+                        (criterion) =>
+                            !criterion.pivot || criterion.pivot.value === 0,
+                    );
+
                     return (
-                        <div className="line-clamp-2 w-30 text-start font-medium text-wrap overflow-ellipsis">
-                            {row.getValue('name')}
+                        <div className="flex flex-row items-center space-x-2">
+                            {hasUnsetCriterion && (
+                                // THis is not updating when switching pages
+                                <HoverCard>
+                                    <HoverCardTrigger>
+                                        <TriangleAlert className="size-5 text-destructive transition-all duration-300 hover:scale-105" />
+                                    </HoverCardTrigger>
+                                    <HoverCardContent className="bg-destructive text-sm">
+                                        There is an unset criterion value for
+                                        this item, please edit the item to set
+                                        it.
+                                    </HoverCardContent>
+                                </HoverCard>
+                            )}
+
+                            <div className="line-clamp-2 w-30 text-start font-medium text-wrap overflow-ellipsis">
+                                {row.getValue('name')}
+                            </div>
                         </div>
                     );
                 },

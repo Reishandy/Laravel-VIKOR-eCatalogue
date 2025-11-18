@@ -1,11 +1,11 @@
 import OwnButton from '@/components/own/own-button';
 import OwnDialog from '@/components/own/own-dialog';
+import FormField from '@/pages/items/form/form-field';
 import { update } from '@/routes/items';
 import { Item, ItemForm } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { ArrowDownToLine, Trash2 } from 'lucide-react';
 import { FormEventHandler, useEffect } from 'react';
-import FormField from '@/pages/items/form/form-field';
 
 interface EditFormProp {
     item: Item;
@@ -25,10 +25,11 @@ export default function EditForm({
             name: item.name,
             description: item.description || '',
             image: null,
-            fields: item.criteria?.map((field) => ({
-                id: field.id,
-                value: field.pivot!.value,
-            })) || [],
+            fields:
+                item.criteria?.map((field) => ({
+                    id: field.id,
+                    value: field.pivot!.value,
+                })) || [],
             remove_image: false,
         });
 
@@ -37,10 +38,11 @@ export default function EditForm({
             name: item.name,
             description: item.description || '',
             image: null,
-            fields: item.criteria?.map((field) => ({
-                id: field.id,
-                value: field.pivot!.value,
-            })) || [],
+            fields:
+                item.criteria?.map((field) => ({
+                    id: field.id,
+                    value: field.pivot!.value,
+                })) || [],
             remove_image: false,
         });
     }, [item, setData]);
@@ -57,12 +59,27 @@ export default function EditForm({
         });
     };
 
+    const hasUnsetCriterion = item.criteria?.some(
+        (criterion) => !criterion.pivot || criterion.pivot.value === 0,
+    );
+
     return (
         <OwnDialog
             open={open}
             onOpenChange={setOpen}
             dialogTitle={`Edit "${item.name}"`}
-            dialogDescription="Modify the details of the item below."
+            dialogDescription={
+                <div>
+                    Modify the details of the item below.
+                    {hasUnsetCriterion && (
+                        <p className="mt-2 text-sm text-destructive">
+                            Some criteria have not been set or have a
+                            value of 0. Please ensure all criteria are properly
+                            configured.
+                        </p>
+                    )}
+                </div>
+            }
             dialogFooter={
                 <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                     <OwnButton
@@ -84,13 +101,13 @@ export default function EditForm({
             }
             isLong={true}
             onCancel={() => {
-                clearErrors()
-                reset()
+                clearErrors();
+                reset();
                 setOpen(false);
             }}
         >
             <FormField
-                criteria={item.criteria??[]}
+                criteria={item.criteria ?? []}
                 data={data}
                 setData={setData}
                 errors={errors}

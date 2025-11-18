@@ -1,10 +1,11 @@
-import { useItemsColumn } from '@/components/column/items-column';
+import { useItemsColumn } from '@/pages/items/column/items-column';
 import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import DeleteForm from '@/pages/items/form/delete-form';
-import { Item, ItemsResponse } from '@/types';
-import { useState } from 'react';
+import { Criterion, Item, ItemsResponse, SharedData } from '@/types';
+import { useEffect, useState } from 'react';
 import EditForm from '@/pages/items/form/edit-form';
+import { usePage } from '@inertiajs/react';
 
 interface ItemsTableProps {
     items: ItemsResponse;
@@ -30,8 +31,6 @@ export function ItemsTable({ items }: ItemsTableProps) {
     };
 
     const itemsColumns = useItemsColumn({ handleEdit, handleDelete });
-
-    // TODO: If criterion value is 0 then add warning icon in the row and hover
 
     return (
         <div className="space-y-4">

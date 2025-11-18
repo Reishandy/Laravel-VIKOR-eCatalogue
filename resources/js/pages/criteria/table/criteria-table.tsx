@@ -1,4 +1,4 @@
-import { useCriteriaColumn } from '@/components/column/criteria-column';
+import { useCriteriaColumn } from '@/pages/criteria/column/criteria-column';
 import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import DeleteForm from '@/pages/criteria/form/delete-form';

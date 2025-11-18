@@ -5,6 +5,7 @@ import { useForm } from '@inertiajs/react';
 import { Trash2 } from 'lucide-react';
 import { FormEventHandler } from 'react';
 import { Criterion } from '@/types';
+import { index as itemsIndex } from '@/routes/items';
 
 interface DeleteFormProps {
     criterion: Criterion;
@@ -25,7 +26,8 @@ export default function DeleteForm({
             preserveScroll: true,
             onSuccess: () => {
                 setOpen(false);
-            }
+            },
+            invalidateCacheTags: [itemsIndex().url], // Invalidate items index cache for unset criteria warning
         });
     };
 

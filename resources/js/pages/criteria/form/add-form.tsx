@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 import FormField from '@/pages/criteria/form/form-field';
 import { CriterionForm } from '@/types';
+import { index as itemsIndex } from '@/routes/items';
 
 export default function AddForm() {
     const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ export default function AddForm() {
                 clearErrors();
                 setOpen(false);
             },
+            invalidateCacheTags: [itemsIndex().url], // Invalidate items index cache for unset criteria warning
         });
     };
 
