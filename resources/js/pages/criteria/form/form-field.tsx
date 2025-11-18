@@ -19,6 +19,7 @@ interface FormFieldProps {
     ) => void;
     errors: Record<string, string>;
     processing: boolean;
+    isEdit?: boolean;
 }
 
 export default function FormField({
@@ -26,6 +27,7 @@ export default function FormField({
     setData,
     errors,
     processing,
+    isEdit = false,
 }: FormFieldProps) {
     return (
         <FieldGroup>
@@ -98,6 +100,7 @@ export default function FormField({
                     value={data.max_value <= 0 ? '' : data.max_value}
                     onChange={(e) => setData('max_value', Number(e.target.value))}
                     disabled={processing || data.is_infinite}
+                    description={isEdit ? 'Reducing this value will automatically cap any existing item values that exceed the new maximum.' : ''}
                     error={errors.max_value}
                     min={1}
                 />

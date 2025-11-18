@@ -28,16 +28,17 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Create default price criterion
-        $user->criteria()->create([
-            'name' => 'Price',
-            'description' => 'Price of the item',
-            'type' => 'cost',
-            'max_value' => -1, // Unlimited
-        ]);
-
-        // Create default criteria that every multi-criteria system should have
-        $defaultCriteria = [
+        // Create ALL criteria including the price criterion
+        $allCriteria = collect([
+            // Price criterion
+            [
+                'user_id' => $user->id,
+                'name' => 'Price',
+                'description' => 'Price of the item',
+                'type' => 'cost',
+                'max_value' => -1, // Unlimited
+            ],
+            // Default criteria
             [
                 'user_id' => $user->id,
                 'name' => 'Quality',
@@ -59,19 +60,21 @@ class DatabaseSeeder extends Seeder
                 'type' => 'benefit',
                 'max_value' => 10,
             ]
-        ];
+        ]);
 
-        $criteria = collect();
-        foreach ($defaultCriteria as $criterionData) {
-            $criteria->push(Criterion::create($criterionData));
-        }
+        // Create the criteria and get the collection
+        $criteria = $allCriteria->map(function ($criterionData) {
+            return Criterion::create($criterionData);
+        });
 
-        // Add 6 more random criteria
+        // Add 6 more random criteria and merge them
         $randomCriteria = Criterion::factory(6)->forUser($user->id)->create();
         $allCriteria = $criteria->merge($randomCriteria);
 
+        // Create items
         $items = Item::factory(50)->forUser($user->id)->create();
 
+        // Attach ALL criteria (including Price) to ALL items
         $attachments = [];
         foreach ($items as $item) {
             foreach ($allCriteria as $criterion) {
@@ -84,15 +87,25 @@ class DatabaseSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
+
+                // Insert in chunks to avoid memory issues with large datasets
+                if (count($attachments) >= 1000) {
+                    DB::table('criterion_item')->insert($attachments);
+                    $attachments = [];
+                }
             }
         }
 
-        DB::table('criterion_item')->insert($attachments);
+        // Insert any remaining attachments
+        if (!empty($attachments)) {
+            DB::table('criterion_item')->insert($attachments);
+        }
     }
 
     private function generateMostRealisticValue(Criterion $criterion, Item $item): int
     {
-        $max = $criterion->max_value ?: 10;
+        // Handle infinite max_value for Price criterion
+        $max = $criterion->max_value === -1 ? 1000 : ($criterion->max_value ?: 10);
 
         return match ($criterion->name) {
             'Price' => $this->generateRealisticPrice($max, $item),

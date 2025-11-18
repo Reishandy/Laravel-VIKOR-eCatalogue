@@ -82,6 +82,7 @@ export default function EditForm({
                 setData={setData}
                 errors={errors}
                 processing={processing}
+                isEdit={true}
             />
         </OwnDialog>
     );
