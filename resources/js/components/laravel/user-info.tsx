@@ -11,6 +11,7 @@ export function UserInfo({
 }) {
     const getInitials = useInitials();
 
+    // TODO: Fix src pathing
     return (
         <>
             <Avatar className="h-8 w-8 overflow-hidden rounded-full">

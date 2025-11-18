@@ -34,7 +34,7 @@ export default function SetupEdit() {
     const { auth } = usePage<SharedData>().props;
 
     const currencyOptions = useCurrencyOptions();
-    const { data, setData, put, processing, errors, recentlySuccessful } =
+    const { data, setData, post, processing, errors, recentlySuccessful } =
         useForm<Required<SetupForm>>({
             company_name: auth.user.company_name || '',
             company_email: auth.user.company_email || '',
@@ -46,7 +46,7 @@ export default function SetupEdit() {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        put(update().url, {
+        post(update().url, {
             preserveScroll: true,
         });
     };

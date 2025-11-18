@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Item;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Item\UpdateItemRequest;
+use App\Models\Criterion;
 use App\Models\Item;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -30,9 +31,11 @@ class ItemController extends Controller
         }
 
         $items = $query->with('criteria')->orderBy('id', 'desc')->paginate(10);
+        $criteria = Criterion::all();
 
         return Inertia::render('items/index', [
             'items' => $items,
+            'criteria' => $criteria,
             'total' => $total,
         ]);
     }

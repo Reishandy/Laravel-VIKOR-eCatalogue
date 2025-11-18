@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/app-layout';
 import AddForm from '@/pages/items/form/add-form';
 import { ItemsTable } from '@/pages/items/table/items-table';
 import { index } from '@/routes/items';
-import { type BreadcrumbItem, Flash, ItemsResponse } from '@/types';
+import { type BreadcrumbItem, Criterion, Flash, ItemsResponse } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { Search } from 'lucide-react';
@@ -21,12 +21,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface ItemsPageProps {
     flash: Flash;
     items: ItemsResponse;
+    criteria: Criterion[];
     total: number;
 
     [key: string]: unknown;
 }
 
-export default function Index({ items, total }: ItemsPageProps) {
+export default function Index({ items, criteria, total }: ItemsPageProps) {
     const { flash } = usePage<ItemsPageProps>().props;
     const [searchParam, setSearchParam] = useState<string | undefined>(
         undefined,
@@ -72,8 +73,7 @@ export default function Index({ items, total }: ItemsPageProps) {
             <OwnPageContainer
                 title="Items"
                 description="Manage your items."
-                headerAction={<AddForm criteria={items.data[0].criteria!} />}
-                // Using criteria from the first item since this only need the id, name, description, type, and max_value
+                headerAction={<AddForm criteria={criteria} />}
             >
                 <div className="space-y-4">
                     <div className="flex w-full flex-col items-center justify-between space-y-2 md:flex-row md:space-y-0">

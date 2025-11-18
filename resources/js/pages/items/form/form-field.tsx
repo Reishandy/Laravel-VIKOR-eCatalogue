@@ -7,10 +7,10 @@ import {
     FieldSeparator,
     FieldSet,
 } from '@/components/ui/field';
-import { Criterion, ItemForm, SharedData } from '@/types';
-import { Image, ListChecks } from 'lucide-react';
 import { useCurrencySymbol } from '@/hooks/use-currency';
+import { Criterion, ItemForm, SharedData } from '@/types';
 import { usePage } from '@inertiajs/react';
+import { Image, ListChecks } from 'lucide-react';
 
 interface FormFieldProps {
     criteria: Criterion[];
@@ -31,6 +31,13 @@ export default function FormField({
 }: FormFieldProps) {
     const { auth } = usePage<SharedData>().props;
     const currencySymbol = useCurrencySymbol(auth.user?.currency ?? 'USD');
+
+    const updateField = (id: number, value: number) => {
+        const updatedFields = data.fields.map((f) =>
+            f.id === id ? { ...f, value } : f,
+        );
+        setData('fields', updatedFields);
+    };
 
     // TODO: 2 side by side for larger screens?
     return (
@@ -83,66 +90,55 @@ export default function FormField({
                     type="number"
                     placeholder="Enter Item Price"
                     leadingElement={currencySymbol}
+                    trailingElement={auth.user.currency}
                     value={
-                        data.fields.find((f) => f.id === 1)
-                            ? String(data.fields.find((f) => f.id === 1)!.value)
+                        data.fields.find((f) => f.id === 1)?.value !== undefined
+                            ? data.fields.find((f) => f.id === 1)!.value.toString()
                             : ''
                     }
-                    onChange={(e) => {
-                        const updatedFields = data.fields.map((f) =>
-                            f.id === 1
-                                ? { ...f, value: Number(e.target.value) }
-                                : f,
-                        );
-                        setData('fields', updatedFields);
-                    }}
+                    onChange={(e) => updateField(1, Number(e.target.value))}
                     disabled={processing}
                     error={errors['fields.1'] || ''}
                 />
             </FieldSet>
 
-            <FieldSeparator />
+            {(criteria.length > 1) && (
+                <FieldSet>
+                    <FieldSeparator />
+                    <FieldLegend>Fields</FieldLegend>
+                    <FieldDescription>
+                        Additional dynamic item fields
+                    </FieldDescription>
 
-            <FieldSet>
-                <FieldLegend>Fields</FieldLegend>
-                <FieldDescription>Additional dynamic item fields</FieldDescription>
+                    {/*  TODO: Add warning if value is 0 to indicate new unset criterion  */}
+                    {criteria
+                        .filter((criterion) => criterion.id !== 1) // Exclude price field (id 1)
+                        .map((criterion) => {
+                            const field = data.fields.find(
+                                (f) => f.id === criterion.id,
+                            );
 
-                {/*  TODO: Add warning if value is 0 to indicate new unset criterion  */}
-                {criteria
-                    .filter((criterion) => criterion.id !== 1) // Exclude price field (id 1)
-                    .map((criterion) => {
-                        const field = data.fields.find(
-                            (f) => f.id === criterion.id,
-                        );
-
-                        return (
-                            <OwnInput
-                                key={criterion.id}
-                                id={`criterion-${criterion.id}`}
-                                label={criterion.name}
-                                type="number"
-                                placeholder={`Enter ${criterion.name} value`}
-                                value={field ? String(field.value) : ''}
-                                onChange={(e) => {
-                                    const updatedFields = data.fields.map(
-                                        (f) =>
-                                            f.id === criterion.id
-                                                ? {
-                                                      ...f,
-                                                      value: Number(
-                                                          e.target.value,
-                                                      ),
-                                                  }
-                                                : f,
-                                    );
-                                    setData('fields', updatedFields);
-                                }}
-                                disabled={processing}
-                                error={errors[`fields.${criterion.id}`] || ''}
-                            />
-                        );
-                    })}
-            </FieldSet>
+                            return (
+                                <OwnInput
+                                    key={criterion.id}
+                                    id={`criterion-${criterion.id}`}
+                                    label={criterion.name}
+                                    type="number"
+                                    placeholder={`Enter ${criterion.name} value`}
+                                    trailingElement={`/ ${criterion.max_value}`}
+                                    value={field ? String(field.value) : ''}
+                                    onChange={(e) => {
+                                        updateField(criterion.id, Number(e.target.value));
+                                    }}
+                                    disabled={processing}
+                                    error={
+                                        errors[`fields.${criterion.id}`] || ''
+                                    }
+                                />
+                            );
+                        })}
+                </FieldSet>
+            )}
         </FieldGroup>
     );
 }

@@ -30,5 +30,5 @@ Route::middleware('auth')->group(function () {
     Route::get('setup', [SetupController::class, 'index'])->name('setup.index');
     Route::get('settings/company', [SetupController::class, 'edit'])->name('setup.edit');
     Route::post('setup', [SetupController::class, 'store'])->name('setup.store');
-    Route::put('settings/company', [SetupController::class, 'update'])->name('setup.update');
+    Route::post('settings/company', [SetupController::class, 'update'])->name('setup.update');
 });

@@ -25,10 +25,10 @@ export default function EditForm({
             name: item.name,
             description: item.description,
             image: null,
-            fields: item.criteria!.map((field) => ({
+            fields: item.criteria?.map((field) => ({
                 id: field.id,
                 value: field.pivot!.value,
-            })),
+            })) || [],
         });
 
     useEffect(() => {
@@ -36,10 +36,10 @@ export default function EditForm({
             name: item.name,
             description: item.description,
             image: null,
-            fields: item.criteria!.map((field) => ({
+            fields: item.criteria?.map((field) => ({
                 id: field.id,
                 value: field.pivot!.value,
-            })),
+            })) || [],
         });
     }, [item, setData]);
 
@@ -82,7 +82,7 @@ export default function EditForm({
             }
         >
             <FormField
-                criteria={item.criteria!}
+                criteria={item.criteria??[]}
                 data={data}
                 setData={setData}
                 errors={errors}
