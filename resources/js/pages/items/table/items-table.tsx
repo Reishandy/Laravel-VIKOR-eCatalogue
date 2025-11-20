@@ -51,6 +51,7 @@ export function ItemsTable({ items }: ItemsTableProps) {
             {selectedItem && (
                 <div>
                     <EditForm
+                        key={selectedItem.id}
                         item={selectedItem}
                         open={editDialogOpen}
                         setOpen={setEditDialogOpen}
@@ -61,6 +62,7 @@ export function ItemsTable({ items }: ItemsTableProps) {
                     />
 
                     <DeleteForm
+                        key={selectedItem.id}
                         item={selectedItem}
                         open={deleteDialogOpen}
                         setOpen={setDeleteDialogOpen}

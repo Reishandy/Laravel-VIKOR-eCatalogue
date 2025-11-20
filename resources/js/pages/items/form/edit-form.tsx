@@ -33,20 +33,6 @@ export default function EditForm({
             remove_image: false,
         });
 
-    useEffect(() => {
-        setData({
-            name: item.name,
-            description: item.description || '',
-            image: null,
-            fields:
-                item.criteria?.map((field) => ({
-                    id: field.id,
-                    value: field.pivot!.value,
-                })) || [],
-            remove_image: false,
-        });
-    }, [item, setData]);
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(update(item.id).url, {

@@ -60,6 +60,7 @@ export function CriteriaTable({ criteria }: CriteriaTableProps) {
             {selectedCriterion && (
                 <div>
                     <EditForm
+                        key={selectedCriterion.id}
                         criterion={selectedCriterion}
                         open={editDialogOpen}
                         setOpen={setEditDialogOpen}
@@ -70,6 +71,7 @@ export function CriteriaTable({ criteria }: CriteriaTableProps) {
                     />
 
                     <DeleteForm
+                        key={selectedCriterion.id}
                         criterion={selectedCriterion}
                         open={deleteDialogOpen}
                         setOpen={setDeleteDialogOpen}

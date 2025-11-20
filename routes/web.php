@@ -35,14 +35,13 @@ require __DIR__ . '/settings.php';
 //  - Price should be by default exist and cant be removed and follow the locale currency (create this in setup registration)
 //  - Also all date should follow locale date format
 //  - I
-//  - Add warning to the items that there is field missing
 //  - Make the logo use default but after the user upload change all logos to the user logo even in favicon
 //  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
 //  - Add favicon and such
 //  - Add meta tags for SEO and related
-//  - Add hover / popover info for criterion types in table, create/edit forms, and item create/edit forms?
 //  - Add db index
 //  - Compress images on upload?
+//  - Make sure that company logo is shown in the public routes
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc

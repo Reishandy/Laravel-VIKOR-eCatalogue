@@ -29,16 +29,6 @@ export default function EditForm({
             is_infinite: criterion.max_value === -1
         });
 
-    useEffect(() => {
-        setData({
-            name: criterion.name,
-            description: criterion.description || '',
-            type: criterion.type,
-            max_value: criterion.max_value,
-            is_infinite: criterion.max_value === -1
-        });
-    }, [criterion, setData]);
-
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         put(update(criterion.id).url, {
