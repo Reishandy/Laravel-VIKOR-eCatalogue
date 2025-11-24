@@ -108,6 +108,20 @@ export function useCriteriaColumn({
                 },
             },
             {
+                id: 'unit',
+                accessorKey: 'unit',
+                header: () => (
+                    <div className="text-center font-extrabold">Unit</div>
+                ),
+                cell: ({ row }) => {
+                    return (
+                        <div className="text-center">
+                            {row.getValue('unit') || '-'}
+                        </div>
+                    );
+                },
+            },
+            {
                 id: 'actions',
                 cell: ({ row }) => {
                     const isPriceCriterion =

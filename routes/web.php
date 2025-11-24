@@ -42,6 +42,7 @@ require __DIR__ . '/settings.php';
 //  - Add db index
 //  - Compress images on upload?
 //  - Make sure that company logo is shown in the public routes
+//  - Make the help for criterion type clickable on mobile
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc

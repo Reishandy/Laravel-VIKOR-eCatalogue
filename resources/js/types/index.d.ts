@@ -65,6 +65,7 @@ export interface Criterion {
     id: number;
     name: string;
     description?: string;
+    unit?: string;
     type: 'benefit' | 'cost';
     max_value: number;
     pivot?: Pivot;
@@ -113,6 +114,7 @@ export interface ItemsResponse {
 export interface CriterionForm {
     name: string;
     description: string;
+    unit: string;
     type: 'benefit' | 'cost' | '';
     max_value: number;
     is_infinite: boolean;

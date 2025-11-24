@@ -14,6 +14,7 @@ export default function AddForm() {
         useForm<Required<CriterionForm>>({
             name: '',
             description: '',
+            unit: '',
             type: '',
             max_value: 0,
             is_infinite: false

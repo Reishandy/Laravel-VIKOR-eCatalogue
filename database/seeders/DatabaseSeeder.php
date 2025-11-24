@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'name' => 'Quality',
                 'description' => 'Build quality and materials',
+                'unit' => null,
                 'type' => 'benefit',
                 'max_value' => 10,
             ],
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'name' => 'Features',
                 'description' => 'Number of available features',
+                'unit' => 'Features',
                 'type' => 'benefit',
                 'max_value' => 10,
             ],
@@ -57,6 +59,7 @@ class DatabaseSeeder extends Seeder
                 'user_id' => $user->id,
                 'name' => 'Durability',
                 'description' => 'Expected lifespan and robustness',
+                'unit' => null,
                 'type' => 'benefit',
                 'max_value' => 10,
             ]

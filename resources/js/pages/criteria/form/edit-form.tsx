@@ -4,7 +4,7 @@ import { update } from '@/routes/criteria';
 import { Criterion, CriterionForm } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { ArrowDownToLine, Trash2 } from 'lucide-react';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler } from 'react';
 import FormField from '@/pages/criteria/form/form-field';
 
 interface EditFormProp {
@@ -24,9 +24,10 @@ export default function EditForm({
         useForm<Required<CriterionForm>>({
             name: criterion.name,
             description: criterion.description || '',
+            unit: criterion.unit || '',
             type: criterion.type,
             max_value: criterion.max_value,
-            is_infinite: criterion.max_value === -1
+            is_infinite: criterion.max_value === -1,
         });
 
     const submit: FormEventHandler = (e) => {
@@ -67,8 +68,8 @@ export default function EditForm({
                 </div>
             }
             onCancel={() => {
-                clearErrors()
-                reset()
+                clearErrors();
+                reset();
                 setOpen(false);
             }}
         >

@@ -29,6 +29,7 @@ CriterionController extends Controller
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('unit', 'like', "%{$search}%")
                     ->orWhere('type', 'like', "%{$search}%");
             });
         }
@@ -61,6 +62,7 @@ CriterionController extends Controller
                 'user_id' => auth()->id(),
                 'name' => $request->name,
                 'description' => $request->description,
+                'unit' => $request->unit,
                 'type' => $request->type,
                 'max_value' => $request->is_infinite ? -1 : $request->max_value,
             ]);
@@ -105,6 +107,7 @@ CriterionController extends Controller
             $criterion->update([
                 'name' => $request->name,
                 'description' => $request->description,
+                'unit' => $request->unit,
                 'type' => $request->type,
                 'max_value' => $request->is_infinite ? -1 : $request->max_value,
             ]);

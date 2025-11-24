@@ -24,6 +24,7 @@ class UpdateCriterionRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'unit' => 'nullable|string|max:50',
             'type' => 'required|string|in:benefit,cost',
             'max_value' => [
                 'required',
@@ -51,6 +52,9 @@ class UpdateCriterionRequest extends FormRequest
             'name.max' => 'Name must not exceed 255 characters.',
 
             'description.string' => 'Description must be a string.',
+
+            'unit.string' => 'Unit must be a string.',
+            'unit.max' => 'Unit must not exceed 50 characters.',
 
             'type.required' => 'Type is required.',
             'type.string' => 'Type must be a string.',

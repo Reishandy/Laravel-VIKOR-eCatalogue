@@ -20,6 +20,7 @@ class CriterionFactory extends Factory
             'user_id' => 1, // Assuming criteria are created for the only user in tests
             'name' => $this->faker->word(),
             'description' => $this->faker->sentence(),
+            'unit' => $this->faker->randomElement(['kg', 'm', 'pcs', 'hours', null]), // Just some example units
             'type' => $this->faker->randomElement(['cost', 'benefit']),
             'max_value' => $this->faker->randomFloat(2, 1, 1000),
         ];

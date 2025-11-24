@@ -37,7 +37,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => $input['password'],
         ]);
 
-        // Create default price criterion
+        // Create default price criterion, no need for unit since it's implicit
         $user->criteria()->create([
             'name' => 'Price',
             'description' => 'Price of the item',

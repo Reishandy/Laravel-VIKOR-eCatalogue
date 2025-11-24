@@ -14,6 +14,7 @@ class Criterion extends Model
         'user_id',
         'name',
         'description',
+        'unit',
         'type',
         'max_value',
     ];

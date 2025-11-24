@@ -9,7 +9,7 @@ import {
     HoverCardTrigger,
 } from '@/components/ui/hover-card';
 import { CriterionForm } from '@/types';
-import { Hash, Info, ListChecks } from 'lucide-react';
+import { Hash, Info, ListChecks, PencilRuler } from 'lucide-react';
 
 interface FormFieldProps {
     data: CriterionForm;
@@ -53,6 +53,18 @@ export default function FormField({
                     onChange={(e) => setData('description', e.target.value)}
                     disabled={processing}
                     error={errors.description}
+                />
+
+                <OwnInput
+                    id="unit"
+                    label="Criterion Unit"
+                    placeholder="Criterion unit"
+                    autoComplete="criterion-unit"
+                    leadingElement={<PencilRuler />}
+                    value={data.unit}
+                    onChange={(e) => setData('unit', e.target.value)}
+                    disabled={processing}
+                    error={errors.unit}
                 />
 
                 <OwnSelect
