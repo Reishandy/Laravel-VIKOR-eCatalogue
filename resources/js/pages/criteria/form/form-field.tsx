@@ -3,13 +3,9 @@ import OwnInput from '@/components/own/own-input';
 import OwnSelect from '@/components/own/own-select';
 import OwnTextarea from '@/components/own/own-textarea';
 import { FieldGroup, FieldSet } from '@/components/ui/field';
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-} from '@/components/ui/hover-card';
 import { CriterionForm } from '@/types';
 import { Hash, Info, ListChecks, PencilRuler } from 'lucide-react';
+import OwnPopover from '@/components/own/own-popover';
 
 interface FormFieldProps {
     data: CriterionForm;
@@ -82,11 +78,12 @@ export default function FormField({
                         { label: 'Cost', value: 'cost' },
                     ]}
                     help={
-                        <HoverCard>
-                            <HoverCardTrigger>
+                        <OwnPopover
+                            trigger={
                                 <Info className="size-4 cursor-help transition-all duration-300 hover:scale-105" />
-                            </HoverCardTrigger>
-                            <HoverCardContent>
+                            }
+                        >
+                            <div className="space-y-2">
                                 <p className="text-sm">
                                     <span className="font-extrabold">
                                         Benefit
@@ -97,8 +94,8 @@ export default function FormField({
                                     <span className="font-extrabold">Cost</span>
                                     : Lower values are better.
                                 </p>
-                            </HoverCardContent>
-                        </HoverCard>
+                            </div>
+                        </OwnPopover>
                     }
                 />
 
@@ -110,9 +107,15 @@ export default function FormField({
                     leadingElement={<Hash />}
                     type="number"
                     value={data.max_value <= 0 ? '' : data.max_value}
-                    onChange={(e) => setData('max_value', Number(e.target.value))}
+                    onChange={(e) =>
+                        setData('max_value', Number(e.target.value))
+                    }
                     disabled={processing || data.is_infinite}
-                    description={isEdit ? 'Reducing this value will automatically cap any existing item values that exceed the new maximum.' : ''}
+                    description={
+                        isEdit
+                            ? 'Reducing this value will automatically cap any existing item values that exceed the new maximum.'
+                            : ''
+                    }
                     error={errors.max_value}
                     min={1}
                 />

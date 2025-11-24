@@ -10,9 +10,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard'); // TODO: Remove dashboard?
+    // Please excuse this, I'm to lazy to change it everywhere (◡ ‿ ◡ ✿)
+    Route::redirect('dashboard', '/items')->name('dashboard');
 
     Route::get('/criteria', [CriterionController::class, 'index'])->name('criteria.index');
     Route::get('/criteria/{criterion}', [CriterionController::class, 'show'])->name('criteria.show');
@@ -37,12 +36,10 @@ require __DIR__ . '/settings.php';
 //  - I
 //  - Make the logo use default but after the user upload change all logos to the user logo even in favicon
 //  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
-//  - Add favicon and such
 //  - Add meta tags for SEO and related
 //  - Add db index
 //  - Compress images on upload?
 //  - Make sure that company logo is shown in the public routes
-//  - Make the help for criterion type clickable on mobile
 //  - I
 //  - Obfuscate protected routes URLs?
 //  - Performance optimizations UI/UX like prefetching, lazy loading, etc

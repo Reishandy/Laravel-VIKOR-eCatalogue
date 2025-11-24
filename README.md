@@ -69,6 +69,8 @@ TODO: also add the better ux like prefetch, optimistic ui, etc
    php artisan serve
    ```
    
+TODO: continue step with deployment, register admin, etc
+
 ## License
 
 Rei's eCatalogue is open-source software licensed under the [GNU Affero General Public License v3.0](LICENSE).

@@ -6,11 +6,11 @@ export default function AppLogo() {
 
     return (
         <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
+            <div className="flex aspect-square size-8 items-center justify-center rounded-md">
                 <img
                     src={auth.user.logo ? auth.user.logo : '/favicon.svg'}
                     alt="Company Logo"
-                    className="size-5 object-cover rounded-md"
+                    className="size-6 object-cover rounded-md"
                 />
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">

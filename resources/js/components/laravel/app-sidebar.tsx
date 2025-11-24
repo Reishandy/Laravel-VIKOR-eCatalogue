@@ -15,30 +15,19 @@ import { index as criteriaIndex } from '@/routes/criteria';
 import { index as itemsIndex } from '@/routes/items';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import {
-    ExternalLink,
-    Github,
-    LayoutGrid,
-    ListChecks,
-    Package,
-} from 'lucide-react';
+import { ExternalLink, Github, ListChecks, Package } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard().url,
-        icon: LayoutGrid,
+        title: 'Items',
+        href: itemsIndex().url,
+        icon: Package,
     },
     {
         title: 'Criteria',
         href: criteriaIndex().url,
         icon: ListChecks,
-    },
-    {
-        title: 'Items',
-        href: itemsIndex().url,
-        icon: Package,
     },
 ];
 
@@ -52,7 +41,7 @@ const footerNavItems: NavItem[] = [
         title: 'Public Page',
         href: '/',
         icon: ExternalLink,
-    }
+    },
 ];
 
 export function AppSidebar() {
@@ -62,7 +51,10 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch={['mount', 'hover']}>
+                            <Link
+                                href={dashboard()}
+                                prefetch={['mount', 'hover']}
+                            >
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
