@@ -5,14 +5,21 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\StoreSetupRequest;
 use App\Http\Requests\Settings\UpdateSetupRequest;
+use App\Services\ImageStorageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class SetupController extends Controller
 {
+    private ImageStorageService $imageStorageService;
+
+    public function __construct(ImageStorageService $imageStorageService)
+    {
+        $this->imageStorageService = $imageStorageService;
+    }
+
     /**
      * Display the setup page
      */
@@ -39,12 +46,12 @@ class SetupController extends Controller
         $request->user()->fill($validatedData);
 
         if ($request->hasFile('logo') && $request->file('logo') !== null) {
-            // Delete the old logo if it exists
-            if ($request->user()->logo) {
-                Storage::disk('public')->delete($request->user()->logo);
-            }
+            $storedPaths = $this->imageStorageService->storeImages(
+                [$request->file('logo')],
+                'logos'
+            );
 
-            $request->user()->logo = $request->file('logo')->store('logos', 'public');
+            $request->user()->logo = $storedPaths[0];
         }
 
         $request->user()->save();
@@ -62,12 +69,13 @@ class SetupController extends Controller
         $request->user()->fill($validatedData);
 
         if ($request->hasFile('logo') && $request->file('logo') !== null) {
-            // Delete the old logo if it exists
-            if ($request->user()->logo) {
-                Storage::disk('public')->delete($request->user()->logo);
-            }
+            $storedPaths = $this->imageStorageService->storeImages(
+                [$request->file('logo')],
+                'logos',
+                $request->user()->logo
+            );
 
-            $request->user()->logo = $request->file('logo')->store('logos', 'public');
+            $request->user()->logo = $storedPaths[0];
         }
 
         $request->user()->save();

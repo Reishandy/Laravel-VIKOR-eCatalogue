@@ -7,6 +7,7 @@ use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Requests\Item\UpdateItemRequest;
 use App\Models\Criterion;
 use App\Models\Item;
+use App\Services\ImageStorageService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -14,6 +15,13 @@ use Inertia\Response;
 
 class ItemController extends Controller
 {
+    private ImageStorageService $imageStorageService;
+
+    public function __construct(ImageStorageService $imageStorageService)
+    {
+        $this->imageStorageService = $imageStorageService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -66,7 +74,11 @@ class ItemController extends Controller
 
                 // Handle image upload
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                    $itemData['image'] = $request->file('image')->store('items', 'public');
+                    $storedPaths = $this->imageStorageService->storeImages(
+                        [$request->file('image')],
+                        'items'
+                    );
+                    $itemData['image'] = $storedPaths[0];
                 }
 
                 $item = Item::create($itemData);
@@ -124,15 +136,15 @@ class ItemController extends Controller
 
                 // Handle image update
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                    // Delete old image if exists TODO: This does not work
-                    if ($item->image) {
-                        Storage::disk('public')->delete($item->getRawOriginal('image'));
-                    }
-                    $updateData['image'] = $request->file('image')->store('items', 'public');
+                    $storedPaths = $this->imageStorageService->storeImages(
+                        [$request->file('image')],
+                        'items',
+                        $item->image
+                    );
+                    $updateData['image'] = $storedPaths[0];
                 } elseif ($request->has('remove_image') && $request->remove_image) {
-                    // Remove image if requested
                     if ($item->image) {
-                        Storage::disk('public')->delete($item->getRawOriginal('image'));
+                        $this->imageStorageService->storeImages([], 'items', $item->image);
                     }
                     $updateData['image'] = null;
                 }

@@ -38,7 +38,6 @@ require __DIR__ . '/settings.php';
 //  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
 //  - Add meta tags for SEO and related
 //  - Add db index
-//  - Compress images on upload?
 //  - Make sure that company logo is shown in the public routes
 //  - I
 //  - Obfuscate protected routes URLs?
@@ -47,3 +46,5 @@ require __DIR__ . '/settings.php';
 //  - Dark mode for the public routes?
 //  - Tests the full flow once all is done
 //  - PWA support
+//  - I
+//  - Change admin to looks like the public site?
