@@ -2,12 +2,10 @@
 
 use App\Http\Controllers\Criterion\CriterionController;
 use App\Http\Controllers\Item\ItemController;
+use App\Http\Controllers\Public\PublicController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [PublicController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Please excuse this, I'm to lazy to change it everywhere (◡ ‿ ◡ ✿)
