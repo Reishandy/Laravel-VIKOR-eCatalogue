@@ -132,3 +132,12 @@ export interface ItemForm {
     fields: DynamicField[];
     remove_image: boolean;
 }
+
+export interface CompanyData {
+    name: string;
+    email: string;
+    description: string;
+    address: string;
+    currency: string;
+    logo?: File | null;
+}

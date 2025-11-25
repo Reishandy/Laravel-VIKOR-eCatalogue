@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use App\Models\User;
 
 class PublicController extends Controller
 {
@@ -28,10 +29,19 @@ class PublicController extends Controller
         $items = $query
             ->orderBy('items.id', 'desc')
             ->paginate(10);
+        $user = User::first();
 
         return inertia('public/index', [
             'items' => $items,
             'search_query' => $search ?? '',
+            'company_data' => [
+                'name' => $user?->company_name ?? config('app.name'),
+                'email' => $user?->company_email ?? '',
+                'description' => $user?->company_description ?? '',
+                'address' => $user?->company_address ?? '',
+                'currency' => $user?->currency ?? '',
+                'logo' => $user?->logo ?? '',
+            ]
         ]);
     }
 }
