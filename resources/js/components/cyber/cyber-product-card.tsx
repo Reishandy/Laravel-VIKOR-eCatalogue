@@ -51,7 +51,7 @@ export default function CyberProductCard({
                     />
                 ) : (
                     <div className="flex h-full w-full items-center justify-center bg-space-950 text-xs text-space-muted">
-                        No Image
+                        404: NO_IMAGE_AVAILABLE
                     </div>
                 )}
             </div>

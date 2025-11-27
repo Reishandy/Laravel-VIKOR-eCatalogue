@@ -12,6 +12,7 @@ interface CyberSearchProps {
     onSpkWeightsChange: (weights: CriteriaWeights) => void;
     onSpkApply: () => void;
     onSpkReset: () => void;
+    isSpkActive: boolean;
 }
 
 export default function CyberSearch({
@@ -22,6 +23,7 @@ export default function CyberSearch({
     onSpkWeightsChange,
     onSpkApply,
     onSpkReset,
+    isSpkActive,
 }: CyberSearchProps) {
     const [isSpkOpen, setIsSpkOpen] = useState(false);
     const spkRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,7 @@ export default function CyberSearch({
                         >
                             <Sliders className="h-4 w-4" />
                             <span>SPK_Mod</span>
-                            {Object.keys(spkWeights).length > 0 && (
+                            {isSpkActive && (
                                 <span className="flex h-2 w-2">
                                     <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-space-highlight opacity-75"></span>
                                     <span className="relative inline-flex h-2 w-2 rounded-full bg-space-highlight"></span>

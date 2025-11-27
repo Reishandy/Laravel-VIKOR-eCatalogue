@@ -13,6 +13,7 @@ import {
 import { router } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { useEffect, useMemo, useState } from 'react';
+import CyberPagination from '@/components/cyber/cyber-pagination';
 
 interface PublicPageProps {
     items: ItemsResponse;
@@ -90,7 +91,8 @@ export default function Index({
         }
     }, [searchParam, debouncedSearch, spkWeights]);
 
-    // TODO: Pagination
+    const isSpkActive = Object.keys(spk_weights || {}).length > 0;
+
     // TODO: AOS
 
     return (
@@ -121,6 +123,7 @@ export default function Index({
                 onSpkWeightsChange={handleSpkWeightsChange}
                 onSpkApply={handleSpkApply}
                 onSpkReset={handleSpkReset}
+                isSpkActive={isSpkActive}
             />
 
             <main className="mx-auto w-full max-w-7xl flex-grow px-6 py-12">
@@ -134,6 +137,12 @@ export default function Index({
                             // {items.data.length} ACTIVE NODES
                         </span>
                     </div>
+
+                    {isSpkActive && (
+                        <span className="mb-1 inline-block rounded-full bg-space-accent/20 px-3 py-1 font-mono text-xs text-space-accent">
+                                COMPATIBILITY_MATRIX_ACTIVE
+                            </span>
+                    )}
                 </div>
 
                 {/* Full Width Grid */}
@@ -161,6 +170,14 @@ export default function Index({
                             </p>
                         </div>
                     )}
+
+                    <CyberPagination
+                        links={items.links}
+                        current_page={items.current_page}
+                        last_page={items.last_page}
+                        prev_page_url={items.prev_page_url}
+                        next_page_url={items.next_page_url}
+                    />
                 </section>
             </main>
 
