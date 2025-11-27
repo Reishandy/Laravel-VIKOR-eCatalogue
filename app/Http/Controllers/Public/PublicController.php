@@ -27,6 +27,7 @@ class PublicController extends Controller
         }
 
         $items = $query
+            ->with('criteria')
             ->orderBy('items.id', 'desc')
             ->paginate(10);
         $user = User::first();

@@ -8,10 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -59,6 +57,18 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-space-950: #050510;
+    --color-space-900: #0B0B19;
+    --color-space-800: #151528;
+    --color-space-border: #2D2D44;
+    --color-space-accent: #A78BFA;
+    --color-space-highlight: #F472B6;
+    --color-space-cyan: #22d3ee;
+    --color-space-text: #E2E8F0;
+    --color-space-muted: #64748B;
+
+    --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 :root {
@@ -171,4 +181,30 @@
             scrollbar-color: var(--muted-foreground) var(--muted);
         }
     }
+}
+
+/* Custom background image for stars */
+@layer utilities {
+    .bg-stars {
+        background-image:
+            radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+            radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+            radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+        background-size: 50px 50px, 30px 30px, 70px 70px;
+        background-position: 0 0, 20px 20px, 40px 40px;
+    }
+}
+
+/* Custom animation for pulse-slow */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .5;
+    }
+}
+
+.animate-pulse-slow {
+    animation: var(--animate-pulse-slow);
 }

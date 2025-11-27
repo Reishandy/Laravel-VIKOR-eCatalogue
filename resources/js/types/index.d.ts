@@ -139,5 +139,5 @@ export interface CompanyData {
     description: string;
     address: string;
     currency: string;
-    logo?: File | null;
+    logo?: string;
 }
