@@ -93,8 +93,6 @@ export default function Index({
 
     const isSpkActive = Object.keys(spk_weights || {}).length > 0;
 
-    // TODO: AOS
-
     return (
         <div className="relative min-h-screen overflow-hidden bg-space-950 font-sans text-space-text selection:bg-space-accent selection:text-white">
             {/* Dynamic Star Background */}

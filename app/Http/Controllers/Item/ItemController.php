@@ -51,14 +51,6 @@ class ItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Item $item)
-    {
-        // TODO:
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreItemRequest $request)

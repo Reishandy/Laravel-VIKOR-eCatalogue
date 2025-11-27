@@ -10,12 +10,10 @@ use App\Models\User;
 class PublicController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Handle the incoming request.
      */
-    public function index()
+    public function __invoke()
     {
-        // TODO: Change to invokable controller
-
         $request = request();
         $search = $request->filled('search') ? trim($request->search) : null;
         $spkWeights = $request->filled('spk_weights') ? $request->spk_weights : null;

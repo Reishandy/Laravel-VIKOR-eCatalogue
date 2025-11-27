@@ -45,14 +45,6 @@ CriterionController extends Controller
 
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Criterion $criterion)
-    {
-        // TODO
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCriterionRequest $request): RedirectResponse
