@@ -27,6 +27,17 @@ export default function CyberProductCard({
         >
             {/* Image Area */}
             <div className="relative h-56 w-full overflow-hidden border-b border-space-border bg-space-950">
+                {item.rank && (
+                    <div className="absolute top-3 left-3 z-10">
+                        <div className="flex items-center gap-1.5 rounded-md border border-space-highlight/40 bg-space-900/80 px-2.5 py-1.5 backdrop-blur-sm transition-all duration-300 hover:border-space-highlight/60 hover:bg-space-900/90">
+                            <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-space-highlight" />
+                            <span className="font-mono text-xs font-bold tracking-wider text-space-highlight">
+                                #{item.rank}
+                            </span>
+                        </div>
+                    </div>
+                )}
+
                 {/* Grid Overlay */}
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(167,139,250,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(167,139,250,0.05)_1px,transparent_1px)] bg-[size:30px_30px]" />
                 {/* Glow effect */}
@@ -55,9 +66,10 @@ export default function CyberProductCard({
 
                 <div className="mb-4 flex items-baseline gap-2">
                     <span className="font-mono text-lg text-space-accent">
-                        {currencySymbol}{price.toFixed(2)}
+                        {currencySymbol}
+                        {price.toFixed(2)}
                     </span>
-                    <span className="font-mono text-[10px] text-space-muted uppercase">
+                    <span className="font-mono text-sm text-space-muted uppercase">
                         Unit Price
                     </span>
                 </div>
@@ -68,7 +80,7 @@ export default function CyberProductCard({
 
                 {/* Action Row */}
                 <div className="mt-auto flex items-center justify-between border-t border-dashed border-space-border pt-4">
-                    <div className="flex items-center gap-2 font-mono text-[10px] text-space-muted">
+                    <div className="flex items-center gap-2 font-mono text-sm text-space-muted">
                         <Box className="h-3 w-3" />
                         <span>ID: {item.id}</span>
                     </div>

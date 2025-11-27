@@ -80,6 +80,7 @@ export interface Item {
     description?: string;
     image?: string;
     criteria?: Criterion[];
+    rank?: number; // TODO: Later on vikor
     created_at: string;
     updated_at: string;
     [key: string]: unknown;

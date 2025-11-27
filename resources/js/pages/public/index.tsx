@@ -54,7 +54,7 @@ export default function Index({
     // TODO: Pagination
     // TODO: Compartmentize
     // TODO: AOS
-    // TODO: SPK
+    // TODO: SPK & Rank display & indicator that spk is in effect & clear button on spk popover
 
     return (
         <div className="min-h-screen bg-space-950 text-space-text font-sans selection:bg-space-accent selection:text-white overflow-hidden relative">

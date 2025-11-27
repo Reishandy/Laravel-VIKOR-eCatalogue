@@ -56,16 +56,16 @@ export function CyberProductModal({
                             </div>
                             <button
                                 onClick={onClose}
-                                className="rounded-full p-2 text-space-muted transition-colors hover:bg-space-800 hover:text-white"
+                                className="rounded-full p-2 text-space-muted transition-colors hover:bg-space-800 hover:text-white cursor-pointer"
                             >
                                 <X className="h-5 w-5" />
                             </button>
                         </div>
 
                         {/* Content Scrollable Area */}
-                        <div className="custom-scrollbar grid h-full grid-cols-1 overflow-y-auto p-0 lg:grid-cols-5">
-                            {/* Left Column: Visuals & Inquiry (2/5) */}
-                            <div className="relative flex flex-col border-b border-space-border bg-black lg:col-span-2 lg:border-r lg:border-b-0">
+                        <div className="custom-scrollbar grid h-full grid-cols-1 overflow-y-auto p-0 lg:grid-cols-2">
+                            {/* Left Column: Visuals & Inquiry */}
+                            <div className="relative flex flex-col border-b border-space-border bg-black lg:col-span-1 lg:border-r lg:border-b-0">
                                 <div className="relative min-h-[300px] flex-grow">
                                     {item.image ? (
                                         <img
@@ -96,8 +96,8 @@ export function CyberProductModal({
                                 </div>
                             </div>
 
-                            {/* Right Column: Data (3/5) */}
-                            <div className="flex flex-col bg-space-900/40 p-6 lg:col-span-3 lg:p-10">
+                            {/* Right Column: Data */}
+                            <div className="flex flex-col bg-space-900/40 p-6 lg:col-span-1 lg:p-10">
                                 <div className="mb-8">
                                     <h3 className="mb-4 font-sans text-3xl leading-tight font-bold text-white">
                                         {item.name}

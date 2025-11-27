@@ -13,6 +13,8 @@ class PublicController extends Controller
      */
     public function index()
     {
+        // TODO: Change to invokable controller
+
         $request = request();
         $search = $request->filled('search') ? trim($request->search) : null;
 
@@ -29,7 +31,7 @@ class PublicController extends Controller
         $items = $query
             ->with('criteria')
             ->orderBy('items.id', 'desc')
-            ->paginate(10);
+            ->paginate(12);
         $user = User::first();
 
         return inertia('public/index', [
