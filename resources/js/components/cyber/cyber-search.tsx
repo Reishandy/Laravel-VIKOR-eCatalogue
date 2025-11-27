@@ -44,7 +44,6 @@ export default function CyberSearch({
 
     const handleSpkApply = () => {
         onSpkApply();
-        setIsSpkOpen(false);
     };
 
     const handleSpkReset = () => {

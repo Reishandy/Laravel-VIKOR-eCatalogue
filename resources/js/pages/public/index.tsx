@@ -1,3 +1,7 @@
+import CyberHeader from '@/components/cyber/cyber-header';
+import CyberProductCard from '@/components/cyber/cyber-product-card';
+import { CyberProductModal } from '@/components/cyber/cyber-product-modal';
+import CyberSearch from '@/components/cyber/cyber-search';
 import { home } from '@/routes';
 import {
     CompanyData,
@@ -9,10 +13,6 @@ import {
 import { router } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { useEffect, useMemo, useState } from 'react';
-import CyberHeader from '@/components/cyber/cyber-header';
-import CyberSearch from '@/components/cyber/cyber-search';
-import CyberProductCard from '@/components/cyber/cyber-product-card';
-import { CyberProductModal } from '@/components/cyber/cyber-product-modal';
 
 interface PublicPageProps {
     items: ItemsResponse;
@@ -31,7 +31,9 @@ export default function Index({
     search_query,
     spk_weights,
 }: PublicPageProps) {
-    const [searchParam, setSearchParam] = useState<string | undefined>(search_query || undefined);
+    const [searchParam, setSearchParam] = useState<string | undefined>(
+        search_query || undefined,
+    );
     const [selectedItem, setSelectedItem] = useState<null | Item>(null);
     const [spkWeights, setSpkWeights] = useState<CriteriaWeights>({});
 
@@ -48,40 +50,38 @@ export default function Index({
         }
     }, [spk_weights]);
 
-    const debouncedSearch = useMemo(
-        () =>
-            debounce((search: string, weights: CriteriaWeights) => {
-                const params: any = {};
+    const executeSearch = (search: string, weights: CriteriaWeights) => {
+        const params: any = {};
 
-                if (search) params.search = search;
-                if (Object.keys(weights).length > 0) {
-                    params.spk_weights = JSON.stringify(weights);
-                }
+        if (search) params.search = search;
+        if (Object.keys(weights).length > 0) {
+            params.spk_weights = JSON.stringify(weights);
+        }
 
-                router.get(
-                    home().url,
-                    params,
-                    {
-                        preserveState: true,
-                        preserveScroll: true,
-                        preserveUrl: true,
-                    },
-                );
-            }, 300),
-        [],
-    );
+        router.get(home().url, params, {
+            preserveState: true,
+            preserveScroll: true,
+            preserveUrl: true,
+        });
+    };
+
+    const debouncedSearch = useMemo(() => debounce(executeSearch, 300), []);
 
     const handleSpkWeightsChange = (weights: CriteriaWeights) => {
         setSpkWeights(weights);
     };
 
     const handleSpkApply = () => {
-        debouncedSearch(searchParam || '', spkWeights);
+        // Cancel any pending debounced search and execute immediately
+        debouncedSearch.cancel();
+        executeSearch(searchParam || '', spkWeights);
     };
 
     const handleSpkReset = () => {
         setSpkWeights({});
-        debouncedSearch(searchParam || '', {});
+        // Cancel any pending debounced search and execute immediately
+        debouncedSearch.cancel();
+        executeSearch(searchParam || '', {});
     };
 
     useEffect(() => {
@@ -94,12 +94,15 @@ export default function Index({
     // TODO: AOS
 
     return (
-        <div className="min-h-screen bg-space-950 text-space-text font-sans selection:bg-space-accent selection:text-white overflow-hidden relative">
+        <div className="relative min-h-screen overflow-hidden bg-space-950 font-sans text-space-text selection:bg-space-accent selection:text-white">
             {/* Dynamic Star Background */}
             <div className="fixed inset-0 z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-space-900 via-space-950 to-space-950" />
-                <div className="absolute inset-0 bg-stars opacity-40 animate-pulse-slow" style={{ backgroundSize: '800px 800px' }}></div>
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-space-accent/5 blur-[120px] rounded-full pointer-events-none" />
+                <div
+                    className="bg-stars absolute inset-0 animate-pulse-slow opacity-40"
+                    style={{ backgroundSize: '800px 800px' }}
+                ></div>
+                <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-full max-w-4xl -translate-x-1/2 rounded-full bg-space-accent/5 blur-[120px]" />
             </div>
 
             <CyberHeader
