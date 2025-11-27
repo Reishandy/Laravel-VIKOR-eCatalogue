@@ -142,3 +142,11 @@ export interface CompanyData {
     currency: string;
     logo?: string;
 }
+
+export interface CriteriaWeights {
+    [criterionId: number]: number; // criterion_id -> weight percentage
+}
+
+export interface SpkParams {
+    weights: CriteriaWeights;
+}

@@ -2,15 +2,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Search, Sliders } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CyberSpk from '@/components/cyber/cyber-spk';
+import { CriteriaWeights, Criterion } from '@/types';
 
 interface CyberSearchProps {
     searchTerm: string;
     setSearchTerm: (term: string) => void;
+    criteria: Criterion[];
+    spkWeights: CriteriaWeights;
+    onSpkWeightsChange: (weights: CriteriaWeights) => void;
+    onSpkApply: () => void;
+    onSpkReset: () => void;
 }
 
 export default function CyberSearch({
     searchTerm,
     setSearchTerm,
+    criteria,
+    spkWeights,
+    onSpkWeightsChange,
+    onSpkApply,
+    onSpkReset,
 }: CyberSearchProps) {
     const [isSpkOpen, setIsSpkOpen] = useState(false);
     const spkRef = useRef<HTMLDivElement>(null);
@@ -30,6 +41,15 @@ export default function CyberSearch({
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    const handleSpkApply = () => {
+        onSpkApply();
+        setIsSpkOpen(false);
+    };
+
+    const handleSpkReset = () => {
+        onSpkReset();
+    };
 
     return (
         <div className="sticky top-0 z-40 w-full border-b border-space-border bg-space-900/30 py-8 backdrop-blur-md">
@@ -63,10 +83,16 @@ export default function CyberSearch({
 
                         <button
                             onClick={() => setIsSpkOpen(!isSpkOpen)}
-                            className={`flex items-center gap-2 border px-4 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 cursor-pointer ${isSpkOpen ? 'border-space-accent bg-space-accent text-white' : 'border-space-border bg-space-950 text-space-muted hover:border-space-accent hover:text-white'}`}
+                            className={`flex cursor-pointer items-center gap-2 border px-4 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 ${isSpkOpen ? 'border-space-accent bg-space-accent text-white' : 'border-space-border bg-space-950 text-space-muted hover:border-space-accent hover:text-white'}`}
                         >
                             <Sliders className="h-4 w-4" />
                             <span>SPK_Mod</span>
+                            {Object.keys(spkWeights).length > 0 && (
+                                <span className="flex h-2 w-2">
+                                    <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-space-highlight opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-space-highlight"></span>
+                                </span>
+                            )}
                         </button>
 
                         {/* Popover SPK Module */}
@@ -79,7 +105,13 @@ export default function CyberSearch({
                                     transition={{ duration: 0.2 }}
                                     className="absolute top-full right-0 z-50 mt-2 w-80 shadow-2xl shadow-space-950/50 md:w-96"
                                 >
-                                    <CyberSpk />
+                                    <CyberSpk
+                                        criteria={criteria}
+                                        initialWeights={spkWeights}
+                                        onWeightsChange={onSpkWeightsChange}
+                                        onApply={handleSpkApply}
+                                        onReset={handleSpkReset}
+                                    />
                                 </motion.div>
                             )}
                         </AnimatePresence>

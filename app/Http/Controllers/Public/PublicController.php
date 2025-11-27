@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Criterion;
 use App\Models\Item;
 use App\Models\User;
 
@@ -17,6 +18,7 @@ class PublicController extends Controller
 
         $request = request();
         $search = $request->filled('search') ? trim($request->search) : null;
+        $spkWeights = $request->filled('spk_weights') ? $request->spk_weights : null;
 
         $query = Item::query();
 
@@ -28,15 +30,40 @@ class PublicController extends Controller
             });
         }
 
-        $items = $query
-            ->with('criteria')
-            ->orderBy('items.id', 'desc')
-            ->paginate(12);
+        // TODO: Apply SPK weights logic here for ranking/ordering
+        if ($spkWeights) {
+            $weights = json_decode($spkWeights, true);
+            // You'll implement the SPK algorithm here later
+            // For now, just receive the weights
+            \Log::info('SPK Weights received:', $weights);
+
+            // TODO: Add proper ranking logic later
+            // For now, add rank field set to 1 when weights exist
+            $items = $query
+                ->with('criteria')
+                ->orderBy('items.id', 'desc')
+                ->paginate(12);
+
+            // Add rank field to each item
+            $items->getCollection()->transform(function ($item) {
+                $item->rank = 1;
+                return $item;
+            });
+        } else {
+            $items = $query
+                ->with('criteria')
+                ->orderBy('items.id', 'desc')
+                ->paginate(12);
+        }
+
         $user = User::first();
+        $criteria = Criterion::all();
 
         return inertia('public/index', [
             'items' => $items,
+            'criteria' => $criteria,
             'search_query' => $search ?? '',
+            'spk_weights' => $spkWeights,
             'company_data' => [
                 'name' => $user?->company_name ?? config('app.name'),
                 'email' => $user?->company_email ?? '',

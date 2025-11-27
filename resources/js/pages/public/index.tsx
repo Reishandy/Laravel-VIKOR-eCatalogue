@@ -1,5 +1,11 @@
 import { home } from '@/routes';
-import { CompanyData, Item, ItemsResponse } from '@/types';
+import {
+    CompanyData,
+    CriteriaWeights,
+    Criterion,
+    Item,
+    ItemsResponse,
+} from '@/types';
 import { router } from '@inertiajs/react';
 import debounce from 'lodash/debounce';
 import { useEffect, useMemo, useState } from 'react';
@@ -10,27 +16,51 @@ import { CyberProductModal } from '@/components/cyber/cyber-product-modal';
 
 interface PublicPageProps {
     items: ItemsResponse;
-    search_query: string;
+    criteria: Criterion[];
     company_data: CompanyData;
+    search_query: string;
+    spk_weights?: string;
 
     [key: string]: unknown;
 }
 
 export default function Index({
     items,
-    search_query,
+    criteria,
     company_data,
+    search_query,
+    spk_weights,
 }: PublicPageProps) {
-    const [searchParam, setSearchParam] = useState<string | undefined>(
-        search_query || undefined,
-    );
+    const [searchParam, setSearchParam] = useState<string | undefined>(search_query || undefined);
     const [selectedItem, setSelectedItem] = useState<null | Item>(null);
+    const [spkWeights, setSpkWeights] = useState<CriteriaWeights>({});
+
+    // Parse initial SPK weights from URL
+    useEffect(() => {
+        if (spk_weights) {
+            try {
+                const parsedWeights = JSON.parse(spk_weights);
+                setSpkWeights(parsedWeights);
+            } catch (error) {
+                console.error('Failed to parse SPK weights:', error);
+                setSpkWeights({});
+            }
+        }
+    }, [spk_weights]);
+
     const debouncedSearch = useMemo(
         () =>
-            debounce((search: string) => {
+            debounce((search: string, weights: CriteriaWeights) => {
+                const params: any = {};
+
+                if (search) params.search = search;
+                if (Object.keys(weights).length > 0) {
+                    params.spk_weights = JSON.stringify(weights);
+                }
+
                 router.get(
                     home().url,
-                    { search },
+                    params,
                     {
                         preserveState: true,
                         preserveScroll: true,
@@ -41,20 +71,27 @@ export default function Index({
         [],
     );
 
-    useEffect(() => {
-        // TODO
-        console.log(items);
-        console.log(search_query);
-    }, [items, search_query]);
+    const handleSpkWeightsChange = (weights: CriteriaWeights) => {
+        setSpkWeights(weights);
+    };
+
+    const handleSpkApply = () => {
+        debouncedSearch(searchParam || '', spkWeights);
+    };
+
+    const handleSpkReset = () => {
+        setSpkWeights({});
+        debouncedSearch(searchParam || '', {});
+    };
 
     useEffect(() => {
-        if (searchParam !== undefined) debouncedSearch(searchParam);
-    }, [searchParam, debouncedSearch]);
+        if (searchParam !== undefined) {
+            debouncedSearch(searchParam, spkWeights);
+        }
+    }, [searchParam, debouncedSearch, spkWeights]);
 
     // TODO: Pagination
-    // TODO: Compartmentize
     // TODO: AOS
-    // TODO: SPK & Rank display & indicator that spk is in effect & clear button on spk popover
 
     return (
         <div className="min-h-screen bg-space-950 text-space-text font-sans selection:bg-space-accent selection:text-white overflow-hidden relative">
@@ -76,6 +113,11 @@ export default function Index({
             <CyberSearch
                 searchTerm={searchParam || ''}
                 setSearchTerm={setSearchParam}
+                criteria={criteria}
+                spkWeights={spkWeights}
+                onSpkWeightsChange={handleSpkWeightsChange}
+                onSpkApply={handleSpkApply}
+                onSpkReset={handleSpkReset}
             />
 
             <main className="mx-auto w-full max-w-7xl flex-grow px-6 py-12">

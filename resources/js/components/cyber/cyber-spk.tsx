@@ -1,51 +1,120 @@
-import React, { useState } from 'react';
-import { Sliders, Activity, RefreshCw } from 'lucide-react';
+import { Criterion } from '@/types';
+import { Activity, RefreshCcw, RefreshCw, Sliders } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-export default function CyberSpk() {
-    const [weights, setWeights] = useState({
-        performance: 75,
-        durability: 50,
-        efficiency: 25
-    });
+interface CyberSpkProps {
+    criteria: Criterion[];
+    initialWeights?: { [key: number]: number };
+    onWeightsChange: (weights: { [key: number]: number }) => void;
+    onApply: () => void;
+    onReset: () => void;
+}
 
-    const handleChange = (key: keyof typeof weights, value: number) => {
-        setWeights(prev => ({ ...prev, [key]: value }));
+export default function CyberSpk({
+    criteria,
+    initialWeights = {},
+    onWeightsChange,
+    onApply,
+    onReset,
+}: CyberSpkProps) {
+    const [weights, setWeights] = useState<{ [key: number]: number }>(
+        initialWeights,
+    );
+
+    // Initialize weights if not provided
+    useEffect(() => {
+        if (Object.keys(weights).length === 0 && criteria.length > 0) {
+            const defaultWeights = criteria.reduce(
+                (acc, criterion) => {
+                    acc[criterion.id] = 50; // Default 50% for all
+                    return acc;
+                },
+                {} as { [key: number]: number },
+            );
+            setWeights(defaultWeights);
+            onWeightsChange(defaultWeights);
+        }
+    }, [criteria, weights, onWeightsChange]);
+
+    const handleChange = (criterionId: number, value: number) => {
+        const newWeights = { ...weights, [criterionId]: value };
+        setWeights(newWeights);
+        onWeightsChange(newWeights);
     };
 
-    // TODO: Dynamic field generation based on criteria from backend
-    // TODO: Submit updated weights to backend
+    const handleReset = () => {
+        const resetWeights = criteria.reduce(
+            (acc, criterion) => {
+                acc[criterion.id] = 50;
+                return acc;
+            },
+            {} as { [key: number]: number },
+        );
+        setWeights(resetWeights);
+        onWeightsChange(resetWeights);
+        onReset();
+    };
+
+    if (criteria.length === 0) {
+        return (
+            <div className="rounded-sm border border-space-border bg-space-900/95 p-6 ring-1 ring-space-accent/20 backdrop-blur-xl">
+                <div className="mb-6 flex items-center justify-between border-b border-space-border pb-2">
+                    <div className="flex items-center gap-2 text-space-accent">
+                        <Sliders className="h-4 w-4" />
+                        <h2 className="font-mono text-xs font-bold tracking-wider">
+                            COMPATIBILITY_MATRIX
+                        </h2>
+                    </div>
+                    <Activity className="h-3 w-3 animate-pulse text-space-highlight" />
+                </div>
+                <p className="py-4 text-center text-sm text-space-muted">
+                    NO_CRITERIA_DEFINED
+                </p>
+            </div>
+        );
+    }
 
     return (
-        <div className="border border-space-border bg-space-900/95 backdrop-blur-xl p-6 rounded-sm ring-1 ring-space-accent/20">
-            <div className="flex items-center justify-between mb-6 pb-2 border-b border-space-border">
+        <div className="rounded-sm border border-space-border bg-space-900/95 p-6 ring-1 ring-space-accent/20 backdrop-blur-xl">
+            <div className="mb-6 flex items-center justify-between border-b border-space-border pb-2">
                 <div className="flex items-center gap-2 text-space-accent">
-                    <Sliders className="w-4 h-4" />
-                    <h2 className="font-mono text-xs font-bold tracking-wider">COMPATIBILITY_MATRIX</h2>
+                    <Sliders className="h-4 w-4" />
+                    <h2 className="font-mono text-xs font-bold tracking-wider">
+                        COMPATIBILITY_MATRIX
+                    </h2>
                 </div>
-                <Activity className="w-3 h-3 text-space-highlight animate-pulse" />
+                <Activity className="h-3 w-3 animate-pulse text-space-highlight" />
             </div>
 
-            <div className="space-y-6">
-                {Object.entries(weights).map(([key, val]) => (
-                    <div key={key} className="group">
-                        <div className="flex justify-between mb-2 font-mono text-[10px]">
-                            <span className="uppercase text-space-muted group-hover:text-space-cyan transition-colors">{key}</span>
-                            <span className="text-space-accent">{val}%</span>
+            <div className="max-h-80 space-y-6 overflow-y-auto pr-2">
+                {criteria.map((criterion) => (
+                    <div key={criterion.id} className="group">
+                        <div className="mb-2 flex justify-between font-mono text-sm">
+                            <span className="text-space-muted uppercase transition-colors group-hover:text-space-cyan">
+                                {criterion.name}
+                            </span>
+                            <span className="text-space-accent">
+                                {weights[criterion.id] || 50}%
+                            </span>
                         </div>
 
-                        <div className="relative w-full h-5 flex items-center">
+                        <div className="relative flex h-5 w-full items-center">
                             {/* Track Background */}
-                            <div className="absolute inset-x-0 h-1 bg-space-950 rounded-full overflow-hidden">
+                            <div className="absolute inset-x-0 h-1 overflow-hidden rounded-full bg-space-950">
                                 <div
                                     className="h-full bg-gradient-to-r from-space-accent to-space-highlight transition-all duration-75"
-                                    style={{ width: `${val}%` }}
+                                    style={{
+                                        width: `${weights[criterion.id] || 50}%`,
+                                    }}
                                 />
                             </div>
 
                             {/* Visual Knob */}
                             <div
-                                className="absolute w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(167,139,250,0.8)] border border-space-accent pointer-events-none transition-all duration-75 z-20"
-                                style={{ left: `calc(${val}% - 6px)` }}
+                                className="pointer-events-none absolute z-20 h-3 w-3 rounded-full border border-space-accent bg-white shadow-[0_0_10px_rgba(167,139,250,0.8)] transition-all duration-75"
+                                style={{
+                                    left: `calc(${weights[criterion.id] || 50}% - 6px)`,
+                                }}
                             />
 
                             {/* Invisible Range Input */}
@@ -53,19 +122,35 @@ export default function CyberSpk() {
                                 type="range"
                                 min="0"
                                 max="100"
-                                value={val}
-                                onChange={(e) => handleChange(key as keyof typeof weights, parseInt(e.target.value))}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-30"
+                                value={weights[criterion.id] || 50}
+                                onChange={(e) =>
+                                    handleChange(
+                                        criterion.id,
+                                        parseInt(e.target.value),
+                                    )
+                                }
+                                className="absolute inset-0 z-30 h-full w-full cursor-pointer opacity-0"
                             />
                         </div>
                     </div>
                 ))}
             </div>
 
-            <button className="w-full mt-8 py-2.5 bg-space-800 border border-space-border hover:border-space-highlight text-space-muted hover:text-white font-mono text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 group rounded-sm">
-                <RefreshCw className="w-3 h-3 group-hover:rotate-180 transition-transform duration-500" />
-                Update Vectors
+            <button
+                onClick={onApply}
+                className="group mt-8 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-800 py-2.5 font-mono text-sm tracking-widest uppercase transition-all hover:border-space-highlight hover:text-white"
+            >
+                <RefreshCw className="h-3 w-3 transition-transform duration-500 group-hover:rotate-180" />
+                ENGAGE_SYNTHESIS
+            </button>
+
+            <button
+                onClick={handleReset}
+                className="group mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-800 py-2.5 font-mono text-sm tracking-widest uppercase transition-all hover:border-space-highlight hover:text-white"
+            >
+                <RefreshCcw className="h-3 w-3 transition-transform duration-500 group-hover:-rotate-180" />
+                RESET_MATRIX
             </button>
         </div>
     );
-};
+}
