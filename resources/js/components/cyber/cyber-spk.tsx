@@ -21,7 +21,12 @@ export default function CyberSpk({
         initialWeights,
     );
 
-    // Initialize weights if not provided
+    // Sync with initialWeights prop changes
+    useEffect(() => {
+        setWeights(initialWeights);
+    }, [initialWeights]);
+
+    // Initialize weights if not provided and criteria available
     useEffect(() => {
         if (Object.keys(weights).length === 0 && criteria.length > 0) {
             const defaultWeights = criteria.reduce(
