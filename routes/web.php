@@ -12,13 +12,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('dashboard', '/items')->name('dashboard');
 
     Route::get('/criteria', [CriterionController::class, 'index'])->name('criteria.index');
-    Route::get('/criteria/{criterion}', [CriterionController::class, 'show'])->name('criteria.show');
     Route::post('/criteria', [CriterionController::class, 'store'])->name('criteria.store');
     Route::put('/criteria/{criterion}', [CriterionController::class, 'update'])->name('criteria.update');
     Route::delete('/criteria/{criterion}', [CriterionController::class, 'destroy'])->name('criteria.destroy');
 
     Route::get('/items', [ItemController::class, 'index'])->name('items.index');
-    Route::get('/items/{item}', [ItemController::class, 'show'])->name('items.show');
     Route::post('/items', [ItemController::class, 'store'])->name('items.store');
     Route::post('/items/{item}', [ItemController::class, 'update'])->name('items.update');
     Route::delete('/items/{item}', [ItemController::class, 'destroy'])->name('items.destroy');
