@@ -92,16 +92,23 @@ export function useCriteriaColumn({
                     <div className="text-center font-extrabold">Range</div>
                 ),
                 cell: ({ row }) => {
+                    const raw = row.getValue('max_value');
+                    const num = Number(raw);
+                    const isInfinite =
+                        !Number.isNaN(num) && Math.abs(num + 1) < 1e-6;
+                    const displayText = isInfinite
+                        ? '∞'
+                        : !Number.isNaN(num)
+                          ? String(num)
+                          : String(raw ?? '-');
+
                     return (
                         <div className="text-center">
                             <Badge
                                 variant="outline"
                                 className="text-md w-30 px-2 py-1"
                             >
-                                0 -{' '}
-                                {row.getValue('max_value') === -1
-                                    ? '∞'
-                                    : row.getValue('max_value')}
+                                0 - {displayText}
                             </Badge>
                         </div>
                     );
