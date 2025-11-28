@@ -25,24 +25,3 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__ . '/settings.php';
-
-// TODO: Main todo
-//  - Remove all unused routes and files
-//  - Email verification
-//  - Price should be by default exist and cant be removed and follow the locale currency (create this in setup registration)
-//  - Also all date should follow locale date format
-//  - I
-//  - Make the logo use default but after the user upload change all logos to the user logo even in favicon
-//  - Make sure all interactable elements have hover at least cursor pointer and for button pressed animation
-//  - Add meta tags for SEO and related
-//  - Add db index
-//  - Make sure that company logo is shown in the public routes
-//  - I
-//  - Obfuscate protected routes URLs?
-//  - Performance optimizations UI/UX like prefetching, lazy loading, etc
-//  - Animations and transitions with AOS?
-//  - Dark mode for the public routes?
-//  - Tests the full flow once all is done
-//  - PWA support
-//  - I
-//  - Change admin to looks like the public site?
