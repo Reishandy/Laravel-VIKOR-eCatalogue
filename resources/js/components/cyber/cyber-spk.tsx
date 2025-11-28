@@ -99,7 +99,7 @@ export default function CyberSpk({
                                 {criterion.name}
                             </span>
                             <span className="text-space-accent">
-                                {weights[criterion.id] || 50}%
+                                {weights[criterion.id] ?? 50}%
                             </span>
                         </div>
 
@@ -109,7 +109,7 @@ export default function CyberSpk({
                                 <div
                                     className="h-full bg-gradient-to-r from-space-accent to-space-highlight transition-all duration-75"
                                     style={{
-                                        width: `${weights[criterion.id] || 50}%`,
+                                        width: `${weights[criterion.id] ?? 50}%`,
                                     }}
                                 />
                             </div>
@@ -118,7 +118,7 @@ export default function CyberSpk({
                             <div
                                 className="pointer-events-none absolute z-20 h-3 w-3 rounded-full border border-space-accent bg-white shadow-[0_0_10px_rgba(167,139,250,0.8)] transition-all duration-75"
                                 style={{
-                                    left: `calc(${weights[criterion.id] || 50}% - 6px)`,
+                                    left: `calc(${weights[criterion.id] ?? 50}% - 6px)`,
                                 }}
                             />
 
@@ -127,7 +127,7 @@ export default function CyberSpk({
                                 type="range"
                                 min="0"
                                 max="100"
-                                value={weights[criterion.id] || 50}
+                                value={weights[criterion.id] ?? 50}
                                 onChange={(e) =>
                                     handleChange(
                                         criterion.id,
