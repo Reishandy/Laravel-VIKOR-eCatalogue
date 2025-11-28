@@ -97,6 +97,8 @@ export interface CriteriaResponse {
     last_page: number;
     prev_page_url: string | null;
     next_page_url: string | null;
+    per_page: number;
+    total: number;
 }
 
 export interface ItemsResponse {
@@ -110,6 +112,8 @@ export interface ItemsResponse {
     last_page: number;
     prev_page_url: string | null;
     next_page_url: string | null;
+    per_page: number;
+    total: number;
 }
 
 export interface CriterionForm {

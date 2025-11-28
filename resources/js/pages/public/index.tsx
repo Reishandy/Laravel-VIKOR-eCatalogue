@@ -176,6 +176,8 @@ export default function Index({
                         last_page={items.last_page}
                         prev_page_url={items.prev_page_url}
                         next_page_url={items.next_page_url}
+                        per_page={items.per_page}
+                        total={items.total}
                     />
                 </section>
             </main>
