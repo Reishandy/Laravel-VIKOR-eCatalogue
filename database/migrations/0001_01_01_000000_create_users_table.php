@@ -22,7 +22,7 @@ return new class extends Migration
             // Additional company details
             $table->string('company_name')->nullable();
             $table->string('company_email')->nullable();
-            $table->string('company_description')->nullable();
+            $table->text('company_description')->nullable();
             $table->string('company_address')->nullable();
             $table->string('currency')->nullable();
             $table->string('logo')->nullable();
