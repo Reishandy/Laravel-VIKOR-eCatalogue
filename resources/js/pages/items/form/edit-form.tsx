@@ -28,7 +28,7 @@ export default function EditForm({
             fields:
                 item.criteria?.map((field) => ({
                     id: field.id,
-                    value: field.pivot!.value,
+                    value: field.pivot ? Number(field.pivot.value) : 0,
                 })) || [],
             remove_image: false,
         });
