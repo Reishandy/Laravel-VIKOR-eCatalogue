@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('criterion_id')->constrained()->onDelete('cascade');
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
-            $table->decimal('value');
+            $table->decimal('value', 20, 6);
             $table->unique(['criterion_id', 'item_id']);
             $table->timestamps();
         });
