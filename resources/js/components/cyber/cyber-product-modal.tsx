@@ -37,7 +37,7 @@ export function CyberProductModal({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 30 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-space-border bg-space-900/80 shadow-[0_0_50px_rgba(0,0,0,0.6)] ring-1 ring-space-border"
+                        className="relative flex h-[90vh] md:h-[85vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-space-border bg-space-900/80 shadow-[0_0_50px_rgba(0,0,0,0.6)] ring-1 ring-space-border"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between border-b border-space-border bg-space-800/40 px-6 py-4">
@@ -63,9 +63,9 @@ export function CyberProductModal({
                         </div>
 
                         {/* Content Scrollable Area */}
-                        <div className="custom-scrollbar grid h-full grid-cols-1 overflow-y-auto p-0 lg:grid-cols-2">
+                        <div className="custom-scrollbar grid flex-1 grid-cols-1 p-0 lg:grid-cols-2 overflow-hidden">
                             {/* Left Column: Visuals & Inquiry */}
-                            <div className="relative flex flex-col border-b border-space-border bg-black lg:col-span-1 lg:border-r lg:border-b-0">
+                            <div className="relative flex-none flex flex-col border-b border-space-border bg-black lg:col-span-1 lg:border-r lg:border-b-0">
                                 <div className="relative min-h-[300px] flex-grow">
                                     {item.image ? (
                                         <img
@@ -97,7 +97,7 @@ export function CyberProductModal({
                             </div>
 
                             {/* Right Column: Data */}
-                            <div className="flex flex-col bg-space-900/60 p-6 lg:col-span-1 lg:p-10">
+                            <div className="flex flex-col bg-space-900/60 p-6 lg:col-span-1 lg:p-10 overflow-y-auto">
                                 <div className="mb-8">
                                     <h3 className="mb-4 font-sans text-3xl leading-tight font-bold text-white">
                                         {item.name}
@@ -164,8 +164,8 @@ export function CyberProductModal({
                             </div>
                         </div>
                     </motion.div>
-                </div>
-            )}
-        </AnimatePresence>
-    );
-}
+                 </div>
+             )}
+         </AnimatePresence>
+     );
+ }
