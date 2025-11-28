@@ -24,7 +24,6 @@ class VoidWakeSeeder extends Seeder
                 'company_description' => "Void-Wake Dynamics represents the pinnacle of private maritime security. Originally a military contractor, our Civilian Sector division brings declassified naval technology to the private market. We specialize in armored hydrofoils, stealth-hull cruisers, and kinetic-interceptor craft designed for corporate asset protection, anti-piracy operations, and high-risk executive transport. We don't just build ships; we build floating fortresses for the lawless waters of tomorrow.",
                 'company_address' => 'Dock 94-B, The Carbon Spire, Neo-Kowloon Freeport, Sector 7',
                 'currency' => 'USD',
-                'logo' => '../favicon.svg',  // Placeholder logo path
             ]
         );
 
