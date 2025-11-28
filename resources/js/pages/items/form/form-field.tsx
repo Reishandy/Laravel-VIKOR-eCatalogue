@@ -154,7 +154,7 @@ export default function FormField({
                                             label={criterion.name}
                                             type="number"
                                             placeholder={`Enter ${criterion.name} value`}
-                                            trailingElement={`/ ${criterion.max_value}`}
+                                            trailingElement={`/ ${Number(criterion.max_value)}`}
                                             value={
                                                 field ? String(field.value) : ''
                                             }
