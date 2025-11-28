@@ -2,10 +2,9 @@ import { useItemsColumn } from '@/pages/items/column/items-column';
 import { DataTable } from '@/components/table/data-table';
 import DataTablePagination from '@/components/table/data-table-pagination';
 import DeleteForm from '@/pages/items/form/delete-form';
-import { Criterion, Item, ItemsResponse, SharedData } from '@/types';
-import { useEffect, useState } from 'react';
+import { Item, ItemsResponse } from '@/types';
+import { useState } from 'react';
 import EditForm from '@/pages/items/form/edit-form';
-import { usePage } from '@inertiajs/react';
 
 interface ItemsTableProps {
     items: ItemsResponse;

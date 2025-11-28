@@ -3,7 +3,7 @@ import OwnDialog from '@/components/own/own-dialog';
 import { store } from '@/routes/items';
 import { useForm } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
-import { FormEventHandler, useEffect, useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import FormField from '@/pages/items/form/form-field';
 import { Criterion, ItemForm } from '@/types';
 

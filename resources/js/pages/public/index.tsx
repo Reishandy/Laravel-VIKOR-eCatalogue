@@ -36,23 +36,24 @@ export default function Index({
         search_query || undefined,
     );
     const [selectedItem, setSelectedItem] = useState<null | Item>(null);
-    const [spkWeights, setSpkWeights] = useState<CriteriaWeights>({});
 
-    // Parse initial SPK weights from URL
-    useEffect(() => {
-        if (spk_weights) {
-            try {
-                const parsedWeights = JSON.parse(spk_weights);
-                setSpkWeights(parsedWeights);
-            } catch (error) {
-                console.error('Failed to parse SPK weights:', error);
-                setSpkWeights({});
-            }
+    // Initialize SPK weights from the optional prop `spk_weights`
+    const initialSpkWeights: CriteriaWeights = (() => {
+        if (!spk_weights) return {};
+        try {
+            return JSON.parse(spk_weights) as CriteriaWeights;
+        } catch (error) {
+            console.error('Failed to parse SPK weights:', error);
+            return {};
         }
-    }, [spk_weights]);
+    })();
+
+    const [spkWeights, setSpkWeights] = useState<CriteriaWeights>(
+        initialSpkWeights,
+    );
 
     const executeSearch = (search: string, weights: CriteriaWeights) => {
-        const params: any = {};
+        const params: Record<string, string> = {};
 
         if (search) params.search = search;
         if (Object.keys(weights).length > 0) {
@@ -91,7 +92,7 @@ export default function Index({
         }
     }, [searchParam, debouncedSearch, spkWeights]);
 
-    const isSpkActive = Object.keys(spk_weights || {}).length > 0;
+    const isSpkActive = Object.keys(initialSpkWeights || {}).length > 0;
 
     return (
         <div className="relative min-h-screen overflow-hidden bg-space-950 font-sans text-space-text selection:bg-space-accent selection:text-white">

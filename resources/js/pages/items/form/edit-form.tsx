@@ -5,7 +5,7 @@ import { update } from '@/routes/items';
 import { Item, ItemForm } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { ArrowDownToLine, Trash2 } from 'lucide-react';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler } from 'react';
 
 interface EditFormProp {
     item: Item;

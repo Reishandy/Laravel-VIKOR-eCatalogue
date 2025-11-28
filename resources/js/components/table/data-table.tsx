@@ -25,6 +25,11 @@ export function DataTable<TData, TValue>({
     data,
     onRowClick,
 }: DataTableProps<TData, TValue>) {
+    // The `useReactTable` API returns functions which are not safe to memoize.
+    // This is a known behavior of TanStack Table and the hook should be
+    // called directly inside the component. Suppress the incompatible-library
+    // linter warning for this line.
+    // eslint-disable-next-line react-hooks/incompatible-library
     const table = useReactTable({
         data,
         columns,
