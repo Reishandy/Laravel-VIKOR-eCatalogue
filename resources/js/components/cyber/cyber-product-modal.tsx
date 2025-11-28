@@ -28,7 +28,7 @@ export function CyberProductModal({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="absolute inset-0 bg-space-950/90 backdrop-blur-md"
+                        className="absolute inset-0 bg-space-950/95 backdrop-blur-md"
                     />
 
                     {/* Modal Window */}
@@ -37,10 +37,10 @@ export function CyberProductModal({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: 30 }}
                         transition={{ duration: 0.3, ease: 'easeOut' }}
-                        className="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-space-border bg-space-900 shadow-[0_0_50px_rgba(0,0,0,0.5)] ring-1 ring-space-border"
+                        className="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-space-border bg-space-900/80 shadow-[0_0_50px_rgba(0,0,0,0.6)] ring-1 ring-space-border"
                     >
                         {/* Header */}
-                        <div className="flex items-center justify-between border-b border-space-border bg-space-800/30 px-6 py-4">
+                        <div className="flex items-center justify-between border-b border-space-border bg-space-800/40 px-6 py-4">
                             <div className="flex items-center gap-3">
                                 <div className="rounded bg-space-accent/10 p-1.5">
                                     <Cpu className="h-5 w-5 text-space-accent" />
@@ -56,7 +56,7 @@ export function CyberProductModal({
                             </div>
                             <button
                                 onClick={onClose}
-                                className="rounded-full p-2 text-space-muted transition-colors hover:bg-space-800 hover:text-white cursor-pointer"
+                                className="rounded-full p-2 text-gray-300 transition-colors hover:bg-space-800 hover:text-white cursor-pointer"
                             >
                                 <X className="h-5 w-5" />
                             </button>
@@ -71,10 +71,10 @@ export function CyberProductModal({
                                         <img
                                             src={item.image}
                                             alt={item.name}
-                                            className="absolute inset-0 h-full w-full object-cover opacity-80"
+                                            className="absolute inset-0 h-full w-full object-cover opacity-90"
                                         />
                                     ) : (
-                                        <div className="flex h-full w-full items-center justify-center bg-space-950 text-xs text-space-muted">
+                                        <div className="flex h-full w-full items-center justify-center bg-space-950 text-xs text-gray-300">
                                             404: NO_IMAGE_AVAILABLE
                                         </div>
                                     )}
@@ -85,10 +85,10 @@ export function CyberProductModal({
                                     <div className="absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-space-accent/50" />
                                 </div>
 
-                                <div className="flex flex-col gap-6 border-t border-space-border bg-space-900/50 p-6 backdrop-blur">
+                                <div className="flex flex-col gap-6 border-t border-space-border bg-space-900/60 p-6 backdrop-blur">
                                     <a
                                         href={`mailto:${email}?subject=Inquiry: ${item.name} [ID:${item.id}]`}
-                                        className="hover:bg-space-accentHover flex w-full transform items-center justify-center gap-3 rounded bg-space-accent py-3 font-mono text-sm font-bold tracking-widest text-white uppercase shadow-[0_0_20px_rgba(167,139,250,0.3)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(167,139,250,0.5)]"
+                                        className="hover:bg-space-accentHover flex w-full transform items-center justify-center gap-3 rounded bg-space-accent py-3 font-mono text-sm font-bold tracking-widest text-white uppercase shadow-[0_0_20px_rgba(167,139,250,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_0_30px_rgba(167,139,250,0.55)]"
                                     >
                                         <MessageSquare className="h-4 w-4" />
                                         Initialize Inquiry
@@ -97,7 +97,7 @@ export function CyberProductModal({
                             </div>
 
                             {/* Right Column: Data */}
-                            <div className="flex flex-col bg-space-900/40 p-6 lg:col-span-1 lg:p-10">
+                            <div className="flex flex-col bg-space-900/60 p-6 lg:col-span-1 lg:p-10">
                                 <div className="mb-8">
                                     <h3 className="mb-4 font-sans text-3xl leading-tight font-bold text-white">
                                         {item.name}
@@ -109,8 +109,8 @@ export function CyberProductModal({
 
                                 <div className="flex-grow space-y-6">
                                     <div className="grid grid-cols-1 gap-4">
-                                        <div className="flex flex-col rounded border border-space-border/50 bg-space-950/50 p-4">
-                                            <span className="mb-1 block font-mono text-sm text-space-muted uppercase">
+                                        <div className="flex flex-col rounded border border-space-border/50 bg-space-950/60 p-4">
+                                            <span className="mb-1 block font-mono text-sm text-gray-300 uppercase">
                                                 Unit Cost
                                             </span>
                                             <span className="font-mono text-2xl text-space-accent">
@@ -125,7 +125,7 @@ export function CyberProductModal({
                                     </div>
 
                                     <div>
-                                        <h4 className="mb-3 flex items-center gap-2 font-mono text-sm tracking-widest text-space-muted uppercase">
+                                        <h4 className="mb-3 flex items-center gap-2 font-mono text-sm tracking-widest text-gray-300 uppercase">
                                             <span className="h-px w-8 bg-space-border" />
                                             Technical Data
                                             <span className="h-px flex-grow bg-space-border" />
@@ -137,7 +137,7 @@ export function CyberProductModal({
                                                     className="group"
                                                 >
                                                     <div className="mb-1 flex justify-between text-sm">
-                                                        <span className="text-space-muted transition-colors group-hover:text-space-cyan">
+                                                        <span className="text-gray-300 transition-colors group-hover:text-space-cyan">
                                                             {criterion.name}
                                                         </span>
                                                         <span className="font-mono text-white">

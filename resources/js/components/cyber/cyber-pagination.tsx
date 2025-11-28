@@ -123,7 +123,7 @@ export default function CyberPagination({
     }
 
     return (
-        <div className="flex items-center justify-between border-t border-space-border bg-space-900/40 px-6 py-4 backdrop-blur-sm">
+        <div className="flex items-center justify-between border-t border-space-border bg-space-900/50 px-6 py-4 backdrop-blur-sm">
             {/* Page Info */}
             <div className="flex items-center gap-1.5 rounded-md border border-space-highlight/40 bg-space-900/80 px-3 py-2 backdrop-blur-sm">
                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-space-highlight" />
@@ -139,14 +139,14 @@ export default function CyberPagination({
                     onClick={(e) =>
                         prev_page_url && handlePageClick(prev_page_url, e)
                     }
-                    className={`group relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-sm border border-space-border bg-space-900/40 px-4 py-2 backdrop-blur-sm transition-all duration-300 ${
+                    className={`group relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-sm border border-space-border bg-space-900/50 px-4 py-2 backdrop-blur-sm transition-all duration-300 ${
                         prev_page_url
-                            ? 'hover:-translate-y-0.5 hover:border-space-accent/60 hover:shadow-[0_0_20px_rgba(167,139,250,0.1)]'
-                            : 'cursor-not-allowed opacity-50'
+                            ? 'hover:-translate-y-0.5 hover:border-space-accent/80 hover:shadow-[0_0_20px_rgba(167,139,250,0.12)]'
+                            : 'cursor-not-allowed opacity-30'
                     }`}
                 >
-                    <ChevronLeft className="h-3 w-3 text-space-muted transition-colors group-hover:text-space-cyan" />
-                    <span className="font-mono text-xs font-bold tracking-wider text-space-muted uppercase transition-colors group-hover:text-white">
+                    <ChevronLeft className="h-3 w-3 text-gray-300 transition-colors group-hover:text-space-cyan" />
+                    <span className="font-mono text-xs font-bold tracking-wider text-gray-300 uppercase transition-colors group-hover:text-white">
                         Prev
                     </span>
 
@@ -163,7 +163,7 @@ export default function CyberPagination({
                                     key={`ellipsis-${index}`}
                                     className="flex h-8 w-8 items-center justify-center"
                                 >
-                                    <MoreHorizontal className="h-4 w-4 text-space-muted" />
+                                    <MoreHorizontal className="h-4 w-4 text-gray-300" />
                                 </div>
                             );
                         }
@@ -174,15 +174,15 @@ export default function CyberPagination({
                                 onClick={(e) => handlePageClick(page.url, e)}
                                 className={`group relative flex h-8 w-8 cursor-pointer items-center justify-center overflow-hidden rounded-sm border backdrop-blur-sm transition-all duration-300 ${
                                     page.active
-                                        ? 'border-space-accent bg-space-accent/20 shadow-[0_0_15px_rgba(167,139,250,0.2)]'
-                                        : 'border-space-border bg-space-900/40 hover:-translate-y-0.5 hover:border-space-highlight/60 hover:shadow-[0_0_15px_rgba(167,139,250,0.1)]'
+                                        ? 'border-space-accent bg-space-accent/25 shadow-[0_0_15px_rgba(167,139,250,0.22)]'
+                                        : 'border-space-border bg-space-900/50 hover:-translate-y-0.5 hover:border-space-highlight/80 hover:shadow-[0_0_15px_rgba(167,139,250,0.1)]'
                                 }`}
                             >
                                 <span
                                     className={`font-mono text-xs font-bold tracking-wider transition-colors ${
                                         page.active
                                             ? 'text-space-cyan'
-                                            : 'text-space-muted group-hover:text-white'
+                                            : 'text-gray-300 group-hover:text-white'
                                     }`}
                                 >
                                     {page.number}
@@ -205,16 +205,16 @@ export default function CyberPagination({
                     onClick={(e) =>
                         next_page_url && handlePageClick(next_page_url, e)
                     }
-                    className={`group relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-sm border border-space-border bg-space-900/40 px-4 py-2 backdrop-blur-sm transition-all duration-300 ${
+                    className={`group relative flex cursor-pointer items-center gap-2 overflow-hidden rounded-sm border border-space-border bg-space-900/50 px-4 py-2 backdrop-blur-sm transition-all duration-300 ${
                         next_page_url
-                            ? 'hover:-translate-y-0.5 hover:border-space-accent/60 hover:shadow-[0_0_20px_rgba(167,139,250,0.1)]'
-                            : 'cursor-not-allowed opacity-50'
+                            ? 'hover:-translate-y-0.5 hover:border-space-accent/80 hover:shadow-[0_0_20px_rgba(167,139,250,0.12)]'
+                            : 'cursor-not-allowed opacity-30'
                     }`}
                 >
-                    <span className="font-mono text-xs font-bold tracking-wider text-space-muted uppercase transition-colors group-hover:text-white">
+                    <span className="font-mono text-xs font-bold tracking-wider text-gray-300 uppercase transition-colors group-hover:text-white">
                         Next
                     </span>
-                    <ChevronRight className="h-3 w-3 text-space-muted transition-colors group-hover:text-space-cyan" />
+                    <ChevronRight className="h-3 w-3 text-gray-300 transition-colors group-hover:text-space-cyan" />
 
                     {/* Grid Overlay */}
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(167,139,250,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(167,139,250,0.03)_1px,transparent_1px)] bg-[size:20px_20px] opacity-0 transition-opacity group-hover:opacity-100" />
@@ -224,7 +224,7 @@ export default function CyberPagination({
             {/* Status Indicator */}
             <div className="flex items-center gap-1.5 rounded-md border border-space-border/40 bg-space-900/60 px-3 py-2 backdrop-blur-sm">
                 <div className="h-1.5 w-1.5 rounded-full bg-space-highlight" />
-                <span className="font-mono text-xs tracking-wider text-space-muted uppercase">
+                <span className="font-mono text-xs tracking-wider text-gray-300 uppercase">
                     Nav_Online
                 </span>
             </div>

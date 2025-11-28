@@ -24,7 +24,7 @@ export default function CyberHeader({
     const shouldTruncate = company_description !== truncatedDesc;
 
     return (
-        <header className="relative z-20 w-full border-b border-space-border bg-space-950/80 backdrop-blur-md">
+        <header className="relative z-20 w-full border-b border-space-border bg-space-950/95 backdrop-blur-md">
             <div className="mx-auto max-w-7xl px-6 py-6">
                 <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
                     {/* Identity Block */}
@@ -38,12 +38,12 @@ export default function CyberHeader({
                             />
                         </div>
                         <div>
-                            <h1 className="bg-gradient-to-r from-white via-space-accent to-space-highlight bg-clip-text font-sans text-3xl font-bold tracking-tighter text-transparent text-white">
+                            <h1 className="bg-gradient-to-r from-white via-space-accent to-space-highlight bg-clip-text font-sans text-3xl font-bold tracking-tighter text-transparent">
                                 {company_name}
                             </h1>
                             <div className="mt-1 flex items-center gap-2">
                                 <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-space-highlight"></span>
-                                <p className="font-mono text-sm tracking-widest text-space-muted uppercase">
+                                <p className="font-mono text-sm tracking-widest text-gray-300 uppercase">
                                     // Orbital.Catalogue_v3.0
                                 </p>
                             </div>
@@ -51,7 +51,7 @@ export default function CyberHeader({
                     </div>
 
                     {/* Info Block */}
-                    <div className="flex w-full flex-1 flex-col gap-2 text-right font-mono text-sm text-space-muted">
+                    <div className="flex w-full flex-1 flex-col gap-2 text-right font-mono text-sm text-gray-300">
                         <div className="flex cursor-default items-center justify-end gap-2 transition-colors hover:text-space-cyan">
                             <span>{company_address}</span>
                             <MapPin className="h-3 w-3" />

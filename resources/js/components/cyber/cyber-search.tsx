@@ -53,17 +53,17 @@ export default function CyberSearch({
     };
 
     return (
-        <div className="sticky top-0 z-40 w-full border-b border-space-border bg-space-900/30 py-8 backdrop-blur-md">
+        <div className="sticky top-0 z-40 w-full border-b border-space-border bg-space-900/40 py-8 backdrop-blur-md">
             <div className="mx-auto max-w-7xl px-6">
                 <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                     {/* Search Bar */}
                     <div className="group relative w-full max-w-3xl">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                            <Search className="h-5 w-5 text-space-muted transition-colors group-focus-within:text-space-cyan" />
+                            <Search className="h-5 w-5 text-gray-300 transition-colors group-focus-within:text-space-cyan" />
                         </div>
                         <input
                             type="text"
-                            className="block w-full rounded-sm border border-space-border bg-space-950/80 py-3 pr-12 pl-12 font-mono text-sm text-white placeholder-space-muted shadow-lg transition-all focus:border-space-accent focus:ring-1 focus:ring-space-accent focus:outline-none"
+                            className="block w-full rounded-sm border border-space-border bg-space-950/90 py-3 pr-12 pl-12 font-mono text-sm text-white placeholder-gray-400 shadow-lg transition-all focus:border-space-accent focus:ring-1 focus:ring-space-accent focus:outline-none"
                             placeholder="SEARCH CATALOGUE DATABASE..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -75,7 +75,7 @@ export default function CyberSearch({
                         className="relative flex w-full items-center justify-end gap-4 md:w-auto"
                         ref={spkRef}
                     >
-                        <div className="hidden flex-col text-right font-mono text-[10px] leading-tight text-space-muted md:flex">
+                        <div className="hidden flex-col text-right font-mono text-[10px] leading-tight text-gray-300 md:flex">
                             <span>INDEX: ONLINE</span>
                             <span className="text-space-highlight">
                                 V.3.1.0
@@ -84,7 +84,7 @@ export default function CyberSearch({
 
                         <button
                             onClick={() => setIsSpkOpen(!isSpkOpen)}
-                            className={`flex cursor-pointer items-center gap-2 border px-4 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 ${isSpkOpen ? 'border-space-accent bg-space-accent text-white' : 'border-space-border bg-space-950 text-space-muted hover:border-space-accent hover:text-white'}`}
+                            className={`flex cursor-pointer items-center gap-2 border px-4 py-3 font-mono text-xs tracking-wider uppercase transition-all duration-300 ${isSpkOpen ? 'border-space-accent bg-space-accent text-white' : 'border-space-border bg-space-950 text-gray-300 hover:border-space-accent hover:text-white'}`}
                         >
                             <Sliders className="h-4 w-4" />
                             <span>SPK_Mod</span>

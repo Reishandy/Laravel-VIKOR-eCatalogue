@@ -72,7 +72,7 @@ export default function CyberSpk({
                     </div>
                     <Activity className="h-3 w-3 animate-pulse text-space-highlight" />
                 </div>
-                <p className="py-4 text-center text-sm text-space-muted">
+                <p className="py-4 text-center text-sm text-gray-300">
                     NO_CRITERIA_DEFINED
                 </p>
             </div>
@@ -95,7 +95,7 @@ export default function CyberSpk({
                 {criteria.map((criterion) => (
                     <div key={criterion.id} className="group">
                         <div className="mb-2 flex justify-between font-mono text-sm">
-                            <span className="text-space-muted uppercase transition-colors group-hover:text-space-cyan">
+                            <span className="text-gray-300 uppercase transition-colors group-hover:text-space-cyan">
                                 {criterion.name}
                             </span>
                             <span className="text-space-accent">
@@ -143,7 +143,7 @@ export default function CyberSpk({
 
             <button
                 onClick={onApply}
-                className="group mt-8 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-800 py-2.5 font-mono text-sm tracking-widest uppercase transition-all hover:border-space-highlight hover:text-white"
+                className="group mt-8 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-accent py-2.5 font-mono text-sm tracking-widest uppercase text-white transition-all hover:border-space-highlight hover:shadow-[0_0_20px_rgba(167,139,250,0.3)]"
             >
                 <RefreshCw className="h-3 w-3 transition-transform duration-500 group-hover:rotate-180" />
                 ENGAGE_SYNTHESIS
@@ -151,7 +151,7 @@ export default function CyberSpk({
 
             <button
                 onClick={handleReset}
-                className="group mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-800 py-2.5 font-mono text-sm tracking-widest uppercase transition-all hover:border-space-highlight hover:text-white"
+                className="group mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-sm border border-space-border bg-space-800 py-2.5 font-mono text-sm tracking-widest uppercase text-gray-300 transition-all hover:border-space-highlight hover:text-white"
             >
                 <RefreshCcw className="h-3 w-3 transition-transform duration-500 group-hover:-rotate-180" />
                 RESET_MATRIX
