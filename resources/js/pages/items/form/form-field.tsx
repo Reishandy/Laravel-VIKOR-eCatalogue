@@ -147,6 +147,16 @@ export default function FormField({
                                         (f) => f.id === criterion.id,
                                     );
 
+                                    // Determine if this criterion's max_value represents infinity
+                                    const rawMax = criterion.max_value;
+                                    const numMax = Number(rawMax);
+                                    const isInfinite =
+                                        !Number.isNaN(numMax) &&
+                                        Math.abs(numMax + 1) < 1e-6;
+                                    const displayMax = isInfinite
+                                        ? '∞'
+                                        : String(numMax);
+
                                     return (
                                         <OwnInput
                                             key={criterion.id}
@@ -154,7 +164,7 @@ export default function FormField({
                                             label={criterion.name}
                                             type="number"
                                             placeholder={`Enter ${criterion.name} value`}
-                                            trailingElement={`/ ${Number(criterion.max_value)}`}
+                                            trailingElement={`/ ${displayMax}`}
                                             value={
                                                 field ? String(field.value) : ''
                                             }
@@ -172,7 +182,8 @@ export default function FormField({
                                                 ] || ''
                                             }
                                             min={1}
-                                            max={criterion.max_value}
+                                            // Only pass a numeric max when it's not infinite
+                                            max={isInfinite ? undefined : numMax}
                                         />
                                     );
                                 })}
