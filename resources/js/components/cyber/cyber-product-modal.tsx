@@ -18,6 +18,13 @@ export function CyberProductModal({
 }: CyberProductModalProps) {
     const currencySymbol = useCurrencySymbol(currency);
 
+    // Helper to format numbers with thousands separators and two decimals
+    const formatNumber = (value: number) =>
+        new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(value);
+
     return (
         <AnimatePresence mode="wait">
             {item && (
@@ -115,11 +122,13 @@ export function CyberProductModal({
                                             </span>
                                             <span className="font-mono text-2xl text-space-accent">
                                                 {currencySymbol}
-                                                {(
-                                                    item.criteria?.find(
-                                                        (c) => c.id === 1,
-                                                    )?.pivot?.value ?? 0
-                                                ).toFixed(2)}
+                                                {formatNumber(
+                                                    (
+                                                        item.criteria?.find(
+                                                            (c) => c.id === 1,
+                                                        )?.pivot?.value ?? 0
+                                                    )
+                                                )}
                                             </span>
                                         </div>
                                     </div>

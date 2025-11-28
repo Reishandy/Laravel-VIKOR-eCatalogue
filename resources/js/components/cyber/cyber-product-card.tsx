@@ -20,6 +20,27 @@ export default function CyberProductCard({
 
     const price = item.criteria?.find((c) => c.id === 1)?.pivot?.value ?? 0;
 
+    // Helper to format numbers: use compact notation (e.g. 2.5M) for 1,000,000+;
+    // otherwise show grouped number with two decimals (e.g. 2,520.00)
+    const formatNumber = (raw: number | string) => {
+        const value = Number(raw) || 0;
+        const abs = Math.abs(value);
+
+        if (abs >= 1_000_000) {
+            // Compact notation: show one decimal where appropriate (2.5M)
+            return new Intl.NumberFormat(undefined, {
+                notation: 'compact',
+                maximumFractionDigits: 1,
+            }).format(value);
+        }
+
+        // Default: grouped with two decimals
+        return new Intl.NumberFormat(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(value);
+    };
+
     return (
         <div
             onClick={() => onViewSpecs(item)}
@@ -67,7 +88,7 @@ export default function CyberProductCard({
                 <div className="mb-4 flex items-baseline gap-2">
                     <span className="font-mono text-lg text-space-accent">
                         {currencySymbol}
-                        {price.toFixed(2)}
+                        {formatNumber(price)}
                     </span>
                     <span className="font-mono text-sm text-gray-200 uppercase">
                         Unit Price
