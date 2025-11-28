@@ -24,9 +24,8 @@ export default function CyberProductCard({
     // otherwise show grouped number with two decimals (e.g. 2,520.00)
     const formatNumber = (raw: number | string) => {
         const value = Number(raw) || 0;
-        const abs = Math.abs(value);
 
-        if (abs >= 1_000_000) {
+        if (Math.abs(value) >= 1_000_000) {
             // Compact notation: show one decimal where appropriate (2.5M)
             return new Intl.NumberFormat(undefined, {
                 notation: 'compact',

@@ -18,12 +18,23 @@ export function CyberProductModal({
 }: CyberProductModalProps) {
     const currencySymbol = useCurrencySymbol(currency);
 
-    // Helper to format numbers with thousands separators and two decimals
-    const formatNumber = (value: number) =>
-        new Intl.NumberFormat(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-        }).format(value);
+    // Helper to format numbers for the technical table and unit cost:
+    // - If the value is an integer (no fractional part) -> show integer with thousands separators (e.g. 60,000,000)
+    // - If the value has a fractional part -> show up to 2 decimal places (e.g. 2.50 or 2.5 depending on locale)
+    const formatCriterionValue = (raw: number | string) => {
+        const value = Number(raw);
+        if (!isFinite(value)) return String(raw);
+
+        const frac = Math.abs(value - Math.trunc(value));
+
+        if (frac < 1e-9) {
+            // Integer - no decimals
+            return new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value);
+        }
+
+        // Has fractional part - show up to 2 decimals
+        return new Intl.NumberFormat(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
+    };
 
     return (
         <AnimatePresence mode="wait">
@@ -122,7 +133,7 @@ export function CyberProductModal({
                                             </span>
                                             <span className="font-mono text-2xl text-space-accent">
                                                 {currencySymbol}
-                                                {formatNumber(
+                                                {formatCriterionValue(
                                                     (
                                                         item.criteria?.find(
                                                             (c) => c.id === 1,
@@ -150,10 +161,7 @@ export function CyberProductModal({
                                                             {criterion.name}
                                                         </span>
                                                         <span className="font-mono text-white">
-                                                            {
-                                                                criterion.pivot
-                                                                    ?.value
-                                                            }{' '}
+                                                            {formatCriterionValue(criterion.pivot?.value ?? 0)}{' '}
                                                             {criterion.unit}
                                                         </span>
                                                     </div>
