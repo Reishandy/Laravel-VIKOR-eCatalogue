@@ -1,7 +1,9 @@
 import { useCurrencySymbol } from '@/hooks/use-currency';
 import { Item } from '@/types';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Cpu, MessageSquare, X } from 'lucide-react';
+import { Cpu, MessageSquare, X, Image as ImageIcon } from 'lucide-react';
+import { useState } from 'react';
+import ImageViewer from './image-viewer';
 
 interface CyberProductModalProps {
     item: Item | null;
@@ -17,6 +19,7 @@ export function CyberProductModal({
     email,
 }: CyberProductModalProps) {
     const currencySymbol = useCurrencySymbol(currency);
+    const [viewerOpen, setViewerOpen] = useState(false);
 
     // Helper to format numbers for the technical table and unit cost:
     // - If the value is an integer (no fractional part) -> show integer with thousands separators (e.g. 60,000,000)
@@ -86,11 +89,27 @@ export function CyberProductModal({
                             <div className="relative flex-none flex flex-col border-b border-space-border bg-black lg:col-span-1 lg:border-r lg:border-b-0">
                                 <div className="relative min-h-[300px] flex-grow">
                                     {item.image ? (
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="absolute inset-0 h-full w-full object-cover opacity-90"
-                                        />
+                                        <>
+                                            <img
+                                                src={item.image}
+                                                alt={item.name}
+                                                className="h-full w-full object-cover opacity-90"
+                                                style={{ display: 'block' }}
+                                                draggable={false}
+                                            />
+
+                                            {/* Overlay button (absolute top-left) placed beside the image */}
+                                            <div className="absolute left-4 top-4 z-30 pointer-events-auto">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setViewerOpen(true)}
+                                                    aria-label={`View full image for ${item.name}`}
+                                                    className="rounded bg-black/40 p-2 text-white hover:bg-black/60 cursor-pointer focus:outline-none focus:ring-2 focus:ring-space-accent"
+                                                >
+                                                    <ImageIcon className="h-6 w-6" />
+                                                </button>
+                                            </div>
+                                        </>
                                     ) : (
                                         <div className="flex h-full w-full items-center justify-center bg-space-950 text-xs text-gray-300">
                                             404: NO_IMAGE_AVAILABLE
@@ -98,7 +117,8 @@ export function CyberProductModal({
                                     )}
 
                                     {/* Technical Overlay Lines */}
-                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-space-900" />
+                                    {/* Gradient overlay should not block clicks on the image button */}
+                                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-space-900 pointer-events-none" aria-hidden />
                                     <div className="absolute top-6 left-6 h-8 w-8 border-t-2 border-l-2 border-space-accent/50" />
                                     <div className="absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-space-accent/50" />
                                 </div>
@@ -181,8 +201,9 @@ export function CyberProductModal({
                             </div>
                         </div>
                     </motion.div>
-                 </div>
-             )}
-         </AnimatePresence>
-     );
- }
+                    <ImageViewer src={item.image ?? ''} alt={item.name ?? ''} open={viewerOpen} onClose={() => setViewerOpen(false)} />
+                </div>
+            )}
+        </AnimatePresence>
+    );
+}
